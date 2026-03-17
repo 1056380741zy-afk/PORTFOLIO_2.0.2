@@ -113,7 +113,7 @@ export const Web3Strategy: React.FC = () => {
         <div className="flex-1 w-full relative">
           
           {/* 2.1 Display Area */}
-          <div className="h-[715px]">
+          <div className="h-[750px]">
              <div className="bg-white rounded-[1.5rem] shadow-sm border border-gray-200 overflow-hidden relative w-full h-full">
                 
                 {strategyData.map((project) => {
