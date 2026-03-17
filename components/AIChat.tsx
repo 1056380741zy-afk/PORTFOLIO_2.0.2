@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, Send, Bot, User, Sparkles, Loader2 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { GoogleGenAI } from "@google/genai";
 
 export const AIChat: React.FC = () => {
   const { t, language } = useLanguage();
@@ -20,20 +19,49 @@ export const AIChat: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  const callGemini = async (userMessage: string, systemInstruction: string) => {
+  // 全新的 DeepSeek 请求逻辑
+  const callDeepSeek = async (userMessage: string, systemInstruction: string, chatHistory: { role: 'user' | 'bot'; content: string }[]) => {
     try {
-      const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
-      const response = await genAI.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: userMessage,
-        config: {
-          systemInstruction: systemInstruction,
+      // Vite 环境必须使用 import.meta.env 读取环境变量
+      const apiKey = import.meta.env.VITE_DEEPSEEK_API_KEY;
+      
+      if (!apiKey) {
+        console.error("未找到 VITE_DEEPSEEK_API_KEY，请检查 Netlify 环境变量配置");
+        return "抱歉，API 密钥未配置，我的大脑暂时断开了连接。";
+      }
+
+      // 格式化历史消息，让 AI 有上下文记忆
+      const formattedHistory = chatHistory.map(msg => ({
+        role: msg.role === 'bot' ? 'assistant' : 'user',
+        content: msg.content
+      }));
+
+      const response = await fetch('https://api.deepseek.com/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
         },
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages: [
+            { role: 'system', content: systemInstruction },
+            ...formattedHistory, // 传入历史对话
+            { role: 'user', content: userMessage }
+          ],
+          temperature: 0.7
+        })
       });
-      return response.text;
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.choices[0].message.content;
     } catch (error) {
-      console.error("Gemini API Error:", error);
-      return t.aiChat.error;
+      console.error("DeepSeek API Error:", error);
+      return t.aiChat.error || "抱歉，我现在脑子有点转不过来，请稍后再试。";
     }
   };
 
@@ -41,6 +69,9 @@ export const AIChat: React.FC = () => {
     if (!input.trim() || isLoading) return;
 
     const userMessage = input.trim();
+    // 提前保存当前的历史记录（不包含即将发送的这条）
+    const currentHistory = [...messages]; 
+    
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setInput('');
     setIsLoading(true);
@@ -87,7 +118,8 @@ export const AIChat: React.FC = () => {
       `;
 
     try {
-      const responseText = await callGemini(userMessage, systemInstruction);
+      // 传入系统设定、当前消息和聊天历史
+      const responseText = await callDeepSeek(userMessage, systemInstruction, currentHistory);
       setMessages(prev => [...prev, { role: 'bot', content: responseText || t.aiChat.error }]);
     } catch (error) {
       console.error("AI Chat Error:", error);
@@ -99,7 +131,6 @@ export const AIChat: React.FC = () => {
 
   return (
     <>
-      {/* Floating Button */}
       <div className="fixed bottom-6 right-6 z-[60]">
         <motion.button
           initial={{ scale: 0, opacity: 0 }}
@@ -113,7 +144,6 @@ export const AIChat: React.FC = () => {
         </motion.button>
       </div>
 
-      {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -122,7 +152,6 @@ export const AIChat: React.FC = () => {
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             className="fixed bottom-24 right-6 z-[60] w-[90vw] md:w-[400px] h-[500px] bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden"
           >
-            {/* Header */}
             <div className="p-4 bg-[#8e6bbf] text-white flex justify-between items-center">
               <div className="flex items-center gap-2">
                 <Bot size={20} />
@@ -133,7 +162,6 @@ export const AIChat: React.FC = () => {
               </button>
             </div>
 
-            {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/50">
               {messages.length === 0 && (
                 <div className="text-center py-8 px-4">
@@ -174,7 +202,6 @@ export const AIChat: React.FC = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input */}
             <div className="p-4 bg-white border-t border-gray-100">
               <div className="flex gap-2">
                 <textarea
@@ -199,7 +226,7 @@ export const AIChat: React.FC = () => {
                 </button>
               </div>
               <div className="mt-2 flex justify-between items-center">
-                <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Powered by Gemini AI</span>
+                <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Powered by DeepSeek AI</span>
                 <button 
                   onClick={() => setInput("Here is a JD: ")}
                   className="text-[10px] text-[#8e6bbf] font-bold uppercase tracking-wider hover:underline"
