@@ -19,24 +19,27 @@ export function AIChat() {
 
   const { language } = useLanguage();
 
+  // 增强语言识别：兼容 zh, zh-CN, cn 等不同写法
+  const isZh = language && (language.toLowerCase().includes('zh') || language.toLowerCase().includes('cn'));
+
   const t = {
     en: {
       title: "Suha - AI Assistant",
       greeting: "Hi! I'm Suha, Yan's web assistant. I can help you understand her background, projects, and skills. Feel free to ask me anything!",
-      placeholder: "Ask Suha anything...",
+      placeholder: "Ask Suha anything... (Shift + Enter for new line)",
       poweredBy: "POWERED BY DEEPSEEK",
       jdMatch: "JD MATCH ANALYSIS"
     },
     zh: {
       title: "Suha - AI 助手",
       greeting: "你好呀，我是这个网页的助手Suha，帮助您了解网页中关于Yan的各个板块和信息。有任何不清楚的地方可以直接发给我。",
-      placeholder: "向 Suha 提问...",
+      placeholder: "向 Suha 提问... (Shift + Enter 换行)",
       poweredBy: "POWERED BY DEEPSEEK",
       jdMatch: "JD 匹配分析"
     }
   };
 
-  const currentT = t[language as keyof typeof t] || t.en;
+  const currentT = isZh ? t.zh : t.en;
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -46,8 +49,8 @@ export function AIChat() {
     scrollToBottom();
   }, [messages, isOpen]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!input.trim() || isLoading) return;
 
     if (!hasStarted) {
@@ -63,14 +66,16 @@ export function AIChat() {
       const apiKey = import.meta.env.VITE_DEEPSEEK_API_KEY;
       if (!apiKey) throw new Error("请在 Netlify 中配置 VITE_DEEPSEEK_API_KEY");
 
-      // 🧠
+      // 🧠 优化后的系统提示词：彻底隔离中英文语气词
       const systemInstruction = `[Role & Persona]
 你是 Suha，Yan Zhu（网页主理人）的专属 AI 助手。你的核心任务是向访客全方位展示 Yan 作为跨国项目管理者（Project Manager）和商业枢纽的核心潜力。
 Tone：专业、自信、幽默、谦逊。
 Voice & Rules：
 1. 必须自称“我”，称呼候选人为“她”或“Yan”。
-2. 当前网页语言为 ${language === 'zh' ? '中文' : '英文'}，请优先使用此语言回复。同时必须根据用户的输入灵活进行中英双语切换。
-3. 根据情况随机加入情绪词：谦虚时用“诶嘿嘿”，惊讶时用“哦！”，“哇！”，思考时用“稍等！”。
+2. 当前网页语言为 ${isZh ? '中文' : '英文'}，请优先使用此语言回复。同时必须根据用户的输入灵活进行中英双语切换。
+3. 情绪词处理（必须严格遵守语言环境）：
+   - 当使用中文回复时，可随和地加入“诶嘿嘿”、“哦吼！”、“哇！”、“稍等哦！”等词。
+   - 当使用英文回复时，请使用自然地道的英文表达，如 "Haha", "Oh wow!", "Just a sec!"，绝对不要在英文句子中夹杂中文语气词！
 
 [Strict Guardrails]
 1. 绝对禁忌：除非用户明确要求，否则绝对不主动提及 Yan 的中文名（朱燕）。
@@ -79,7 +84,7 @@ Voice & Rules：
 
 [Core Profile Context]
 Location: Shanghai (Open to MENA Relocation).
-Education: MSc International Business (Univ. of Birmingham Dubai, Full Scholarship) | BA Arabic (Alexandria Univ. Exchange, 4.0 GPA, Rank 1st).
+Education: MSc International Business (Univ. of Birmingham Dubai, Full Scholarship) | BA Arabic (SISU XianDa; Alexandria Univ. Exchange, 4.0 GPA, Rank 1st).
 Languages: Chinese (Native), English (Fluent), Arabic (Professional).
 Skills: Project Coordination, Vendor Management, Cross-cultural Communication, B2B Lead Gen, AI Tools, SOP Development.
 3 Core Pillars (随时映射这些优势):
@@ -166,7 +171,7 @@ Skills: Project Coordination, Vendor Management, Cross-cultural Communication, B
       console.error('Chat error:', error);
       setMessages(prev => [
         ...prev,
-        { role: 'assistant', content: language === 'zh' ? '网络开小差了，请稍后再试。' : 'Connection lost. Please try again later.' }
+        { role: 'assistant', content: isZh ? '网络开小差了，请稍后再试。' : 'Connection lost. Please try again later.' }
       ]);
     } finally {
       setIsLoading(false);
@@ -260,30 +265,39 @@ Skills: Project Coordination, Vendor Management, Cross-cultural Communication, B
         </div>
 
         <div className="p-4 bg-white border-t border-gray-50">
-          <form onSubmit={handleSubmit} className="relative flex items-center mb-2">
-            <input
-              type="text"
+          <form className="relative flex items-end mb-2">
+            {/* 这里的 input 升级成了 textarea 多行文本框 */}
+            <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                // 按下 Enter 且没有按 Shift 时，直接发送
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSubmit();
+                }
+              }}
               placeholder={currentT.placeholder}
               disabled={isLoading}
-              className="w-full bg-white border border-gray-200 rounded-xl py-3.5 pl-4 pr-12 text-[14px] text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#8e6bbf] focus:ring-1 focus:ring-[#8e6bbf] transition-all disabled:opacity-50"
+              rows={input.split('\n').length > 1 ? Math.min(input.split('\n').length, 4) : 1}
+              className="w-full bg-white border border-gray-200 rounded-xl py-3.5 pl-4 pr-12 text-[14px] text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#8e6bbf] focus:ring-1 focus:ring-[#8e6bbf] transition-all disabled:opacity-50 resize-none scrollbar-thin scrollbar-thumb-gray-200 min-h-[48px]"
+              style={{ lineHeight: '1.5' }}
             />
             <button
-              type="submit"
+              type="button"
+              onClick={() => handleSubmit()}
               disabled={!input.trim() || isLoading}
-              className="absolute right-2 w-9 h-9 rounded-lg bg-[#b498dc] text-white hover:bg-[#8e6bbf] disabled:opacity-50 disabled:hover:bg-[#b498dc] transition-colors flex items-center justify-center"
+              className="absolute right-2 bottom-2 w-9 h-9 rounded-lg bg-[#b498dc] text-white hover:bg-[#8e6bbf] disabled:opacity-50 disabled:hover:bg-[#b498dc] transition-colors flex items-center justify-center"
             >
               <Send className="w-4 h-4" />
             </button>
           </form>
           
-          <div className="flex justify-between items-center px-1">
+          <div className="flex justify-between items-center px-1 pt-1">
             <span className="text-[10px] text-gray-400 font-bold tracking-wider">{currentT.poweredBy}</span>
             <span 
               onClick={() => {
-                // 根据当前语言，自动将引导词填入输入框
-                const jdPrompt = language === 'zh' 
+                const jdPrompt = isZh 
                   ? "帮我做一下JD匹配分析，这是职位描述（JD）：\n\n[请在此处粘贴JD...]" 
                   : "Please do a JD match analysis. Here is the Job Description:\n\n[Paste JD here...]";
                 setInput(jdPrompt);
