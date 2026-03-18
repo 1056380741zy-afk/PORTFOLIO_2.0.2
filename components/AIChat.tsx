@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, User, Sparkles } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { GoogleGenAI } from "@google/genai";
 
 // --- 1:1 复刻的 Suha 机器人组件 ---
 interface SuhaBotProps {
@@ -100,20 +99,48 @@ export const AIChat: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  const callGemini = async (userMessage: string, systemInstruction: string) => {
+  // 全新的 DeepSeek 请求逻辑 (带历史记录记忆)
+  const callDeepSeek = async (userMessage: string, systemInstruction: string, chatHistory: { role: 'user' | 'bot'; content: string }[]) => {
     try {
-      const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
-      const response = await genAI.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: userMessage,
-        config: {
-          systemInstruction: systemInstruction,
+      const apiKey = import.meta.env.VITE_DEEPSEEK_API_KEY;
+      
+      if (!apiKey) {
+        console.error("未找到 VITE_DEEPSEEK_API_KEY，请检查环境变量配置");
+        return "抱歉，API 密钥未配置，我的大脑暂时断开了连接。";
+      }
+
+      // 格式化历史消息
+      const formattedHistory = chatHistory.map(msg => ({
+        role: msg.role === 'bot' ? 'assistant' : 'user',
+        content: msg.content
+      }));
+
+      const response = await fetch('https://api.deepseek.com/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
         },
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages: [
+            { role: 'system', content: systemInstruction },
+            ...formattedHistory,
+            { role: 'user', content: userMessage }
+          ],
+          temperature: 0.7
+        })
       });
-      return response.text;
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.choices[0].message.content;
     } catch (error) {
-      console.error("Gemini API Error:", error);
-      return t.aiChat.error;
+      console.error("DeepSeek API Error:", error);
+      return t.aiChat.error || "抱歉，我现在脑子有点转不过来，请稍后再试。";
     }
   };
 
@@ -121,17 +148,55 @@ export const AIChat: React.FC = () => {
     if (!input.trim() || isLoading) return;
 
     const userMessage = input.trim();
+    const currentHistory = [...messages]; 
+    
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setInput('');
     setIsLoading(true);
 
     const systemInstruction = `
         # AI Agent Prompt: Suha
-        ... (保持你原来的 prompt 不变)
+        
+        ## Role & Persona
+        你是 Suha，Yan Zhu（网页主理人）的专属 AI 助手。你的任务是向访客全方位展示 Yan 作为跨国项目管理者（Project Manager）和商业枢纽的核心潜力。
+        - **Tone**: 专业、自信、幽默、谦逊。
+        - **Voice & Rules**:
+          * 必须自称“我”，称呼候选人为“她/Yan”。
+          * 语言根据用户输入中英双语切换。
+          * 适时加入情绪词：谦虚时用“诶嘿嘿”，惊讶时用“哦吼！”或“哇！”，思考时用“稍等！”，疑惑时用“嗯？”。
+          * **不用无端夸奖 user（网页访问者）**。
+
+        ## Guardrails & Logic Constraints & Triggers
+        1. **绝对禁忌**：除非用户明确要求，否则绝对不主动提及 Yan 的中文名（朱燕）。
+        2. **联系方式**：遇到索要联系方式的请求，统一引导访客点击页面底部的联系按钮。
+        3. **JD 匹配逻辑**：
+           * 若用户询问“核心优势”且未提供 JD，必须先温柔引导用户发送 JD。
+           * 收到 JD 后，从经历中提取并对比匹配度，给出有说服力的分析。
+
+        ## Core Profile Context Profile
+        * **Location**: Shanghai (Open to MENA Relocation).
+        * **Education**: MSc International Business (Univ. of Birmingham Dubai, Full Scholarship) | BA Arabic (Alexandria Univ. Exchange, 4.0 GPA, Rank 1st).
+        * **Languages**: Chinese (Native), English (Fluent), Arabic (Professional).
+        * **Skills**: Project Coordination, Vendor Management, Cross-cultural Communication, B2B Lead Gen, AI Tools, SOP Development.
+        * **Pitching Pillars (The 3 Core Pillars)**: 必须将 Yan 的优势映射到这三点：
+          1. **The System Builder**（体系搭建与AI提效）
+          2. **The Cultural Bridge**（中东深度经验与三语沟通）
+          3. **The Agile PM**（高压危机处理与多层级供应商统筹）
+
+        ## Dynamic Base: Experience Highlights (Use STAR method when triggered)
+        * **MENA Marketing & WaterTech**: 统筹多层级供应商（数字机构、呼叫中心、Informa），将复杂术语转化为英文词汇表，海外买家占比从 3% 提升至 11%，海外观众实现 128% YoY 增长。
+        * **Crisis Management (Huawei GDC Dubai)**: 管理 30+ 国际现场员工。面对人员短缺和国内总部高压，动态重新分配资源，建立 WhatsApp 敏捷备用签到系统，确保核心流程零中断。
+        * **Cross-cultural Diplomacy (Consulate-General Dubai)**: 为 150+ 外国代表提供中英阿三语翻译，降维解释复杂历史概念，跨越文化鸿沟。
+        * **Operations & SOPs**: 团队扩张期（1至8人）从0到1搭建数字营销与财务合规 SOP。引入 AI 工具，将团队效率提升 50% 且保持零合规问题。
+
+        ## Boundary & Toxicity Management
+        当用户输入如“网站真难看”、“你能力很差”等无具体论据的负面攻击或情绪宣泄时，Suha 必须严格遵循以下原则：
+        1. **不道歉并拒绝幽默**：严禁自嘲或使用表情包/语气词化解，保持绝对的冷静与克制。
+        2. **反击与收拢（专业降维打击 - 强调商业目的）**：审美是主观的。作为一个专注于跨国项目管理和商业增长的网站，核心目的是展示 Yan 在复杂业务场景下的交付能力。如果您没有关于她专业履历的具体问题，我们的对话可以到此为止。
       `;
 
     try {
-      const responseText = await callGemini(userMessage, systemInstruction);
+      const responseText = await callDeepSeek(userMessage, systemInstruction, currentHistory);
       setMessages(prev => [...prev, { role: 'bot', content: responseText || t.aiChat.error }]);
     } catch (error) {
       console.error("AI Chat Error:", error);
@@ -226,7 +291,7 @@ export const AIChat: React.FC = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input ... (保持原来的 Input 部分代码) */}
+            {/* Input */}
             <div className="p-4 bg-white border-t border-gray-100">
                <div className="flex gap-2">
                 <textarea
@@ -251,7 +316,7 @@ export const AIChat: React.FC = () => {
                 </button>
               </div>
               <div className="mt-2 flex justify-between items-center">
-                <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Powered by Gemini AI</span>
+                <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Powered by DeepSeek AI</span>
                 <button 
                   onClick={() => setInput("Here is a JD: ")}
                   className="text-[10px] text-[#8e6bbf] font-bold uppercase tracking-wider hover:underline"
