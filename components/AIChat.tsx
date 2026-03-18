@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, User, X, MessageSquare, ChevronRight, Terminal } from 'lucide-react';
-// 👇 导入你亲手写的灵魂小机器人！
 import { SuhaBot } from './SuhaBot';
 
 interface Message {
@@ -39,15 +38,39 @@ export function AIChat() {
     setIsLoading(true);
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || '';
-      const response = await fetch(`${apiUrl}/api/chat`, {
+      // 获取 Netlify 里的环境变量密钥
+      const apiKey = import.meta.env.VITE_DEEPSEEK_API_KEY;
+      
+      if (!apiKey) {
+        throw new Error("请在 Netlify 中配置 VITE_DEEPSEEK_API_KEY");
+      }
+
+      // 直接在这里植入你的人设提示词
+      const systemInstruction = `You are a helpful and professional AI assistant for Yan Zhu's portfolio website. 
+      You should help visitors understand Yan's background in International Business, MENA marketing, and project management.
+      Be concise, friendly, and highlight her cross-cultural communication skills (Chinese, English, Arabic) when relevant.`;
+
+      const formattedMessages = [
+        { role: 'system', content: systemInstruction },
+        ...messages.map(msg => ({
+          role: msg.role === 'user' ? 'user' : 'assistant',
+          content: msg.content
+        })),
+        { role: 'user', content: userMessage }
+      ];
+
+      // 直接向 DeepSeek 发起请求
+      const response = await fetch('https://api.deepseek.com/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-          messages: [...messages, { role: 'user', content: userMessage }],
-        }),
+          model: 'deepseek-reasoner',
+          messages: formattedMessages,
+          stream: true
+        })
       });
 
       if (!response.ok) throw new Error('Network response was not ok');
@@ -57,7 +80,6 @@ export function AIChat() {
       const decoder = new TextDecoder('utf-8');
       let currentText = '';
       let currentReasoning = '';
-      let buffer = '';
 
       setMessages(prev => [...prev, { role: 'assistant', content: '', reasoning: '' }]);
 
@@ -65,35 +87,34 @@ export function AIChat() {
         const { value, done } = await reader.read();
         if (done) break;
 
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop() || '';
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split('\n');
 
         for (const line of lines) {
-          if (line.trim() === '') continue;
+          if (line.trim() === '' || line.trim() === 'data: [DONE]') continue;
           
           if (line.startsWith('data: ')) {
-            const dataStr = line.slice(6).trim();
-            if (dataStr === '[DONE]') continue;
-
             try {
+              const dataStr = line.slice(6);
               const data = JSON.parse(dataStr);
-              if (data.error) throw new Error(data.error);
+              const delta = data.choices[0]?.delta;
               
-              if (data.text) currentText += data.text;
-              if (data.reasoning) currentReasoning += data.reasoning;
+              if (delta) {
+                if (delta.content) currentText += delta.content;
+                if (delta.reasoning_content) currentReasoning += delta.reasoning_content;
 
-              setMessages(prev => {
-                const newMessages = [...prev];
-                newMessages[newMessages.length - 1] = {
-                  role: 'assistant',
-                  content: currentText,
-                  reasoning: currentReasoning
-                };
-                return newMessages;
-              });
+                setMessages(prev => {
+                  const newMessages = [...prev];
+                  newMessages[newMessages.length - 1] = {
+                    role: 'assistant',
+                    content: currentText,
+                    reasoning: currentReasoning
+                  };
+                  return newMessages;
+                });
+              }
             } catch (e) {
-              // Ignore partial JSON
+              // 忽略截断的 JSON
             }
           }
         }
@@ -102,7 +123,7 @@ export function AIChat() {
       console.error('Chat error:', error);
       setMessages(prev => [
         ...prev,
-        { role: 'assistant', content: 'Connection lost or server error. Please try again.' }
+        { role: 'assistant', content: 'Connection lost. Please make sure the API Key is set properly.' }
       ]);
     } finally {
       setIsLoading(false);
@@ -157,7 +178,6 @@ export function AIChat() {
               {msg.role === 'assistant' && (
                 <div className="flex items-start gap-2.5 w-full">
                   <div className="w-8 h-8 flex-shrink-0 mt-1">
-                    {/* 消息列表里的迷你版小机器人，连上 isLoading 让它能感知思考状态！ */}
                     <SuhaBot size={32} isThinking={isLoading && index === messages.length - 1} showBackground={true} />
                   </div>
                   
@@ -192,7 +212,7 @@ export function AIChat() {
                 </div>
               )}
 
-              {/* 用户的气泡：你的专属紫色 */}
+              {/* 用户的气泡：紫色 */}
               {msg.role === 'user' && (
                 <div className="flex items-start gap-2.5 max-w-[85%] flex-row-reverse">
                   <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200 flex-shrink-0 mt-1">
