@@ -837,7 +837,7 @@ export const translations = {
       },
       case2: {
         tag: "案例 2",
-        title: "EDM 本地化",
+        title: "eDM 本地化",
         desc: "RTL 适配与文化本地化",
         taskTitle: "Task / 挑战",
         taskDesc: "跨文化视觉重构：阿拉伯语图文内容的本地化设计",
