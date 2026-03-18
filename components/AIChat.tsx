@@ -280,7 +280,18 @@ Skills: Project Coordination, Vendor Management, Cross-cultural Communication, B
           
           <div className="flex justify-between items-center px-1">
             <span className="text-[10px] text-gray-400 font-bold tracking-wider">{currentT.poweredBy}</span>
-            <span className="text-[10px] text-[#8e6bbf] font-bold tracking-wider cursor-pointer hover:opacity-80 transition-opacity">{currentT.jdMatch}</span>
+            <span 
+              onClick={() => {
+                // 根据当前语言，自动将引导词填入输入框
+                const jdPrompt = language === 'zh' 
+                  ? "帮我做一下JD匹配分析，这是职位描述（JD）：\n\n[请在此处粘贴JD...]" 
+                  : "Please do a JD match analysis. Here is the Job Description:\n\n[Paste JD here...]";
+                setInput(jdPrompt);
+              }}
+              className="text-[10px] text-[#8e6bbf] font-bold tracking-wider cursor-pointer hover:opacity-80 transition-opacity"
+            >
+              {currentT.jdMatch}
+            </span>
           </div>
         </div>
 
