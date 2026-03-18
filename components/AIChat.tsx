@@ -7,7 +7,7 @@ interface Message {
   reasoning?: string; // DeepSeek 思考过程字段
 }
 
-export default function AIChat() {
+export function AIChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
