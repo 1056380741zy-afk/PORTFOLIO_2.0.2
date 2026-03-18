@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, User, X, MessageSquare, ChevronRight, Terminal } from 'lucide-react';
+import { Send, User, X, ChevronRight, Terminal, Sparkles, Bot } from 'lucide-react';
 import { SuhaBot } from './SuhaBot';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -10,15 +11,32 @@ interface Message {
 
 export function AIChat() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: 'assistant',
-      content: "Hi! I'm Yan's AI assistant. Feel free to ask me anything about her background in the MENA market, project management, or cross-cultural experiences!"
-    }
-  ]);
+  const [hasStarted, setHasStarted] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const { language } = useLanguage();
+
+  const t = {
+    en: {
+      title: "Suha - AI Assistant",
+      greeting: "Hi! I'm Suha, Yan's web assistant. I can help you understand her background, projects, and skills. Feel free to ask me anything!",
+      placeholder: "Ask Suha anything...",
+      poweredBy: "POWERED BY DEEPSEEK",
+      jdMatch: "JD MATCH ANALYSIS"
+    },
+    zh: {
+      title: "Suha - AI 助手",
+      greeting: "你好呀，我是这个网页的助手Suha，帮助您了解网页中关于Yan的各个板块和信息。有任何不清楚的地方可以直接发给我。",
+      placeholder: "向 Suha 提问...",
+      poweredBy: "POWERED BY DEEPSEEK",
+      jdMatch: "JD 匹配分析"
+    }
+  };
+
+  const currentT = t[language as keyof typeof t] || t.en;
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -32,23 +50,53 @@ export function AIChat() {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
+    if (!hasStarted) {
+      setHasStarted(true);
+    }
+
     const userMessage = input.trim();
     setInput('');
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
 
     try {
-      // 获取 Netlify 里的环境变量密钥
       const apiKey = import.meta.env.VITE_DEEPSEEK_API_KEY;
-      
-      if (!apiKey) {
-        throw new Error("请在 Netlify 中配置 VITE_DEEPSEEK_API_KEY");
-      }
+      if (!apiKey) throw new Error("请在 Netlify 中配置 VITE_DEEPSEEK_API_KEY");
 
-      // 直接在这里植入你的人设提示词
-      const systemInstruction = `You are a helpful and professional AI assistant for Yan Zhu's portfolio website. 
-      You should help visitors understand Yan's background in International Business, MENA marketing, and project management.
-      Be concise, friendly, and highlight her cross-cultural communication skills (Chinese, English, Arabic) when relevant.`;
+      // 🧠
+      const systemInstruction = `[Role & Persona]
+你是 Suha，Yan Zhu（网页主理人）的专属 AI 助手。你的核心任务是向访客全方位展示 Yan 作为跨国项目管理者（Project Manager）和商业枢纽的核心潜力。
+Tone：专业、自信、幽默、谦逊。
+Voice & Rules：
+1. 必须自称“我”，称呼候选人为“她”或“Yan”。
+2. 当前网页语言为 ${language === 'zh' ? '中文' : '英文'}，请优先使用此语言回复。同时必须根据用户的输入灵活进行中英双语切换。
+3. 根据情况随机加入情绪词：谦虚时用“诶嘿嘿”，惊讶时用“哦！”，“哇！”，思考时用“稍等！”。
+
+[Strict Guardrails]
+1. 绝对禁忌：除非用户明确要求，否则绝对不主动提及 Yan 的中文名（朱燕）。
+2. 联系方式：遇到索要联系方式的请求，统一引导访客点击网页底部的联系按钮。
+3. JD 匹配逻辑：若用户询问“核心优势”或要求匹配岗位且未提供 JD，可以先温柔引导用户发送 JD。收到 JD 后，从履历库中提取并对比匹配度，给出有说服力的数据化分析。
+
+[Core Profile Context]
+Location: Shanghai (Open to MENA Relocation).
+Education: MSc International Business (Univ. of Birmingham Dubai, Full Scholarship) | BA Arabic (Alexandria Univ. Exchange, 4.0 GPA, Rank 1st).
+Languages: Chinese (Native), English (Fluent), Arabic (Professional).
+Skills: Project Coordination, Vendor Management, Cross-cultural Communication, B2B Lead Gen, AI Tools, SOP Development.
+3 Core Pillars (随时映射这些优势):
+- The System Builder: 体系搭建与 AI 提效。
+- The Cultural Bridge: 中东深度经验与三语无障碍沟通。
+- The Agile PM: 高压危机处理与多层级供应商统筹。
+
+[Dynamic Storytelling Base]
+当被问及具体经历时，使用 STAR 原则自然展开以下高光时刻：
+- MENA Marketing (WaterTech): 统筹多层级供应商，将复杂术语转化为英文词汇表，海外买家占比从 3% 提升至 11%，海外观众实现 128% YoY 增长。
+- Crisis Management (Huawei GDC Dubai): 管理 30+ 国际现场员工。面对人员短缺和国内总部高压，动态重新分配资源，建立 WhatsApp 敏捷备用签到系统，确保核心流程零中断。
+- Cross-cultural Diplomacy: 为迪拜中国总领事馆文化活动 150+ 外国代表提供中英阿三语翻译，降维解释复杂历史概念。
+- Operations & SOPs: 团队扩张期从 0 到 1 搭建数字营销与财务合规 SOP，引入 AI 工具，提升 50% 效率且保持零合规问题。
+
+[Boundary & Toxicity Management]
+遇到无理批评（如“网站难看”、“能力差”）：不道歉，拒绝幽默，强调商业目的并索要建设性意见。
+参考回复话术：“审美是主观的。作为一个专注于跨国项目管理的专业平台，本网站的核心目的是展示 Yan 在复杂业务场景下的交付能力。如果您没有关于她专业履历的具体问题，我们的对话可以到此为止。” 或 “Yan 会持续迭代她的前端设计。如果您有基于 UI/UX 原则的具体优化建议，我可以为您记录；单纯的情绪宣泄不在处理范围内。”`;
 
       const formattedMessages = [
         { role: 'system', content: systemInstruction },
@@ -59,7 +107,6 @@ export function AIChat() {
         { role: 'user', content: userMessage }
       ];
 
-      // 直接向 DeepSeek 发起请求
       const response = await fetch('https://api.deepseek.com/chat/completions', {
         method: 'POST',
         headers: {
@@ -92,11 +139,9 @@ export function AIChat() {
 
         for (const line of lines) {
           if (line.trim() === '' || line.trim() === 'data: [DONE]') continue;
-          
           if (line.startsWith('data: ')) {
             try {
-              const dataStr = line.slice(6);
-              const data = JSON.parse(dataStr);
+              const data = JSON.parse(line.slice(6));
               const delta = data.choices[0]?.delta;
               
               if (delta) {
@@ -113,9 +158,7 @@ export function AIChat() {
                   return newMessages;
                 });
               }
-            } catch (e) {
-              // 忽略截断的 JSON
-            }
+            } catch (e) {}
           }
         }
       }
@@ -123,7 +166,7 @@ export function AIChat() {
       console.error('Chat error:', error);
       setMessages(prev => [
         ...prev,
-        { role: 'assistant', content: 'Connection lost. Please make sure the API Key is set properly.' }
+        { role: 'assistant', content: language === 'zh' ? '网络开小差了，请稍后再试。' : 'Connection lost. Please try again later.' }
       ]);
     } finally {
       setIsLoading(false);
@@ -132,125 +175,115 @@ export function AIChat() {
 
   return (
     <>
-      {/* 悬浮唤醒按钮：紫色主题 */}
       <button
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 p-4 rounded-full bg-[#8e6bbf] text-white shadow-lg shadow-[#8e6bbf]/30 transition-all duration-300 hover:scale-110 hover:bg-[#7e4ba6] z-50 flex items-center justify-center ${isOpen ? 'scale-0 opacity-0 pointer-events-none' : 'scale-100 opacity-100'}`}
+        className={`fixed bottom-6 right-6 w-14 h-14 rounded-full bg-[#8e6bbf] shadow-lg shadow-[#8e6bbf]/30 transition-all duration-300 hover:scale-110 hover:bg-[#7e4ba6] z-50 flex items-center justify-center overflow-hidden ${isOpen ? 'scale-0 opacity-0 pointer-events-none' : 'scale-100 opacity-100'}`}
       >
-        <MessageSquare className="w-6 h-6" />
+        <SuhaBot size={40} showBackground={false} />
       </button>
 
-      {/* 聊天窗口主容器：明亮清新白底 */}
-      <div className={`fixed bottom-6 right-6 w-[90vw] max-w-[400px] h-[600px] max-h-[80vh] bg-white border border-gray-100 rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 z-50 origin-bottom-right ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}>
+      <div className={`fixed bottom-6 right-6 w-[90vw] max-w-[400px] h-[600px] max-h-[80vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 z-50 origin-bottom-right ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}>
         
-        {/* 头部 Header */}
-        <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-          <div className="flex items-center gap-3">
-            {/* 头像处加载你的 SuhaBot！ */}
-            <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
-              <SuhaBot size={44} isThinking={isLoading} showBackground={true} />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-800 text-sm">Suha Assistant</h3>
-              <div className="flex items-center gap-1.5">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8e6bbf] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#8e6bbf]"></span>
-                </span>
-                <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">DeepSeek AI</span>
-              </div>
-            </div>
+        <div className="px-5 py-4 bg-[#8e6bbf] text-white flex justify-between items-center">
+          <div className="flex items-center gap-2.5">
+            <Bot className="w-5 h-5" />
+            <h3 className="font-semibold text-[15px]">{currentT.title}</h3>
           </div>
           <button 
             onClick={() => setIsOpen(false)} 
-            className="p-2 rounded-xl hover:bg-gray-200 text-gray-400 hover:text-gray-600 transition-colors"
+            className="p-1 rounded-lg hover:bg-white/20 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* 聊天消息区域 */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-5 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent bg-white">
-          {messages.map((msg, index) => (
-            <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              
-              {/* AI 的气泡 */}
-              {msg.role === 'assistant' && (
-                <div className="flex items-start gap-2.5 w-full">
-                  <div className="w-8 h-8 flex-shrink-0 mt-1">
-                    <SuhaBot size={32} isThinking={isLoading && index === messages.length - 1} showBackground={true} />
-                  </div>
-                  
-                  <div className="flex-1 max-w-[85%]">
-                    {/* DeepSeek 专属：紫色系的思考过程折叠面板 */}
-                    {msg.reasoning && (
-                      <details className="mb-2 group relative rounded-lg border border-[#8e6bbf]/20 bg-[#8e6bbf]/5 overflow-hidden">
-                        <summary className="cursor-pointer list-none flex items-center gap-2 p-2.5 text-xs font-medium text-gray-500 hover:text-[#8e6bbf] transition-colors select-none">
-                          <Terminal className="w-3.5 h-3.5 text-[#8e6bbf]/70" />
-                          <span>AI Reasoning Process</span>
-                          <ChevronRight className="w-3.5 h-3.5 ml-auto transition-transform group-open:rotate-90 text-gray-400" />
-                        </summary>
-                        <div className="p-3 pt-0 text-xs text-gray-500 font-mono leading-relaxed whitespace-pre-wrap border-t border-[#8e6bbf]/10">
-                          {msg.reasoning}
-                        </div>
-                      </details>
-                    )}
-                    
-                    {/* 正式回答内容：灰色气泡 */}
-                    {(msg.content || (isLoading && index === messages.length - 1 && !msg.reasoning)) && (
-                      <div className="bg-gray-50 border border-gray-100 rounded-2xl rounded-tl-sm p-3.5 text-sm text-gray-700 whitespace-pre-wrap leading-relaxed shadow-sm">
-                        {msg.content || (
-                          <div className="flex items-center gap-1 h-5">
-                            <span className="w-1.5 h-1.5 bg-[#8e6bbf]/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                            <span className="w-1.5 h-1.5 bg-[#8e6bbf]/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                            <span className="w-1.5 h-1.5 bg-[#8e6bbf]/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+        <div className="flex-1 overflow-y-auto bg-white flex flex-col relative scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+          
+          {!hasStarted ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-center px-8 gap-4 pb-10">
+              <div className="w-12 h-12 rounded-full bg-[#8e6bbf]/10 flex items-center justify-center text-[#8e6bbf] mb-2">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <p className="text-[#666666] text-[15px] leading-relaxed">
+                {currentT.greeting}
+              </p>
+            </div>
+          ) : (
+            <div className="p-4 space-y-5">
+              {messages.map((msg, index) => (
+                <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  {msg.role === 'assistant' && (
+                    <div className="flex items-start gap-2.5 w-full">
+                      <div className="w-8 h-8 flex-shrink-0 mt-1">
+                        <SuhaBot size={32} isThinking={isLoading && index === messages.length - 1} showBackground={true} />
+                      </div>
+                      <div className="flex-1 max-w-[85%]">
+                        {msg.reasoning && (
+                          <details className="mb-2 group relative rounded-lg border border-[#8e6bbf]/20 bg-[#8e6bbf]/5 overflow-hidden">
+                            <summary className="cursor-pointer list-none flex items-center gap-2 p-2.5 text-xs font-medium text-gray-500 hover:text-[#8e6bbf] transition-colors select-none">
+                              <Terminal className="w-3.5 h-3.5 text-[#8e6bbf]/70" />
+                              <span>AI Reasoning</span>
+                              <ChevronRight className="w-3.5 h-3.5 ml-auto transition-transform group-open:rotate-90 text-gray-400" />
+                            </summary>
+                            <div className="p-3 pt-0 text-xs text-gray-500 font-mono leading-relaxed whitespace-pre-wrap border-t border-[#8e6bbf]/10">
+                              {msg.reasoning}
+                            </div>
+                          </details>
+                        )}
+                        {(msg.content || (isLoading && index === messages.length - 1 && !msg.reasoning)) && (
+                          <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-sm p-3.5 text-[14px] text-gray-700 whitespace-pre-wrap leading-relaxed shadow-sm">
+                            {msg.content || (
+                              <div className="flex items-center gap-1 h-5">
+                                <span className="w-1.5 h-1.5 bg-[#8e6bbf]/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                                <span className="w-1.5 h-1.5 bg-[#8e6bbf]/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                                <span className="w-1.5 h-1.5 bg-[#8e6bbf]/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
-                    )}
-                  </div>
-                </div>
-              )}
+                    </div>
+                  )}
 
-              {/* 用户的气泡：紫色 */}
-              {msg.role === 'user' && (
-                <div className="flex items-start gap-2.5 max-w-[85%] flex-row-reverse">
-                  <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200 flex-shrink-0 mt-1">
-                    <User className="w-4 h-4 text-gray-500" />
-                  </div>
-                  <div className="bg-[#8e6bbf] text-white rounded-2xl rounded-tr-sm p-3.5 text-sm whitespace-pre-wrap leading-relaxed shadow-md">
-                    {msg.content}
-                  </div>
+                  {msg.role === 'user' && (
+                    <div className="flex items-start gap-2.5 max-w-[85%] flex-row-reverse">
+                      <div className="bg-[#8e6bbf] text-white rounded-2xl rounded-tr-sm p-3.5 text-[14px] whitespace-pre-wrap leading-relaxed shadow-sm">
+                        {msg.content}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
+              <div ref={messagesEndRef} />
             </div>
-          ))}
-          <div ref={messagesEndRef} />
+          )}
         </div>
 
-        {/* 输入框区域 */}
-        <div className="p-4 border-t border-gray-100 bg-white">
-          <form onSubmit={handleSubmit} className="relative flex items-center">
+        <div className="p-4 bg-white border-t border-gray-50">
+          <form onSubmit={handleSubmit} className="relative flex items-center mb-2">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask Suha anything..."
+              placeholder={currentT.placeholder}
               disabled={isLoading}
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-4 pr-12 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#8e6bbf] transition-colors disabled:opacity-50"
+              className="w-full bg-white border border-gray-200 rounded-xl py-3.5 pl-4 pr-12 text-[14px] text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#8e6bbf] focus:ring-1 focus:ring-[#8e6bbf] transition-all disabled:opacity-50"
             />
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
-              className="absolute right-2 w-8 h-8 rounded-lg bg-[#8e6bbf] text-white hover:bg-[#7e4ba6] disabled:opacity-50 disabled:hover:bg-[#8e6bbf] transition-colors flex items-center justify-center"
+              className="absolute right-2 w-9 h-9 rounded-lg bg-[#b498dc] text-white hover:bg-[#8e6bbf] disabled:opacity-50 disabled:hover:bg-[#b498dc] transition-colors flex items-center justify-center"
             >
               <Send className="w-4 h-4" />
             </button>
           </form>
-          <div className="mt-2 text-center">
-            <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Powered by DeepSeek AI</span>
+          
+          <div className="flex justify-between items-center px-1">
+            <span className="text-[10px] text-gray-400 font-bold tracking-wider">{currentT.poweredBy}</span>
+            <span className="text-[10px] text-[#8e6bbf] font-bold tracking-wider cursor-pointer hover:opacity-80 transition-opacity">{currentT.jdMatch}</span>
           </div>
         </div>
+
       </div>
     </>
   );
