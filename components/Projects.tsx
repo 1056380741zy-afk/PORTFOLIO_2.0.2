@@ -200,7 +200,7 @@ export const Projects: React.FC = () => {
                        </div>
                        <div className="w-full aspect-video bg-[#2d2d2d] rounded-xl overflow-hidden shadow-sm relative">
                           <video 
-                             src="https://raw.githubusercontent.com/1056380741zy-afk/Portfolio-CN-Ver/refs/heads/main/public/images/freecompress-demo.mp4" 
+                             src="/images/freecompress-demo.mp4" 
                              controls 
                              className="w-full h-full object-cover"
                           />
@@ -214,19 +214,19 @@ export const Projects: React.FC = () => {
                         </p>
                         <div className="flex items-center justify-center gap-8 md:gap-12">
                              <div className="group flex flex-col items-center gap-2 hover:-translate-y-1 transition-transform duration-300">
-                               <img src="https://raw.githubusercontent.com/1056380741zy-afk/Portfolio-CN-Ver/refs/heads/main/public/images/icons8-facebook-240.png" alt="Facebook" className="w-10 h-10 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+                               <img src="/images/icons8-facebook-240.png" alt="Facebook" className="w-10 h-10 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                              </div>
                              <div className="group flex flex-col items-center gap-2 hover:-translate-y-1 transition-transform duration-300">
-                               <img src="https://raw.githubusercontent.com/1056380741zy-afk/Portfolio-CN-Ver/refs/heads/main/public/images/icons8-whatsapp-240.png" alt="WhatsApp" className="w-10 h-10 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+                               <img src="/images/icons8-whatsapp-240.png" alt="WhatsApp" className="w-10 h-10 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                              </div>
                              <div className="group flex flex-col items-center gap-2 hover:-translate-y-1 transition-transform duration-300">
-                               <img src="https://raw.githubusercontent.com/1056380741zy-afk/Portfolio-CN-Ver/refs/heads/main/public/images/icons8-linkedin-240.png" alt="LinkedIn" className="w-10 h-10 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+                               <img src="/images/icons8-linkedin-240.png" alt="LinkedIn" className="w-10 h-10 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                              </div>
                              <div className="group flex flex-col items-center gap-2 hover:-translate-y-1 transition-transform duration-300">
-                               <img src="https://raw.githubusercontent.com/1056380741zy-afk/Portfolio-CN-Ver/refs/heads/main/public/images/icons8-tiktok-240.png" alt="TikTok" className="w-10 h-10 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+                               <img src="/images/icons8-tiktok-240.png" alt="TikTok" className="w-10 h-10 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                              </div>
                              <div className="group flex flex-col items-center gap-2 hover:-translate-y-1 transition-transform duration-300">
-                               <img src="https://raw.githubusercontent.com/1056380741zy-afk/Portfolio-CN-Ver/refs/heads/main/public/images/icons8-wordpress-240.png" alt="WordPress" className="w-10 h-10 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+                               <img src="/images/icons8-wordpress-240.png" alt="WordPress" className="w-10 h-10 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                              </div>
                         </div>
                     </div>
@@ -235,18 +235,18 @@ export const Projects: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                         {/* Column 1 (Left): 6 vertical placeholders */}
                         <div className="flex flex-col gap-6">
-                            <DigitalMatrixItem src="https://raw.githubusercontent.com/1056380741zy-afk/Portfolio-CN-Ver/refs/heads/main/public/images/KV%20Banner.png" alt="KV Banner" className="aspect-[2700/1478]" />
-                            <DigitalMatrixItem src="https://raw.githubusercontent.com/1056380741zy-afk/Portfolio-CN-Ver/refs/heads/main/public/images/AD-Square.gif" alt="AD Square" className="aspect-[1438/1198]" />
+                            <DigitalMatrixItem src="/images/KV%20Banner.png" alt="KV Banner" className="aspect-[2700/1478]" />
+                            <DigitalMatrixItem src="/images/AD-Square.gif" alt="AD Square" className="aspect-[1438/1198]" />
                             {[1, 2, 3, 4].map((num) => (
-                                <DigitalMatrixItem key={num} src={`https://raw.githubusercontent.com/1056380741zy-afk/Portfolio-CN-Ver/refs/heads/main/public/images/Countdown%20Banner-${num}.gif`} alt={`Countdown Banner ${num}`} className="aspect-[1536/400]" />
+                                <DigitalMatrixItem key={num} src={`/images/Countdown%20Banner-${num}.gif`} alt={`Countdown Banner ${num}`} className="aspect-[1536/400]" />
                             ))}
                         </div>
 
                         {/* Column 2 (Right): 3 vertical placeholders */}
                         <div className="flex flex-col gap-6">
-                            <DigitalMatrixItem src="https://raw.githubusercontent.com/1056380741zy-afk/Portfolio-CN-Ver/refs/heads/main/public/images/MKT%20Banner.png" alt="MKT Banner" className="aspect-[1584/396]" />
-                            <DigitalMatrixItem src="https://raw.githubusercontent.com/1056380741zy-afk/Portfolio-CN-Ver/refs/heads/main/public/images/AD-Horizon.gif" alt="AD Horizon" className="aspect-[728/91]" />
-                            <DigitalMatrixItem src="https://raw.githubusercontent.com/1056380741zy-afk/Portfolio-CN-Ver/refs/heads/main/public/images/AD-Vertical.png" alt="AD Vertical" className="aspect-[628/1200]" />
+                            <DigitalMatrixItem src="/images/MKT%20Banner.png" alt="MKT Banner" className="aspect-[1584/396]" />
+                            <DigitalMatrixItem src="/images/AD-Horizon.gif" alt="AD Horizon" className="aspect-[728/91]" />
+                            <DigitalMatrixItem src="/images/AD-Vertical.png" alt="AD Vertical" className="aspect-[628/1200]" />
                         </div>
                     </div>
 
