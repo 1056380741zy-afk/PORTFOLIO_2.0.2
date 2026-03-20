@@ -733,7 +733,7 @@ export const translations = {
           label: '调研',
           sidebarTitle: "阿联酋 Web3 女性参与度",
           sidebarTags: ['实证调查', '深度访谈', '包容性信号'],
-          banner: "/images/Project 3-Institutional and Cultural Drivers of Women's Participation in the UAE WEB3 Sector.png"
+          banner: "/images/Project 3-Institutional and Cultural Drivers of Women's Participation in the UAE WEB3 Sector.png",
           projectTag: '阶段 01 · 调研',
           fullTitle: "调研驱动策略：\n阿联酋与女性参与",
           subtitle: '混合方法 · 中东 Web3 · 2025',
