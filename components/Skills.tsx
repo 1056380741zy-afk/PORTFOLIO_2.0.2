@@ -26,7 +26,7 @@ export const Skills: React.FC = () => {
     { name: 'Figma', icon: 'https://cdn.simpleicons.org/figma/F24E1E' },
     { name: 'Adobe Illustrator', icon: 'https://brandlogovector.com/wp-content/uploads/2021/07/Adobe-Illustrator-Logo.png' },
     { name: 'Adobe Dreamweaver', icon: 'https://brandlogovector.com/wp-content/uploads/2021/07/Adobe-Dreamweaver-Logo.png' },
-    { name: 'Stripo', icon: 'https://images.seeklogo.com/logo-png/63/1/stripo-logo-png_seeklogo-637778.png' },
+    { name: 'Stripo', icon: 'https://statusfield.com/logos/stripo.png' },
     { name: 'Meta Biz', icon: 'https://cdn.simpleicons.org/meta/0668E1' },
     { name: 'LinkedIn', icon: 'https://www.vectorlogo.zone/logos/linkedin/linkedin-icon.svg' },
     { name: 'TikTok', icon: 'https://cdn.simpleicons.org/tiktok/000000' },
