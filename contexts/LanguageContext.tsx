@@ -815,7 +815,7 @@ export const translations = {
         taskTitle: "任务 / 挑战",
         taskDesc: "在品牌信息高度冗余的限制下，实现高转化的 eDM 设计",
         painPoint: "在高文本量且要求不对文字做删减的情况下进行图文排版",
-        limitation: "避免复杂的图片和表格被邮件客户端拦截的风险。",
+        limitation: "需要避免图片和表格被邮件客户端拦截的风险。",
         actionTitle: "行动 / 策略",
         actionDesc: "实施了以下多维度优化",
         action1: "<strong class='text-[#37352f]'>交互与布局：</strong> 重构视觉层级，采用“少图 + 高频 CTA”策略，利用色块代替大背景图。",
@@ -841,7 +841,7 @@ export const translations = {
         desc: "RTL 适配与文化本地化",
         taskTitle: "Task / 挑战",
         taskDesc: "跨文化视觉重构：阿拉伯语图文内容的本地化设计",
-        difficulty: "在不改变原有设计美感的前提下，处理针对 MENA 市场的 RTL（从右至左）排版逻辑。",
+        difficulty: "在要求不改变原有设计的前提下，处理针对 MENA 市场的 RTL（从右至左）排版逻辑。",
         req: "确保文本流、视觉焦点和交互元素符合当地阅读习惯。",
         actionTitle: "行动 / 策略",
         actionDesc: "敏捷设计支持与 RTL 适配方案",
@@ -850,7 +850,7 @@ export const translations = {
         resultTitle: "结果 / 成效",
         impactTitle: "区域覆盖扩展与私域转化",
         impact1: "成功实现了品牌物料在 MENA 地区的深度覆盖，消除了语言和文化障碍。",
-        impact2: "显著提升了网站流量以及 <strong class='text-[#166534]'>WhatsApp</strong> 等社交渠道的实时询盘响应率。"
+        impact2: "显著提升了网站流量以及WhatsApp等社交渠道的实时询盘响应率。"
       },
       digitalMatrix: {
         title: "数字与社交矩阵",
@@ -925,7 +925,7 @@ export const translations = {
       sec1: {
         title: "展会规模概览",
         subtitle: "2023–2025",
-        insight: "尽管展商规模较 2023 年峰值有所调整，但 2025 年海外观众数量翻倍，显示出国际化进程的结构性加速。",
+        insight: "展商规模较 2023 年峰值有所调整， 2025 年海外观众数量翻倍，显示出国际化进程的结构性加速。",
         legendExhibitors: "参展商",
         legendOverseas: "海外观众"
       },
