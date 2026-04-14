@@ -5,8 +5,8 @@ export const translations = {
     homePage: {
       greetingArabic: "مرحبا، اسمي سها",
       greetingEnglish: "Hi, I’m Suha.",
-      intro: "I bridge the gap between market insights and executable strategies, driving B2B digital transformation and cross-border growth between Asia and the MENA region.",
-      experience: "Currently based in Shanghai with a year of deep overseas immersion, I leverage my trilingual fluency in Chinese, English, and Arabic to navigate cultural complexities and ensure seamless project execution in high-stakes environments."
+      intro: "I have experience in digital marketing and international projects, and I’ve worked on large-scale exhibitions, global events, and cross-border operations, helping brands reach the right audience and execute smoothly in complex environments.",
+      experience: "Drag the panels on the right to explore more about me, or click the assistant in the bottom-right corner to ask anything 👉"
     },
     nav: {
       home: "Home",
@@ -389,8 +389,8 @@ export const translations = {
     aboutBoard: {
       postcard: {
         intro: "\"An explorer navigating the intersections of cross-cultural strategy and digital execution.\"",
-        inspired: "I'm inspired by the infinite possibilities of merging these worlds together.",
-        signature: "— Yan Zhu",
+        inspired: "I'm inspired by the infinite possibilities of merging worlds.",
+        signature: "— Suha",
         wechatLabel: "AynaSuha"
       },
       hint: "Click and drag cards to explore"
@@ -399,9 +399,9 @@ export const translations = {
       rights: "All Rights Reserved.",
     },
     aiChat: {
-      title: "Suha - AI Assistant",
-      welcome: "Hi! I'm Suha, Yan's web assistant. I can help you understand her background, projects, and skills. Feel free to ask me anything!",
-      placeholder: "Ask Suha anything...",
+      title: "AI Assistant",
+      welcome: "Hi! I'm Suha's web assistant. I can help you understand her background, projects, and skills. Feel free to ask me anything!",
+      placeholder: "Ask anything...",
       error: "Sorry, I encountered an error. Please try again later.",
       matchBtn: "JD Match Analysis"
     }
@@ -410,8 +410,8 @@ export const translations = {
     homePage: {
       greetingArabic: "مرحبا، اسمي سها",
       greetingEnglish: "Hi, I’m Suha.",
-      intro: "我致力于连接市场洞察与可执行策略，推动亚洲与中东及北非（MENA）地区之间的B2B数字化转型与跨境增长。",
-      experience: "我目前常驻上海，并拥有一年的海外深度沉浸经验。凭借中、英、阿三语的流利运用，我能轻松驾驭文化复杂性，确保在高风险环境中实现无缝的项目执行。"
+      intro: "我具备数字营销与国际项目经验，参与过大型展会、国际会议和跨境项目运营，擅长在复杂环境中推动项目落地，并帮助品牌精准触达目标受众。",
+      experience: "拖动右侧的版块查看相关信息，或点击右下角的助手询问任何内容 👉"
     },
     nav: {
       home: "Home",
@@ -428,11 +428,11 @@ export const translations = {
       workModeLabel: "工作模式",
       workModeValue: "支持Web3远程",
       statusLabel: "当前状态",
-      statusValue: "可接受中东/北非外派",
+      statusValue: "接受中东/北非外派",
       title: "连接文化语境与高效执行。",
       focusLabel: "专注于",
-      focusValue: "全球 B2B 营销活动",
-      specLabel: "擅长于",
+      focusValue: " B2B 营销活动",
+      specLabel: "擅长",
       specValue: "中东及北非（MENA）市场策略",
       btnProjects: "Projects",
       btnContact: "关于我",
@@ -608,7 +608,7 @@ export const translations = {
           insights: ["实证调查与访谈", "制度机制分析", "运营主题洞察", "包容性信号研究"]
         }
       ],
-      b2bTitle: "全球 B2B 营销战役",
+      b2bTitle: "海外 B2B 营销",
       exhibitionTitle: "国际展会营销：上海国际水展 (WATERTECH CHINA) & 世环会 (WieTec)",
       channelStrategy: "渠道策略",
       case1: {
@@ -772,7 +772,7 @@ export const translations = {
       toolsTitle: "工具与软件",
       languagesTitle: "语言能力",
       regionalTitle: "区域专家",
-      regionalDesc: "凭借专业的阿拉伯语沟通能力与深厚的跨文化洞察，架起<strong>中国与中东非地区 (MENA)</strong> 之间的商务桥梁。",
+      regionalDesc: "凭借专业的阿拉伯语沟通能力与深厚的跨文化洞察，架起中国与<strong>中东及北非地区 (MENA)</strong> 之间的商务桥梁。",
       regionalTags: ["市场进入", "本地化", "跨境贸易"],
       languages: [
         { language: '阿拉伯语', level: '专业工作水平', color: '#f5b002' },
@@ -794,8 +794,8 @@ export const translations = {
     aboutBoard: {
       postcard: {
         intro: "“跨文化战略与数字执行领域的探索者。”",
-        inspired: "我致力于通过跨界的视角，在复杂的世界中建立连接与创造力。",
-        signature: "— 朱燕",
+        inspired: "我致力于通过跨界的视角，建立连接与创造力。",
+        signature: "— Suha",
         wechatLabel: "AynaSuha"
       },
       hint: "拖拽卡片探索更多"
@@ -804,9 +804,9 @@ export const translations = {
       rights: "保留所有权利。",
     },
     aiChat: {
-      title: "Suha - AI 助手",
-      welcome: "你好呀，我是这个网页的助手Suha，帮助您了解网页中关于Yan的各个板块和信息。有任何不清楚的地方可以直接发给我。",
-      placeholder: "向 Suha 提问...",
+      title: "AI 助手",
+      welcome: "你好呀，我是这个网页的助手，帮助您了解网页中关于 Suha 的各个板块和信息。有任何不清楚的地方可以直接发给我。",
+      placeholder: "输入提问内容...",
       error: "抱歉，我遇到了一些问题。请稍后再试。",
       matchBtn: "JD 匹配分析"
     }

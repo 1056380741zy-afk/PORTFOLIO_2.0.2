@@ -31,7 +31,7 @@ const AppContent: React.FC = () => {
   return (
     <div className="h-dvh bg-[#ece9e0] pl-[clamp(1rem,4vw,3rem)] pr-[clamp(2.5rem,8vw,6rem)] py-[clamp(1rem,3vw,2.5rem)] flex items-stretch font-sans overflow-hidden">
       <div className="relative flex-1 flex flex-col min-h-0">
-        <div className="relative flex-1 bg-[#f7f6f3] rounded-[32px] flex flex-col shadow-[0_0_50px_rgba(0,0,0,0.05)] border border-[#2d2d2d]/5 min-h-0">
+        <div className="relative flex-1 bg-[#f7f6f3] rounded-[32px] flex flex-col shadow-[0_0_50px_rgba(0,0,0,0.05)] min-h-0">
           <header className="relative z-50 shrink-0">
             <Navbar />
           </header>

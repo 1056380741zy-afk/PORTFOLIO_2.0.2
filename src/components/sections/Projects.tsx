@@ -29,12 +29,21 @@ export const Projects: React.FC = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 0.99 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
-          className="min-h-[calc(100vh-3.75rem)] flex flex-col px-6"
+          className="relative min-h-[calc(100vh-3.75rem)] flex flex-col px-6 overflow-hidden"
         >
+          <div
+            className="absolute inset-0 pointer-events-none opacity-100"
+            style={{
+              backgroundImage: "url('/bg/SandDune.svg')",
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
           <div className="max-w-6xl mx-auto w-full flex flex-col h-full py-16">
 
             {/* Large display title */}
-            <div className="flex-none">
+            <div className="relative z-10 flex-none">
               <h1 className="page-title">
                 {t.projects.title}
               </h1>
@@ -42,10 +51,10 @@ export const Projects: React.FC = () => {
             </div>
 
             {/* Spacer */}
-            <div className="flex-1" />
+            <div className="relative z-10 flex-1" />
 
             {/* Category links */}
-            <div className="flex-none">
+            <div className="relative z-10 flex-none">
               <CategoryLine
                 label={t.projects.web3Title}
                 sublabel="3 Research Projects · Academic & Strategy"
@@ -70,6 +79,13 @@ export const Projects: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -16 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="relative"
+          style={{
+            backgroundImage: "url('/bg/SandDune.svg')",
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '100% auto',
+            backgroundPosition: 'center',
+          }}
         >
           {/* Breadcrumb / back bar */}
           <div className="sticky top-0 z-20 px-6 pt-3">

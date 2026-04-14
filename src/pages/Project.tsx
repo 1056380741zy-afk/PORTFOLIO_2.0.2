@@ -7,15 +7,7 @@ import { Projects as ProjectsSection } from '../components/sections/Projects';
  */
 export const Project: React.FC = () => {
   return (
-    <main
-      className="flex-1 min-h-full flex flex-col"
-      style={{
-        backgroundImage: "url('/bg/SandDune.svg')",
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: '100% auto',
-        backgroundPosition: 'top left',
-      }}
-    >
+    <main className="flex-1 min-h-full flex flex-col">
       <ProjectsSection />
     </main>
   );

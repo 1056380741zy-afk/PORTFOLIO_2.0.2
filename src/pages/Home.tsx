@@ -76,13 +76,13 @@ const StampCluster: React.FC = () => {
   const stamps = useMemo<StampDef[]>(
     () => [
       { id: 'uaecamel', label: 'UAE Camel', src: '/stamps/uaecamel.png' },
-      { id: 'shanghai', label: 'Shanghai', src: '/stamps/shanghai.png' },
+      { id: 'shanghai', label: 'Shanghai', src: '/stamps/shanghaioriental.png' },
       { id: 'giza', label: 'Giza', src: '/stamps/giza.png' },
       { id: 'riyadh', label: 'Riyadh', src: '/stamps/riyadh.png' },
       { id: 'redsea', label: 'Red Sea', src: '/stamps/redsea.png' },
       { id: 'osaka', label: 'Osaka', src: '/stamps/osaka.png' },
       { id: 'alexandria', label: 'Alexandria', src: '/stamps/alexandria.png' },
-      { id: 'pompeypillar', label: "Pompey's Pillar", src: '/stamps/pompeypillar.png', scale: 1.18 },
+      { id: 'pompeyspillar', label: "Pompey's Pillar", src: '/stamps/pompeyspillar.png', scale: 1.18 },
     ],
     []
   );
@@ -94,14 +94,14 @@ const StampCluster: React.FC = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const DEFAULT_OFFSETS: Record<string, { x: number; y: number }> = useMemo(
     () => ({
-      uaecamel: { x: 30, y: 0 },
-      shanghai: { x: 6, y: -53 },
-      giza: { x: 15, y: -19 },
-      riyadh: { x: 2, y: -95 },
-      redsea: { x: 41, y: -38 },
-      osaka: { x: 28, y: -30 },
-      alexandria: { x: 52, y: 6 },
-      pompeypillar: { x: 67, y: 6 },
+      uaecamel: { x: 30, y: -70 },
+      shanghai: { x: 6, y: -101 },
+      giza: { x: 15, y: -81 },
+      riyadh: { x: 2, y: -136 },
+      redsea: { x: 41, y: -96 },
+      osaka: { x: 28, y: -87 },
+      alexandria: { x: 52, y: 43 },
+      pompeyspillar: { x: 67, y: -25 },
     }),
     []
   );
@@ -124,7 +124,13 @@ const StampCluster: React.FC = () => {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
       const parsed = JSON.parse(raw);
-      if (parsed && typeof parsed === 'object') setOffsets((prev) => ({ ...prev, ...parsed }));
+      if (!parsed || typeof parsed !== 'object') return;
+      const next = { ...(parsed as Record<string, { x: number; y: number }>) };
+      if ('pompeypillar' in next && !('pompeyspillar' in next)) {
+        next.pompeyspillar = next.pompeypillar;
+      }
+      delete (next as Record<string, unknown>).pompeypillar;
+      setOffsets((prev) => ({ ...prev, ...next }));
     } catch {}
   }, []);
 
@@ -256,13 +262,6 @@ const StampCluster: React.FC = () => {
               >
                 Reset
               </button>
-              <button
-                type="button"
-                onClick={saveOffsets}
-                className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#8e6bbf] hover:text-[#7e4ba6] transition-colors"
-              >
-                Save
-              </button>
             </div>
           </div>
 
@@ -346,7 +345,7 @@ export const Home: React.FC = () => {
 
         <div className="w-full lg:w-[38%] flex flex-col justify-center pl-10 pr-10 lg:pl-14 lg:pr-[clamp(5.5rem,9vw,11rem)] py-10 lg:py-12">
           <div className="max-w-[520px]">
-            <div className="space-y-4">
+            <div className="space-y-12">
               <div dir="rtl" className="text-[34px] leading-[1.1] text-text-dark font-makina text-right">
                 {t.homePage.greetingArabic}
               </div>
@@ -363,7 +362,7 @@ export const Home: React.FC = () => {
         </div>
 
         <div className="flex-1 relative overflow-hidden p-3 md:p-4">
-          <div className="w-full h-full rounded-[28px] bg-[#f7f6f3]/70 border border-[#2d2d2d]/5 shadow-[0_0_30px_rgba(0,0,0,0.04)] overflow-hidden flex items-center justify-center">
+          <div className="w-full h-full bg-[#f7f6f3]/70 shadow-[0_0_30px_rgba(0,0,0,0.04)] overflow-hidden flex items-center justify-center">
             <AboutBoard />
           </div>
         </div>

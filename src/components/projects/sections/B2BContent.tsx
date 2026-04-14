@@ -247,20 +247,6 @@ export const B2BContent: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-                <div className="flex flex-col gap-6">
-                  <DigitalMatrixItem src="/images/KV%20Banner.png" alt="KV Banner" className="aspect-[2700/1478]" />
-                  <DigitalMatrixItem src="/images/AD-Square.gif" alt="AD Square" className="aspect-[1438/1198]" />
-                  {[1, 2, 3, 4].map((num) => (
-                    <DigitalMatrixItem key={num} src={`/images/Countdown%20Banner-${num}.gif`} alt={`Countdown Banner ${num}`} className="aspect-[1536/400]" />
-                  ))}
-                </div>
-                <div className="flex flex-col gap-6">
-                  <DigitalMatrixItem src="/images/MKT%20Banner.png" alt="MKT Banner" className="aspect-[1584/396]" />
-                  <DigitalMatrixItem src="/images/AD-Horizon.gif" alt="AD Horizon" className="aspect-[728/91]" />
-                  <DigitalMatrixItem src="/images/AD-Vertical.png" alt="AD Vertical" className="aspect-[628/1200]" />
-                </div>
-              </div>
             </div>
           </div>
 

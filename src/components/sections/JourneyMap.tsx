@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Target, Award } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { MapPathLayer } from './MapPathLayer';
+import { calculateAdaptiveMapScale } from '../../utils/journeyMapScale';
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 const LAND_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json';
@@ -73,8 +74,10 @@ export const JourneyMap: React.FC = () => {
 
   const [activeCityIdx, setActiveCityIdx] = useState(0);
   const [projConfig, setProjConfig] = useState<MapConfig>({ center: [80, 28], scale: 380 });
+  const [mapContainerHeight, setMapContainerHeight] = useState(760);
 
   const cityRefs = useRef<(HTMLDivElement | null)[]>([null, null, null]);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
 
   // Animation refs – avoid triggering re-renders inside animation loop
   const animRef = useRef<number>();
@@ -116,13 +119,35 @@ export const JourneyMap: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    targetConfigRef.current = CITIES[activeCityIdx].mapConfig;
+    const activeConfig = CITIES[activeCityIdx].mapConfig;
+    const adaptiveScale = calculateAdaptiveMapScale(activeConfig.scale, mapContainerHeight);
+    targetConfigRef.current = { center: activeConfig.center, scale: adaptiveScale };
     if (animRef.current) cancelAnimationFrame(animRef.current);
     animRef.current = requestAnimationFrame(animateMap);
     return () => {
       if (animRef.current) cancelAnimationFrame(animRef.current);
     };
-  }, [activeCityIdx, animateMap]);
+  }, [activeCityIdx, animateMap, mapContainerHeight]);
+
+  useEffect(() => {
+    const element = mapContainerRef.current;
+    if (!element) return;
+
+    const updateHeight = () => {
+      const rect = element.getBoundingClientRect();
+      if (rect.height > 0) setMapContainerHeight(rect.height);
+    };
+
+    updateHeight();
+    const ro = new ResizeObserver(updateHeight);
+    ro.observe(element);
+    window.addEventListener('resize', updateHeight);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', updateHeight);
+    };
+  }, []);
 
   // --- Container scroll-based active city detection ---
   useEffect(() => {
@@ -166,40 +191,37 @@ export const JourneyMap: React.FC = () => {
   return (
     <section
       id="journey"
-      className="w-full min-h-screen bg-[#f7f6f3] overscroll-none"
+      className="w-full min-h-screen bg-[#f7f6f3] overscroll-none lg:h-dvh lg:overflow-hidden"
     >
       <div
         style={{
-          margin: `calc(clamp(8px, 1vw, 12px) * -1)`,
           padding: 'clamp(8px, 1vw, 12px)',
+          height: '100%',
         }}
       >
-        {/* ── Section Header ── */}
-        <div className="px-6 md:px-12 pt-8 md:pt-10">
-          <div className="px-8 md:px-10 py-8 md:py-10 bg-base-bg/90 backdrop-blur-sm border border-[#2D2926]/10 rounded-[28px]">
-            <div className="flex items-end justify-between max-w-screen-2xl mx-auto">
-              <h2 className="page-title mb-0">
-                {t.journey.title}
-              </h2>
-              <div className="text-right">
+        {/* ── Two-Column Body: 40/60 Split ── */}
+        <div className="flex flex-col lg:flex-row w-full lg:h-full">
+
+        {/* ── Left Column: Scrollable Timeline (40% width on desktop) ── */}
+        <div
+          id="journey-details-scroll"
+          className="w-full lg:w-[40%] px-6 md:px-12 relative lg:border-r lg:border-[#c4c2b7]/15 lg:h-full lg:overflow-y-auto"
+        >
+          <div className="pt-8 md:pt-10 pb-6">
+            <div className="px-7 md:px-8 py-6 md:py-7 bg-base-bg/90 backdrop-blur-sm rounded-[28px]">
+              <div className="flex items-end justify-between">
+                <h2 className="page-title mb-0">
+                  {t.journey.title}
+                </h2>
                 <p className="text-xs text-[#2D2926]/60 hidden md:block uppercase tracking-widest mt-1">
                   Scroll to explore
                 </p>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* ── Two-Column Body: 1:1 Split ── */}
-        <div className="flex w-full pb-8 mt-4 md:mt-5">
-
-        {/* ── Left Column: City Cards (50% width) ── */}
-        <div
-          id="journey-details-scroll"
-          className="w-1/2 px-12 relative border-r border-[#c4c2b7]/15 h-[calc(100vh-1rem)] overflow-y-auto"
-        >
           {/* Vertical dashed line guide */}
-          <div className="absolute left-[4.5rem] top-0 bottom-0 w-px border-l-2 border-dashed border-[#c4c2b7]/20 z-0" />
+          <div className="hidden lg:block absolute left-[3.25rem] md:left-[4.5rem] top-44 bottom-0 w-px border-l-2 border-dashed border-[#c4c2b7]/20 z-0" />
           
           {CITIES.map((city, idx) => {
             const details = getNodeDetails(city.id);
@@ -209,7 +231,7 @@ export const JourneyMap: React.FC = () => {
               <div
                 key={city.id}
                 ref={(el) => { cityRefs.current[idx] = el; }}
-                className="min-h-[calc(100vh-3.75rem)] py-1 last:border-b-0 flex flex-col relative z-10"
+                className="min-h-[520px] lg:min-h-[calc(100vh-3.75rem)] py-1 last:border-b-0 flex flex-col relative z-10"
               >
                 {/* Explorer Cursor (Timeline marker) */}
                 <div className="absolute left-[2.9rem] top-24 -translate-x-1/2">
@@ -230,7 +252,7 @@ export const JourneyMap: React.FC = () => {
                 </div>
 
                 {/* City Header */}
-                <div className="flex items-center gap-6 mb-10 pl-16">
+                <div className="flex items-center gap-6 mb-10 pl-12 md:pl-16">
                   <div
                     className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl transition-all duration-500 ${
                       isActive
@@ -262,7 +284,7 @@ export const JourneyMap: React.FC = () => {
 
                 {/* Details (unchanged content, updated style wrapper) */}
                 {details && (
-                  <div className="flex flex-col gap-6 pl-16 max-w-xl">
+                  <div className="flex flex-col gap-6 pl-12 md:pl-16 max-w-xl">
                     {/* Education blocks */}
                     {details.educations?.map((edu: any, eduIdx: number) => (
                       <div
@@ -395,16 +417,10 @@ export const JourneyMap: React.FC = () => {
           })}
         </div>
 
-        {/* ── Right Column: Sticky Map (50% width) ── */}
+        {/* ── Right Column: Non-scrolling Map (60% width on desktop) ── */}
         <div
-          className="w-1/2 bg-[#f7f6f3] relative overflow-hidden overscroll-none"
-          style={{
-            position: 'sticky',
-            top: 0,
-            height: '100vh',
-            overscrollBehavior: 'none',
-          }}
-          onWheel={(e: React.WheelEvent) => { window.scrollBy({ top: e.deltaY }); }}
+          ref={mapContainerRef}
+          className="w-full lg:w-[60%] bg-[#f7f6f3] relative overflow-hidden overscroll-none h-[60vh] lg:h-screen lg:sticky lg:top-0"
         >
           {/* Decorative technical border */}
           <div className="absolute inset-0 border-l border-[#c4c2b7]/20 pointer-events-none" />
@@ -462,22 +478,19 @@ export const JourneyMap: React.FC = () => {
             style={{ width: '100%', height: '100%' }}
           >
             <defs>
-              {/* 海岸线排线图案：密集横线纹理
-                  width=4, x2=4 确保线条在水平方向无缝连接
-                  height=1.5 制造更密集的横线感
-                  opacity=0.5 使其作为背景纹理更清晰但不过于抢眼 */}
+              {/* 海岸线排线图案：密集横线纹理 */}
               <pattern id="hatch-ocean" width="4" height="6" patternUnits="userSpaceOnUse">
-                <line x1="0" y1="0.75" x2="4" y2="0.75" stroke="#738e9d" strokeWidth="0.9" opacity="0.8" />
+                <line x1="0" y1="0.75" x2="4" y2="0.75" stroke="#5e5b4c94" strokeWidth="0.9" opacity="0.8" />
               </pattern>
             </defs>
 
             {/* 背景层：覆盖整个海洋区域的横线填充
-                使用超大 rect 并确保其在最底层渲染 */}
+                使用 rect 并确保其在最底层渲染 */}
             <rect x="-10000" y="-10000" width="20000" height="20000" fill="#f6f6f1" />
             <rect x="-10000" y="-10000" width="20000" height="20000" fill="url(#hatch-ocean)" />
 
             {/* 第一部分：海岸线外围装饰（双层效果）
-                使用 LAND_URL 获取整体轮廓，消除国家内部边界带来的视觉干扰 */}
+                使用 LAND_URL 获取整体轮廓 */}
             <Geographies geography={LAND_URL}>
               {({ geographies }) =>
                 geographies.map((geo) => (

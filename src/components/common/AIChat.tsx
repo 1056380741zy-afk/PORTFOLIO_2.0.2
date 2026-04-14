@@ -25,16 +25,16 @@ export function AIChat() {
 
   const t = {
     en: {
-      title: "Suha - AI Assistant",
-      greeting: "Hi! I'm Suha, Yan's web assistant. I can help you understand her background, projects, and skills. Feel free to ask me anything!",
-      placeholder: "Ask Suha anything... (Shift + Enter for new line)",
+      title: "AI Assistant",
+      greeting: "Hi! I'm Suha's web assistant. I can help you understand her background, projects, and skills. Feel free to ask me anything!",
+      placeholder: "Ask anything... (Shift + Enter for new line)",
       poweredBy: "POWERED BY DEEPSEEK",
       jdMatch: "JD MATCH ANALYSIS"
     },
     zh: {
-      title: "Suha - AI 助手",
-      greeting: "你好呀，我是这个网页的助手Suha，帮助您了解网页中关于Yan的各个板块和信息。有任何不清楚的地方可以直接发给我。",
-      placeholder: "向 Suha 提问... (Shift + Enter 换行)",
+      title: "AI 助手",
+      greeting: "你好呀，我是这个网页的助手，帮助您了解网页中关于 Suha 的各个板块和信息。有任何疑问可以直接在对话框中发送。",
+      placeholder: "输入提问内容... (Shift + Enter 换行)",
       poweredBy: "POWERED BY DEEPSEEK",
       jdMatch: "JD 匹配分析"
     }
