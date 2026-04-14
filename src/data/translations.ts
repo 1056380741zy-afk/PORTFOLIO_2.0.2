@@ -653,7 +653,7 @@ export const translations = {
         resultTitle: "结果 / 成效",
         impactTitle: "区域覆盖扩展与私域转化",
         impact1: "成功实现了品牌物料在 MENA 地区的深度覆盖，消除了语言和文化障碍。",
-        impact2: "显著提升了网站流量以及 <strong class='text-[#166534]'>WhatsApp</strong> 等社交渠道的实时询盘响应率。"
+        impact2: "显著提升了网站流量以及WhatsApp等社交渠道的实时询盘响应率。"
       },
       digitalMatrix: {
         title: "数字与社交矩阵",
@@ -728,7 +728,7 @@ export const translations = {
       sec1: {
         title: "展会规模概览",
         subtitle: "2023–2025",
-        insight: "尽管展商规模较 2023 年峰值有所调整，但 2025 年海外观众数量翻倍，显示出国际化进程的结构性加速。",
+        insight: "展商规模较 2023 年峰值有所调整， 2025 年海外观众数量翻倍，显示出国际化进程的结构性加速。",
         legendExhibitors: "参展商",
         legendOverseas: "海外观众"
       },
