@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 
 // 加载本地 .env 文件（在 Netlify 线上环境中会自动跳过并读取平台配置）
 dotenv.config();
@@ -9,8 +10,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// 为 PDF 文件设置 inline 显示而不是下载
+app.use('/images', (req, res, next) => {
+  if (req.path.endsWith('.pdf')) {
+    res.setHeader('Content-Disposition', 'inline');
+    res.setHeader('Content-Type', 'application/pdf');
+  }
+  next();
+});
+
+// 静态文件服务 - 提供 public 目录下的文件
+app.use(express.static(path.join(process.cwd(), 'public')));
+
 // 你的 AI 人设提示词
-const systemInstruction = `You are a helpful and professional AI assistant for Yan Zhu's portfolio website. 
+const systemInstruction = `You are a helpful and professional AI assistant for Yan's portfolio website. 
 You should help visitors understand Yan's background in International Business, MENA marketing, and project management.
 Be concise, friendly, and highlight her cross-cultural communication skills (Chinese, English, Arabic) when relevant.`;
 

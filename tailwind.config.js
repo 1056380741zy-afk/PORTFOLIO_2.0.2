@@ -2,11 +2,7 @@
 export default {
   content: [
     "./index.html",
-    "./App.tsx",
-    "./index.tsx",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./contexts/**/*.{js,ts,jsx,tsx}",
-    "./hooks/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -17,14 +13,14 @@ export default {
         'text-main': '#2d2d2d',
         'brand-red': '#b3473d',
         'brand-blue': '#3fa1d8',
-        'brand-yellow': '#e8ae41',
-        'brand-purple': '#7e4ba6',
-        'accent-purple': '#7e4ba6',
+        'brand-yellow': '#f5b002',
+        'brand-purple': '#8E6BBF',
+        'accent-purple': '#8E6BBF',
         'text-dark': '#2d2d2d',
         'card-bg': '#FFFFFF',
         // Chart colors
         'chart-green': '#53845d',
-        'chart-orange': '#e59936',
+        'chart-orange': '#f5b002',
         'chart-cyan': '#78baac',
         'shadow-color': '#ebe9e4',
       },
@@ -35,9 +31,6 @@ export default {
       borderRadius: {
         'xl': '1rem',
         '2xl': '1.5rem',
-      },
-      fontSize: {
-        base: ['12px', '16px'],
       },
     },
   },

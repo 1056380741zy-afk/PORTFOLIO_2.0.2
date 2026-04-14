@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+  }
+  body {
+    background-color: #f7f6f3;
+    background-image: radial-gradient(#d1d1d1 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
+    color: #2d2d2d;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+@font-face {
+  font-family: "29LT Makina";
+  src: url("/fonts/29lt-makina-regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-makina {
+  font-family: "29LT Makina", "Space Grotesk", cursive;
+  font-weight: 400;
+}
+
+@layer components {
+  .page-title {
+    @apply text-[35px] md:text-[40px] font-bold text-text-dark uppercase tracking-tight mb-8;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D3D1CB; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #AEACA6; }
+::-selection { background-color: #EDE6F5; color: #8e6bbf; }
+
+/* Compass Animation */
+.compass-container {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease-out; 
+}
+
+.outer-ring {
+  animation: spin-clockwise 40s linear infinite;
+  z-index: 1;
+}
+
+.inner-circle {
+  width: 45%;
+  height: 45%;
+  animation: spin-counterclockwise 25s linear infinite;
+  z-index: 2;
+}
+
+.compass-container:hover .ring {
+  animation-play-state: paused;
+}
+
+@keyframes spin-clockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-counterclockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+.center-hole {
+  position: absolute;
+  width: 15%;
+  height: 15%;
+  background-color: #F7F6F3;
+  border-radius: 50%;
+  z-index: 3;
+}
+
+/* ASCII Art Banner (Footer) */
+.background-ascii-layer {
+  overflow: hidden;
+  pointer-events: none;
+  width: 100%;
+}
+#bg-ascii-art {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 5px;
+  line-height: 1.2;
+  color: #2d2d2d;
+  opacity: 0.10;
+  white-space: pre;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  display: block;
+}
+
+/* Side Folder Tab Styles */
+.side-nav-container {
+  position: absolute;
+  right: 0;
+  top: 80px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* Reduced gap */
+}
+
+.side-tab {
+  position: relative;
+  background: #dcdbd3;
+  color: #4a4a4a;
+  width: 36px;
+  min-height: 130px;
+  padding: 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  writing-mode: vertical-rl;
+  border-radius: 0 12px 12px 0; /* Scaled down border-radius */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+  margin-right: -36px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 2px 0 8px rgb(0 0 0 / 3%);
+}
+
+/* Rounded transitions to the "spine" */
+.side-tab::before,
+.side-tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  background: transparent;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.side-tab::before {
+  top: -12px;
+  border-bottom-left-radius: 12px;
+  box-shadow: 0 6px 0 0 #dcdbd3; /* Scaled down shadow offset */
+}
+
+.side-tab::after {
+  bottom: -12px;
+  border-top-left-radius: 12px;
+  box-shadow: 0 -6px 0 0 #dcdbd3;
+}
+
+.side-tab.active {
+  background: #f7f6f3;
+  color: #000;
+  z-index: 10;
+  margin-right: -36px;
+}
+
+.side-tab.active::before {
+  box-shadow: 0 6px 0 0 #f7f6f3;
+}
+
+.side-tab.active::after {
+  box-shadow: 0 -6px 0 0 #f7f6f3;
+}
+
+.side-tab:not(.active):hover {
+  background: #dcdbd3;
+  color: #000;
+}
+
+.side-tab:not(.active):hover::before {
+  box-shadow: 0 6px 0 0 #dcdbd3;
+}
+
+.side-tab:not(.active):hover::after {
+  box-shadow: 0 -6px 0 0 #dcdbd3;
+}
+
+/* Update original folder-tab styles to be less obtrusive or we can keep them for mobile if needed */
+.folder-tab-container {
+  padding-top: 0;
+}
+
+
+/* Terminal Cursor Blink */
+.cursor-blink::after {
+  content: '█';
+  animation: blink 1s step-end infinite;
+  color: #8e6bbf;
+  margin-left: 4px;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Hide scrollbar utility */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.writing-mode-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #d1d1d1;
+  border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgb(142 107 191 / 50%);
+}
