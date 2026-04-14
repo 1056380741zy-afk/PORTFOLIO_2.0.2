@@ -121,7 +121,7 @@ export const AboutBoard: React.FC = () => {
       
       <DraggableCard
         id="postcard"
-        initialPos={{ top: '15%', left: '10%' }}
+        initialPos={{ top: '8%', left: '6%' }}
         initialRotate={-5}
         activeId={activeId}
         setActiveId={setActiveId}
@@ -132,7 +132,7 @@ export const AboutBoard: React.FC = () => {
 
       <DraggableCard
         id="blueprint"
-        initialPos={{ top: '42%', left: '15%' }}
+        initialPos={{ top: '48%', left: '10%' }}
         initialRotate={3}
         activeId={activeId}
         setActiveId={setActiveId}
@@ -145,7 +145,7 @@ export const AboutBoard: React.FC = () => {
 
       <DraggableCard
         id="toolbox"
-        initialPos={{ top: '35%', left: '55%' }}
+        initialPos={{ top: '40%', left: '50%' }}
         initialRotate={0}
         activeId={activeId}
         setActiveId={setActiveId}

@@ -46,17 +46,17 @@ export const Toolbox: React.FC = () => {
   const tools = useMemo(
     () => [
       { name: 'WordPress', mark: 'WP', icon: '/images/icons8-wordpress-240.png' },
-      { name: 'Elementor', mark: 'E', icon: 'https://cdn.simpleicons.org/elementor/92003B' },
-      { name: 'Canva', mark: 'C', icon: 'https://cdn.simpleicons.org/canva/00C4CC' },
-      { name: 'Figma', mark: 'F', icon: 'https://cdn.simpleicons.org/figma/F24E1E' },
-      { name: 'Adobe Illustrator', mark: 'Ai', icon: 'https://cdn.simpleicons.org/adobeillustrator/FF9A00' },
-      { name: 'Adobe Dreamweaver', mark: 'Dw', icon: 'https://cdn.simpleicons.org/adobedreamweaver/FF61F6' },
-      { name: 'Stripo', mark: 'S', icon: 'https://statusfield.com/logos/stripo.png' },
-      { name: 'Meta Biz', mark: 'M', icon: 'https://cdn.simpleicons.org/meta/0668E1' },
+      { name: 'Elementor', mark: 'E', icon: '' },
+      { name: 'Canva', mark: 'C', icon: '' },
+      { name: 'Figma', mark: 'F', icon: '' },
+      { name: 'Adobe Illustrator', mark: 'Ai', icon: '' },
+      { name: 'Adobe Dreamweaver', mark: 'Dw', icon: '' },
+      { name: 'Stripo', mark: 'S', icon: '' },
+      { name: 'Meta Biz', mark: 'M', icon: '' },
       { name: 'LinkedIn', mark: 'in', icon: '/images/icons8-linkedin-240.png' },
       { name: 'TikTok', mark: 'Tk', icon: '/images/icons8-tiktok-240.png' },
-      { name: 'Google Analytics', mark: 'GA', icon: 'https://cdn.simpleicons.org/googleanalytics/E37400' },
-      { name: 'Microsoft Suite', mark: 'MS', icon: 'https://www.vectorlogo.zone/logos/microsoft/microsoft-icon.svg' },
+      { name: 'Google Analytics', mark: 'GA', icon: '' },
+      { name: 'Microsoft Suite', mark: 'MS', icon: '' },
     ],
     []
   );
@@ -72,7 +72,7 @@ export const Toolbox: React.FC = () => {
         {tools.map((tool, idx) => (
           <div key={idx} className="flex flex-col items-center gap-2 group">
             <div className="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center p-2 group-hover:scale-110 transition-transform relative overflow-hidden">
-              {!brokenIcons[tool.name] && (
+              {!brokenIcons[tool.name] && tool.icon.startsWith('/') && (
                 <img
                   src={tool.icon}
                   alt={tool.name}
@@ -85,7 +85,7 @@ export const Toolbox: React.FC = () => {
               <span
                 className={[
                   'absolute inset-0 flex items-center justify-center text-[11px] font-mono font-bold text-gray-700 uppercase tracking-widest transition-opacity',
-                  brokenIcons[tool.name] ? 'opacity-100' : 'opacity-0',
+                  brokenIcons[tool.name] || !tool.icon.startsWith('/') ? 'opacity-100' : 'opacity-0',
                 ].join(' ')}
               >
                 {tool.mark}
@@ -107,7 +107,7 @@ export const StickyNote: React.FC = () => {
       href={`/images/${encodeURIComponent(filePath)}`}
       download={fileName}
       whileHover={{ scale: 1.05 }}
-      className="w-40 h-40 bg-[#fef08a] p-4 shadow-lg flex flex-col items-center justify-center text-center relative group overflow-hidden block"
+      className="w-40 h-40 bg-[#fef08a] p-4 shadow-lg flex flex-col items-center justify-center text-center relative group overflow-hidden block -rotate-3"
       style={{
         boxShadow: '0 5px 15px rgba(0,0,0,0.05), inset 0 0 30px rgba(0,0,0,0.02)'
       }}

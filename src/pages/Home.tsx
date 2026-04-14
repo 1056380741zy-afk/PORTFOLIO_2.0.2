@@ -101,7 +101,7 @@ const StampCluster: React.FC = () => {
       redsea: { x: 41, y: -38 },
       osaka: { x: 28, y: -30 },
       alexandria: { x: 52, y: 6 },
-      pompeypillar: { x: 16, y: 76 },
+      pompeypillar: { x: 67, y: 6 },
     }),
     []
   );
@@ -350,8 +350,8 @@ export const Home: React.FC = () => {
               <div dir="rtl" className="text-[34px] leading-[1.1] text-text-dark font-makina text-right">
                 {t.homePage.greetingArabic}
               </div>
-              <div className={`text-lg text-text-dark tracking-tight ${language === 'cn' ? 'font-bold' : 'font-normal'}`}>
-                {t.homePage.greetingEnglish}
+              <div className="text-[13px] leading-[1.1] text-text-dark font-mono font-bold tracking-tight">
+                Hi, I’m Suha.
               </div>
             </div>
 

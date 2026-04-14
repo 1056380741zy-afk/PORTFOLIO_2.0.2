@@ -35,11 +35,6 @@ export const Postcard: React.FC = () => {
               </div>
               
               <div className="flex flex-col">
-                <span className="text-[10px] text-gray-400 uppercase tracking-widest font-mono">{t.hero.workModeLabel}</span>
-                <span className="text-xs font-medium text-text-dark">{t.hero.workModeValue}</span>
-              </div>
-              
-              <div className="flex flex-col">
                 <span className="text-[10px] text-gray-400 uppercase tracking-widest font-mono">{t.hero.statusLabel}</span>
                 <span className="text-xs font-medium text-text-dark">{t.hero.statusValue}</span>
               </div>

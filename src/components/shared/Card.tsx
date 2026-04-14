@@ -7,7 +7,7 @@ interface CardProps {
   noBorder?: boolean;
 }
 
-export const Card: React.FC<CardProps> = ({ depth = 1, className = '', children, noBorder = false }) => {
+export const Card = React.forwardRef<HTMLDivElement, CardProps>(({ depth = 1, className = '', children, noBorder = false }, ref) => {
   // L1 - Page Base: #f7f6f3 (handled by body)
   // L2 - Primary Card (depth 1): #FFFFFF
   // L3 - Nested Card (depth 2): #f7f6f3
@@ -23,8 +23,10 @@ export const Card: React.FC<CardProps> = ({ depth = 1, className = '', children,
   // Or just define it in the theme. I didn't define a specific border color in theme, but I can use `border-gray-900/5`.
   
   return (
-    <div className={`${bgColor} ${borderColor} rounded-2xl ${className}`}>
+    <div ref={ref} className={`${bgColor} ${borderColor} rounded-2xl ${className}`}>
       {children}
     </div>
   );
-};
+});
+
+Card.displayName = 'Card';
