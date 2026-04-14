@@ -362,8 +362,10 @@ export const Home: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex-1 relative overflow-hidden">
-          <AboutBoard />
+        <div className="flex-1 relative overflow-hidden p-3 md:p-4">
+          <div className="w-full h-full rounded-[28px] bg-[#f7f6f3]/70 border border-[#2d2d2d]/5 shadow-[0_0_30px_rgba(0,0,0,0.04)] overflow-hidden flex items-center justify-center">
+            <AboutBoard />
+          </div>
         </div>
       </div>
     </main>

@@ -175,21 +175,23 @@ export const JourneyMap: React.FC = () => {
         }}
       >
         {/* ── Section Header ── */}
-        <div className="py-12 px-12 border-b border-[#2D2926]/5">
-          <div className="flex items-end justify-between max-w-screen-2xl mx-auto">
-            <h2 className="page-title">
-              {t.journey.title}
-            </h2>
-            <div className="text-right">
-              <p className="text-xs text-[#2D2926]/60 hidden md:block uppercase tracking-widest mt-1">
-                Scroll to explore
-              </p>
+        <div className="px-6 md:px-12 pt-8 md:pt-10">
+          <div className="px-8 md:px-10 py-8 md:py-10 bg-base-bg/90 backdrop-blur-sm border border-[#2D2926]/10 rounded-[28px]">
+            <div className="flex items-end justify-between max-w-screen-2xl mx-auto">
+              <h2 className="page-title mb-0">
+                {t.journey.title}
+              </h2>
+              <div className="text-right">
+                <p className="text-xs text-[#2D2926]/60 hidden md:block uppercase tracking-widest mt-1">
+                  Scroll to explore
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
         {/* ── Two-Column Body: 1:1 Split ── */}
-        <div className="flex w-full pb-8">
+        <div className="flex w-full pb-8 mt-4 md:mt-5">
 
         {/* ── Left Column: City Cards (50% width) ── */}
         <div

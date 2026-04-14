@@ -105,7 +105,7 @@ export const AboutBoard: React.FC = () => {
   return (
     <div 
       ref={constraintsRef}
-      className="w-full h-[430px] md:h-[560px] lg:h-[610px] bg-[#f7f6f3] relative overflow-hidden"
+      className="w-full h-[430px] md:h-[560px] lg:h-[610px] bg-[#f7f6f3] relative overflow-hidden rounded-[28px] border border-[#2d2d2d]/5"
       style={{
         backgroundImage: `radial-gradient(#d1d5db 1px, transparent 1px)`,
         backgroundSize: '32px 32px'

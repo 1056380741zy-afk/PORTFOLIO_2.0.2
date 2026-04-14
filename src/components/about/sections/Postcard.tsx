@@ -15,8 +15,8 @@ export const Postcard: React.FC = () => {
   };
 
   return (
-    <div className="w-[92vw] max-w-[572px] min-h-[264px]">
-      <div className="origin-top-left scale-[0.88] w-[650px] min-h-[300px] bg-white p-8 shadow-2xl border border-gray-100 flex gap-12 relative overflow-visible">
+    <div className="w-[92vw] max-w-[520px] min-h-[240px]">
+      <div className="origin-top-left scale-[0.86] w-[600px] min-h-[280px] bg-white p-7 shadow-2xl border border-gray-100 flex gap-10 relative overflow-visible">
         <div className="absolute top-6 right-8 w-16 h-20 border-2 border-dashed border-gray-300 flex items-center justify-center grayscale opacity-50 z-0">
           <span className="text-[10px] text-center font-mono uppercase tracking-tighter">Postage<br/>Required</span>
         </div>
