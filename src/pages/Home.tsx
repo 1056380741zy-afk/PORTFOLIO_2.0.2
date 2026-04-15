@@ -100,7 +100,7 @@ const StampCluster: React.FC = () => {
       riyadh: { x: 2, y: -136 },
       redsea: { x: 41, y: -96 },
       osaka: { x: 28, y: -87 },
-      alexandria: { x: 52, y: 43 },
+      alexandria: { x: 52, y: -52 },
       pompeyspillar: { x: 67, y: -25 },
     }),
     []
