@@ -356,7 +356,7 @@ export const Home: React.FC = () => {
 
             <div className="mt-10 space-y-6 text-[13px] leading-relaxed text-text-dark/80 font-mono">
               <p>{t.homePage.intro}</p>
-              <p>{t.homePage.experience}</p>
+              <p className="text-[11px] leading-relaxed text-text-dark/55">{t.homePage.experience}</p>
             </div>
           </div>
         </div>
