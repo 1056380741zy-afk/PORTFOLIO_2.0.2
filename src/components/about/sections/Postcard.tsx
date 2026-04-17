@@ -5,7 +5,7 @@ export const Postcard: React.FC = () => {
   const { t, language } = useLanguage();
   const [copied, setCopied] = useState(false);
   const email = "zy18964266810@outlook.com";
-  const linkedInHandle = 'ayna-yan-zhu';
+  const linkedInHandle = 'Suha Zhu';
   const wechatId = 'AynaSuha';
   const isCn = language === 'cn';
 
@@ -78,11 +78,12 @@ export const Postcard: React.FC = () => {
             </div>
 
             <a
-              href={`https://www.linkedin.com/in/${linkedInHandle}`}
+              href={`https://www.linkedin.com/in/suha-zhu/`}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Open LinkedIn profile ${linkedInHandle}`}
               className="group flex items-center gap-3"
+              onClick={(e) => e.stopPropagation()}
             >
               <svg viewBox="0 0 24 24" aria-hidden="true" className="w-4 h-4 shrink-0 text-[#0077b5] group-hover:text-[#0077b5] transition-colors duration-200">
                 <path fill="currentColor" d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5ZM0 24h5V7H0v17Zm7.5-17H12v2.3h.1c.6-1.1 2.1-2.3 4.3-2.3 4.6 0 5.5 3 5.5 6.9V24h-5v-8.6c0-2 0-4.6-2.8-4.6s-3.2 2.2-3.2 4.4V24h-5V7Z" />
