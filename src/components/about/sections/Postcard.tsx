@@ -25,7 +25,7 @@ export const Postcard: React.FC = () => {
 
         <div className="relative z-10 flex flex-col gap-6 text-[16px] leading-[1.5] font-sans text-text-dark">
           <div className="flex flex-col gap-1">
-            <h1 className="text-[28px] leading-[1.1] font-bold tracking-tight">Yan Zhu</h1>
+            <h1 className="text-[28px] leading-[1.1] font-bold tracking-tight">Suha Zhu</h1>
             <div className="flex items-center flex-wrap gap-x-2 gap-y-1">
             </div>
           </div>
