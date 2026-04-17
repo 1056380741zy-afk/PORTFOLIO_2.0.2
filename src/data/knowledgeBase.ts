@@ -3,21 +3,21 @@ export const SuhaKnowledgeBase = {
     {
       id: "web3_research_uae",
       title: "UAE Web3 Sector Participation Research",
-      keywords: ["Data Analysis", "Market Research", "Policy & Compliance", "Mixed-Methods", "NVivo"],
+      keywords: ["Data Analysis", "Market Research", "Policy & Compliance", "Mixed-Methods", "NVivo", "Web3 女性参与度", "Women's Participation in UAE Web3"],
       pillar: "The System Builder",
       story: "主导阿联酋 Web3 行业市场调研。采用混合研究方法（N=50问卷及深度半结构化访谈），使用 NVivo 进行数据清洗与主题编码。提炼出 Web3 平台落地阿联酋的核心痛点（合规成本、银行通道对接、本地信任成本），并为企业与政策制定者输出分层入场策略与数据追踪指标。"
     },
     {
       id: "web3_consulting_sandbox",
       title: "The Sandbox MENA Market Entry Strategy",
-      keywords: ["Market Entry", "Strategic Alliance", "Web3 Consulting", "Localization", "B2B Partnership"],
+      keywords: ["Market Entry", "Strategic Alliance", "Web3 Consulting", "Localization", "B2B Partnership", "Sandbox × Yalla 联盟"],
       pillar: "The Cultural Bridge",
       story: "针对 The Sandbox 进入阿联酋市场出具战略咨询方案。通过波特五力模型分析中东 Web3 生态，针对其本地化运营经验不足的痛点，设计了与中东本土社交巨头 Yalla Group（3899万MAU）建立非股权战略联盟（Non-equity Strategic Alliance）的商业路径，实现全球元宇宙基础设施与中东本土语音社交生态的商业闭环。"
     },
     {
       id: "web3_strategy_binance",
       title: "Binance Global Strategic Analysis",
-      keywords: ["Strategic Planning", "Compliance", "Competitor Analysis", "PESTEL", "SWOT"],
+      keywords: ["Strategic Planning", "Compliance", "Competitor Analysis", "PESTEL", "SWOT", "币安全球策略"],
       pillar: "The Agile PM",
       story: "基于动态能力理论（Dynamic Capabilities Theory）对币安（Binance）面临的全球合规压力与高管流失危机进行商业定性分析。输出 3 年期战略执行路径，涵盖设立本地合规独立董事会、部署 Web3 钱包生态以及在中东等核心市场通过传统金融通道获取牌照的业务拓展指南。"
     }
