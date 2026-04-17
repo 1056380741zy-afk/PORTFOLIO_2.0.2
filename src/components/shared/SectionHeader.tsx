@@ -8,8 +8,7 @@ interface SectionHeaderProps {
   withLine?: boolean;
 }
 
-/**
- * 可复用的章节标题组件
+/* 可复用的章节标题组件
  * 用于Projects、Journey等多个章节
  */
 export const SectionHeader: React.FC<SectionHeaderProps> = ({
@@ -29,7 +28,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           </span>
         )}
         <div>
-          <h3 className="text-xl md:text-2xl font-bold tracking-wide text-text-dark">
+          <h3 className="text-xl md:text-xl font-bold tracking-wide text-text-dark">
             {title}
           </h3>
           {subtitle && (

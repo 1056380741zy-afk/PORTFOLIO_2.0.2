@@ -51,7 +51,7 @@ export const Skills: React.FC = () => {
       { name: 'Red Sea', src: '/stamps/redsea.png', top: '30%', left: '10%', rotate: -6, widthClass: 'w-[135px]' },
       { name: 'Osaka', src: '/stamps/osaka.png', top: '28%', left: '36%', rotate: 10, widthClass: 'w-[135px]' },
       { name: 'Oman', src: '/stamps/oman.png', top: '2%', left: '52%', rotate: -14, widthClass: 'w-[135px]' },
-      { name: 'Alexandria', src: '/stamps/alexandria.png', top: '46%', left: '26%', rotate: -10, widthClass: 'w-[135px]' },
+      { name: 'Alexandria', src: '/stamps/alexandria.png', top: '46%', left: '26%', rotate: -18, widthClass: 'w-[135px]' },
       { name: "Pompey's Pillar", src: '/stamps/pompeyspillar.png', top: '50%', left: '50%', rotate: 8, widthClass: 'w-[140px]' },
     ],
     []

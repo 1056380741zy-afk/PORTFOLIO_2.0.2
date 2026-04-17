@@ -49,7 +49,7 @@ const computeStampLayout = (args: {
   const baseOffsetX = (containerWidth - layoutWidth) / 2;
   const baseOffsetY = (containerHeight - layoutHeight) / 2;
 
-  const rotations = [-7, 5, -3, 4, -6, 6, -2, 3];
+  const rotations = [-15, 18, -10, 10, -25, 1, -15, 7];
 
   return sources.slice(0, cols * rows).map((src, idx) => {
     const col = idx % cols;
@@ -97,11 +97,11 @@ const StampCluster: React.FC = () => {
       uaecamel: { x: 30, y: -70 },
       shanghai: { x: 6, y: -101 },
       giza: { x: 15, y: -81 },
-      riyadh: { x: 2, y: -136 },
+      riyadh: { x: 2, y: -134 },
       redsea: { x: 41, y: -96 },
       osaka: { x: 28, y: -87 },
-      alexandria: { x: 52, y: -52 },
-      pompeyspillar: { x: 67, y: -25 },
+      alexandria: { x: 52, y: -43 },
+      pompeyspillar: { x: 67, y: -4 },
     }),
     []
   );
@@ -174,7 +174,7 @@ const StampCluster: React.FC = () => {
   return (
     <div
       ref={clusterRef}
-      className="relative w-[260px] h-[420px] xl:w-[320px] xl:h-[520px]"
+      className="relative w-[260px] h-[360px] xl:w-[320px] xl:h-[460px]"
       aria-label="Stamp cluster"
       style={
         isEditMode
@@ -317,15 +317,30 @@ const StampCluster: React.FC = () => {
 
 export const Home: React.FC = () => {
   const { t, language } = useLanguage();
-  const bleed = 'clamp(8px, 1vw, 12px)';
 
   return (
-    <main className="flex-1 relative overflow-hidden min-h-full">
+    <main
+      className="flex-1 relative overflow-hidden min-h-full"
+      style={{
+        height: '500px',
+        width: '100%',
+        borderRadius: '28px',
+        boxSizing: 'content-box',
+      }}
+    >
       <div
         className="h-full w-full flex flex-col lg:flex-row relative"
         style={{
-          margin: `calc(${bleed} * -1)`,
-          padding: bleed,
+          height: '525px',
+          paddingTop: '2px',
+          paddingBottom: '2px',
+          paddingLeft: '2px',
+          paddingRight: '2px',
+          marginTop: '-2px',
+          marginBottom: '-2px',
+          marginLeft: '-2px',
+          marginRight: '-2px',
+          borderRadius: '28px',
           backgroundImage:
             "linear-gradient(110deg, rgba(247, 246, 243, 0.95) 0%, rgba(247, 246, 243, 0.88) 36%, rgba(247, 246, 243, 0.82) 100%)",
           backgroundColor: '#f7f6f3',
@@ -343,7 +358,7 @@ export const Home: React.FC = () => {
           </div>
         </div>
 
-        <div className="w-full lg:w-[38%] flex flex-col justify-center pl-10 pr-10 lg:pl-14 lg:pr-[clamp(5.5rem,9vw,11rem)] py-10 lg:py-12">
+        <div className="w-full lg:w-[32%] shrink-0 flex flex-col justify-center pl-10 pr-10 lg:pl-14 lg:pr-[clamp(5.5rem,9vw,11rem)] py-2 lg:py-4">
           <div className="max-w-[520px]">
             <div className="space-y-12">
               <div dir="rtl" className="text-[34px] leading-[1.1] text-text-dark font-makina text-right">
@@ -361,7 +376,7 @@ export const Home: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex-1 relative overflow-hidden p-3 md:p-4">
+        <div className="w-full lg:w-[68%] shrink-0 relative overflow-hidden p-3 md:p-4" style={{ top: '10px', height: '560px' }}>
           <div className="w-full h-full bg-[#f7f6f3]/70 shadow-[0_0_30px_rgba(0,0,0,0.04)] overflow-hidden flex items-center justify-center">
             <AboutBoard />
           </div>

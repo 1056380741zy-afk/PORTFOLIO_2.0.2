@@ -189,19 +189,7 @@ export function AIChat() {
                         <SuhaBot size={32} isThinking={isLoading && index === messages.length - 1} showBackground={true} />
                       </div>
                       <div className="flex-1 max-w-[85%]">
-                        {msg.reasoning && (
-                          <details className="mb-2 group relative rounded-lg border border-[#8e6bbf]/20 bg-[#8e6bbf]/5 overflow-hidden">
-                            <summary className="cursor-pointer list-none flex items-center gap-2 p-2.5 text-xs font-medium text-gray-500 hover:text-[#8e6bbf] transition-colors select-none">
-                              <Terminal className="w-3.5 h-3.5 text-[#8e6bbf]/70" />
-                              <span>AI Reasoning</span>
-                              <ChevronRight className="w-3.5 h-3.5 ml-auto transition-transform group-open:rotate-90 text-gray-400" />
-                            </summary>
-                            <div className="p-3 pt-0 text-xs text-gray-500 font-mono leading-relaxed whitespace-pre-wrap border-t border-[#8e6bbf]/10">
-                              {msg.reasoning}
-                            </div>
-                          </details>
-                        )}
-                        {(msg.content || (isLoading && index === messages.length - 1 && !msg.reasoning)) && (
+                        {(msg.content || (isLoading && index === messages.length - 1)) && (
                           <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-sm p-3.5 text-[14px] text-gray-700 whitespace-pre-wrap leading-relaxed shadow-sm">
                             {msg.content || (
                               <div className="flex items-center gap-1 h-5">

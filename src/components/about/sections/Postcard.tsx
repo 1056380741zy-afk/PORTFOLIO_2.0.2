@@ -17,7 +17,7 @@ export const Postcard: React.FC = () => {
 
   return (
     <div className="w-[92vw] max-w-[450px]">
-      <div className="card w-full bg-white/85 rounded-[18px] border border-[#2d2d2d]/10 shadow-2xl px-6 py-6 sm:px-7 sm:py-7 overflow-hidden">
+      <div className="card w-full bg-white/85 rounded-[18px] border border-[#2d2d2d]/10 shadow-2xl px-6 py-8 sm:px-7 sm:py-5 overflow-hidden">
         <div className="halftone" aria-hidden="true" />
         <div className="absolute top-6 right-8 w-16 h-20 border-2 border-dashed border-gray-300 flex items-center justify-center grayscale opacity-50 z-10">
           <span className="text-[10px] text-center font-mono uppercase tracking-tighter">Postage<br/>Required</span>

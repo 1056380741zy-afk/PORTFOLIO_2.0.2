@@ -23,14 +23,14 @@ const assertClose = (actual: number, expected: number, tolerance = 1e-6, message
 };
 
 const input = `
-UAE CAMEL X:30 Y:0
-SHANGHAI X:6 Y:-53
-GIZA X:15 Y:-19
-RIYADH X:2 Y:-95
-RED SEA X:41 Y:-38
-OSAKA X:28 Y:-30
-ALEXANDRIA X:52 Y:-52
-POMPEY'S PILLAR X:16 Y:76
+UAE CAMEL X:30 Y:-70
+SHANGHAI X:6 Y:-101
+GIZA X:15 Y:-81
+RIYADH X:2 Y:-134
+RED SEA X:41 Y:-96
+OSAKA X:28 Y:-87
+ALEXANDRIA X:52 Y:-43
+POMPEY'S PILLAR X:67 Y:-4
 `;
 
 const run = () => {

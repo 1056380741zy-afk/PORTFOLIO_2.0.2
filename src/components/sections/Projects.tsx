@@ -14,8 +14,16 @@ export const Projects: React.FC = () => {
 
   useEffect(() => {
     if (view !== 'entry') {
+      document.body.style.overflow = 'hidden';
+    } else {
+      // 处于内页时，恢复页面滚动，并使页面瞬间回到顶部
+      document.body.style.overflow = 'unset';
       window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     }
+    // 组件卸载时（如切换到其他主导航页），确保恢复滚动行为，避免影响全局
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [view]);
 
   return (
@@ -29,7 +37,7 @@ export const Projects: React.FC = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 0.99 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
-          className="relative min-h-[calc(100vh-3.75rem)] flex flex-col px-6 overflow-hidden"
+          className="relative h-[calc(85vh-3.75rem)] flex flex-col px-6 overflow-hidden"
         >
           <div
             className="absolute inset-0 pointer-events-none opacity-100"

@@ -191,7 +191,7 @@ export const JourneyMap: React.FC = () => {
   return (
     <section
       id="journey"
-      className="w-full min-h-screen bg-[#f7f6f3] overscroll-none lg:h-dvh lg:overflow-hidden"
+      className="w-full h-full bg-[#f7f6f3] overscroll-none lg:overflow-hidden"
     >
       <div
         style={{
@@ -200,7 +200,7 @@ export const JourneyMap: React.FC = () => {
         }}
       >
         {/* ── Two-Column Body: 40/60 Split ── */}
-        <div className="flex flex-col lg:flex-row w-full lg:h-full">
+        <div className="flex flex-col lg:flex-row w-full h-full min-h-0">
 
         {/* ── Left Column: Scrollable Timeline (40% width on desktop) ── */}
         <div
@@ -420,7 +420,7 @@ export const JourneyMap: React.FC = () => {
         {/* ── Right Column: Non-scrolling Map (60% width on desktop) ── */}
         <div
           ref={mapContainerRef}
-          className="w-full lg:w-[60%] bg-[#f7f6f3] relative overflow-hidden overscroll-none h-[60vh] lg:h-screen lg:sticky lg:top-0"
+          className="w-full lg:w-[60%] bg-[#f7f6f3] relative overflow-hidden overscroll-none h-[60vh] lg:h-full"
         >
           {/* Decorative technical border */}
           <div className="absolute inset-0 border-l border-[#c4c2b7]/20 pointer-events-none" />
