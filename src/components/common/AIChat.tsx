@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send, X, ChevronRight, Terminal, Sparkles, Bot } from 'lucide-react';
 import { SuhaBot } from '../shared/SuhaBot';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { buildSystemPrompt } from '../../data/systemPrompt';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -64,13 +63,7 @@ export function AIChat() {
     setIsLoading(true);
 
     try {
-      const apiKey = import.meta.env.VITE_DEEPSEEK_API_KEY;
-      if (!apiKey) throw new Error("请在 Netlify 中配置 VITE_DEEPSEEK_API_KEY");
-
-      const systemInstruction = buildSystemPrompt(!!isZh);
-
-      const formattedMessages = [
-        { role: 'system', content: systemInstruction },
+      const chatMessages = [
         ...messages.map(msg => ({
           role: msg.role === 'user' ? 'user' : 'assistant',
           content: msg.content
@@ -78,16 +71,14 @@ export function AIChat() {
         { role: 'user', content: userMessage }
       ];
 
-      const response = await fetch('https://api.deepseek.com/chat/completions', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-          model: 'deepseek-reasoner',
-          messages: formattedMessages,
-          stream: true
+          messages: chatMessages,
+          isZh: !!isZh
         })
       });
 
@@ -113,22 +104,22 @@ export function AIChat() {
           if (line.startsWith('data: ')) {
             try {
               const data = JSON.parse(line.slice(6));
-              const delta = data.choices[0]?.delta;
-              
-              if (delta) {
-                if (delta.content) currentText += delta.content;
-                if (delta.reasoning_content) currentReasoning += delta.reasoning_content;
-
-                setMessages(prev => {
-                  const newMessages = [...prev];
-                  newMessages[newMessages.length - 1] = {
-                    role: 'assistant',
-                    content: currentText,
-                    reasoning: currentReasoning
-                  };
-                  return newMessages;
-                });
+              if (data.error) {
+                currentText += isZh ? '网络开小差了，请稍后再试。' : 'Connection lost. Please try again later.';
               }
+
+              if (data.text) currentText += data.text;
+              if (data.reasoning) currentReasoning += data.reasoning;
+
+              setMessages(prev => {
+                const newMessages = [...prev];
+                newMessages[newMessages.length - 1] = {
+                  role: 'assistant',
+                  content: currentText,
+                  reasoning: currentReasoning
+                };
+                return newMessages;
+              });
             } catch (e) {}
           }
         }

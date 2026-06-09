@@ -109,8 +109,8 @@ export const AboutBoard: React.FC = () => {
   return (
     <div 
       ref={constraintsRef}
-      className="w-full h-[350px] md:h-[480px] lg:h-full bg-[#f7f6f3] relative overflow-hidden"
-      style={{ boxSizing: 'content-box', top: '15px' }}
+      className="w-full h-full min-h-[400px] lg:min-h-0 bg-[#f7f6f3] relative overflow-hidden"
+      style={{ boxSizing: 'border-box', top: 'clamp(10px, 2.5vh, 18px)' }}
     >
       <div className="absolute inset-0 pointer-events-none">
         <div

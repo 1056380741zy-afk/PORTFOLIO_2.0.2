@@ -20,6 +20,8 @@ export const MetricItem: React.FC<MetricItemProps> = ({
   tooltip,
   isInteractive = false
 }) => {
+  const isPositiveDelta = !!delta && (delta.includes('+') || delta.includes('x'));
+
   return (
     <div className={`flex flex-col items-center p-2 rounded-lg transition-all ${
       isInteractive 
@@ -54,7 +56,13 @@ export const MetricItem: React.FC<MetricItemProps> = ({
       )}
       
       {delta && (
-        <div className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${delta.includes('+') ? 'border border-[#8e6bbf]/30 text-[#8e6bbf] animate-pulse' : 'border border-[#2d2d2d]/15 text-gray-500'}`}>
+        <div
+          className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${isPositiveDelta ? '' : 'border border-[#2d2d2d]/15 text-gray-500'}`}
+          style={isPositiveDelta ? {
+            backgroundColor: 'rgba(245, 176, 2, 0.1)',
+            color: '#f5b002'
+          } : undefined}
+        >
           {delta}
         </div>
       )}

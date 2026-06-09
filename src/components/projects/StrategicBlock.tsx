@@ -17,13 +17,13 @@ export const StrategicBlock: React.FC<StrategicBlockProps> = ({
     <div className="space-y-2">
       <div className="flex items-center gap-2">
         <span className="text-sm">{icon}</span>
-        <h5 className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">{title}</h5>
+        <h5 className="font-bold text-text-dark text-sm uppercase tracking-wide">{title}</h5>
       </div>
       <p className="text-sm font-bold text-text-dark leading-snug">
         {description}
       </p>
       {children && (
-        <ul className="space-y-1.5 pl-1 border-l border-gray-100">
+        <ul className="space-y-1.5 pl-1">
           {children}
         </ul>
       )}

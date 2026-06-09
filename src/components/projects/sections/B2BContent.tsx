@@ -151,13 +151,13 @@ export const B2BContent: React.FC = () => {
 
                 <Card depth={2} className="p-6 flex-1 hover:bg-white transition-colors">
                   <h5 className="font-bold text-text-dark mb-4 flex items-center gap-2 text-sm tracking-wide">
-                    <span className="w-8 h-8 rounded-full bg-white flex items-center justify-center border border-[#2d2d2d]/5">🏆</span>
+                    <span className="text-sm">🏆</span>
                     {t.projects.case1.resultTitle}
                   </h5>
                   <div className="grid grid-cols-3 gap-2 mb-5 border-b border-[#2d2d2d]/5 pb-5">
-                    <MetricItem label={t.projects.case1.metrics?.deliver.label} value={t.projects.case1.metrics?.deliver.value} avg={t.projects.case1.metrics?.deliver.avg} status={t.projects.case1.metrics?.deliver.status} tooltip={t.projects.case1.metrics?.deliver.tooltip} />
                     <MetricItem label={t.projects.case1.metrics?.open.label} value={t.projects.case1.metrics?.open.value} avg={t.projects.case1.metrics?.open.avg} delta={t.projects.case1.metrics?.open.delta} isInteractive />
                     <MetricItem label={t.projects.case1.metrics?.ctr.label} value={t.projects.case1.metrics?.ctr.value} avg={t.projects.case1.metrics?.ctr.avg} delta={t.projects.case1.metrics?.ctr.delta} isInteractive />
+                    <MetricItem label={t.projects.case1.metrics?.deliver.label} value={t.projects.case1.metrics?.deliver.value} avg={t.projects.case1.metrics?.deliver.avg} delta={t.projects.case1.metrics?.deliver.delta} isInteractive />
                   </div>
                   <p className="text-xs text-gray-500 leading-relaxed" dangerouslySetInnerHTML={{ __html: t.projects.case1.impact }} />
                 </Card>
@@ -189,7 +189,7 @@ export const B2BContent: React.FC = () => {
 
                   <Card depth={2} className="p-6 flex-1 hover:bg-white transition-colors">
                     <h5 className="font-bold text-text-dark mb-4 flex items-center gap-2 text-sm tracking-wide">
-                      <span className="w-8 h-8 rounded-full bg-white flex items-center justify-center border border-[#2d2d2d]/5">🏆</span>
+                      <span className="text-sm">🏆</span>
                       {t.projects.case2.resultTitle}
                     </h5>
                     <p className="text-sm font-bold text-text-dark mb-2 leading-snug">{t.projects.case2.impactTitle}</p>

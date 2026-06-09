@@ -178,12 +178,22 @@ export const JourneyMap: React.FC = () => {
     return (t.journey as any).nodeDetails?.[cityId];
   };
 
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      const container = document.getElementById('journey-details-scroll');
+      container?.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+      setActiveCityIdx(0);
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   const scrollToCity = (idx: number) => {
     setActiveCityIdx(idx);
     const el = cityRefs.current[idx];
     const container = document.getElementById('journey-details-scroll');
     if (el && container) {
-      const top = el.offsetTop - 40;
+      const top = el.offsetTop - 12;
       container.scrollTo({ top, behavior: 'smooth' });
     }
   };
@@ -191,24 +201,34 @@ export const JourneyMap: React.FC = () => {
   return (
     <section
       id="journey"
-      className="w-full h-full bg-[#f7f6f3] overscroll-none lg:overflow-hidden"
+      className="w-full h-full min-h-0 bg-[#f7f6f3] overscroll-none overflow-hidden"
     >
       <div
         style={{
-          padding: 'clamp(8px, 1vw, 12px)',
+          paddingTop: 'clamp(18px, 2vw, 28px)',
+          paddingRight: 'clamp(18px, 2vw, 28px)',
+          paddingBottom: 'clamp(18px, 2vw, 28px)',
+          paddingLeft: 'clamp(18px, 2vw, 28px)',
           height: '100%',
+          maxHeight: '100%',
+          boxSizing: 'border-box',
+          overflow: 'hidden',
         }}
       >
         {/* ── Two-Column Body: 40/60 Split ── */}
-        <div className="flex flex-col lg:flex-row w-full h-full min-h-0">
-
-        {/* ── Left Column: Scrollable Timeline (40% width on desktop) ── */}
         <div
-          id="journey-details-scroll"
-          className="w-full lg:w-[40%] px-6 md:px-12 relative lg:border-r lg:border-[#c4c2b7]/15 lg:h-full lg:overflow-y-auto"
+          className="flex flex-col lg:flex-row w-full h-full max-h-full min-h-0 overflow-hidden rounded-[28px] border border-[#2d2d2d]/5 bg-[#fbfaf7]/45 shadow-[0_10px_30px_rgba(45,45,45,0.035)] px-[10px] py-[15px]"
+          style={{
+            clipPath: 'inset(0 round 28px)',
+            contain: 'paint',
+          }}
         >
-          <div className="pt-8 md:pt-10 pb-6">
-            <div className="px-7 md:px-8 py-6 md:py-7 bg-base-bg/90 backdrop-blur-sm rounded-[28px]">
+
+        {/* ── Left Column: Fixed heading + scrollable timeline (40% width on desktop) ── */}
+        <div className="w-full lg:w-[40%] relative lg:border-r lg:border-[#c4c2b7]/15 lg:h-full min-h-0 overflow-hidden flex flex-col">
+          <div className="shrink-0 px-6 md:px-10">
+            <div className="pt-4 md:pt-5 pb-3">
+              <div className="px-6 md:px-7 py-4 md:py-5 bg-base-bg/90 backdrop-blur-sm rounded-[28px]">
               <div className="flex items-end justify-between">
                 <h2 className="page-title mb-0">
                   {t.journey.title}
@@ -219,9 +239,15 @@ export const JourneyMap: React.FC = () => {
               </div>
             </div>
           </div>
+          </div>
+
+          <div
+            id="journey-details-scroll"
+            className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden hide-scrollbar px-6 md:px-10 relative pt-2 pb-8"
+          >
 
           {/* Vertical dashed line guide */}
-          <div className="hidden lg:block absolute left-[3.25rem] md:left-[4.5rem] top-44 bottom-0 w-px border-l-2 border-dashed border-[#c4c2b7]/20 z-0" />
+          <div className="hidden lg:block absolute left-[3.25rem] md:left-[4.125rem] top-24 bottom-0 w-px border-l-2 border-dashed border-[#c4c2b7]/20 z-0" />
           
           {CITIES.map((city, idx) => {
             const details = getNodeDetails(city.id);
@@ -231,10 +257,10 @@ export const JourneyMap: React.FC = () => {
               <div
                 key={city.id}
                 ref={(el) => { cityRefs.current[idx] = el; }}
-                className="min-h-[520px] lg:min-h-[calc(100vh-3.75rem)] py-1 last:border-b-0 flex flex-col relative z-10"
+                className="min-h-[410px] lg:min-h-[440px] py-0.5 last:border-b-0 flex flex-col relative z-10"
               >
                 {/* Explorer Cursor (Timeline marker) */}
-                <div className="absolute left-[2.9rem] top-24 -translate-x-1/2">
+                <div className="absolute left-[2.9rem] top-20 -translate-x-1/2">
                   <motion.div
                     animate={isActive ? { scale: [1, 1.2, 1], opacity: 1 } : { scale: 1, opacity: 0.3 }}
                     className={`w-4 h-4 rounded-full border-2 border-white shadow-sm transition-colors duration-500 ${
@@ -252,9 +278,9 @@ export const JourneyMap: React.FC = () => {
                 </div>
 
                 {/* City Header */}
-                <div className="flex items-center gap-6 mb-10 pl-12 md:pl-16">
+                <div className="flex items-center gap-5 mb-5 pl-12 md:pl-14">
                   <div
-                    className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl transition-all duration-500 ${
+                    className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl transition-all duration-500 ${
                       isActive
                         ? 'bg-[#8e6bbf]/10 shadow-sm ring-1 ring-[#8e6bbf]/20'
                         : 'bg-white/50 grayscale opacity-40'
@@ -264,7 +290,7 @@ export const JourneyMap: React.FC = () => {
                   </div>
                   <div>
                     <div className="flex items-center gap-3">
-                      <h3 className={`font-bold text-3xl tracking-tight transition-colors duration-500 ${
+                      <h3 className={`font-bold text-2xl tracking-tight transition-colors duration-500 ${
                         isActive ? 'text-[#2D2926]' : 'text-gray-400'
                       }`}>
                         {city.name}
@@ -284,12 +310,12 @@ export const JourneyMap: React.FC = () => {
 
                 {/* Details (unchanged content, updated style wrapper) */}
                 {details && (
-                  <div className="flex flex-col gap-6 pl-12 md:pl-16 max-w-xl">
+                  <div className="flex flex-col gap-4 pl-12 md:pl-14 max-w-xl">
                     {/* Education blocks */}
                     {details.educations?.map((edu: any, eduIdx: number) => (
                       <div
                         key={eduIdx}
-                        className={`transition-all duration-500 p-6 rounded-2xl border ${
+                          className={`transition-all duration-500 p-4 rounded-2xl border ${
                           isActive
                             ? 'bg-white shadow-sm border-[#2D2926]/10'
                             : 'bg-white/30 border-transparent grayscale-[0.5] opacity-60'
@@ -310,7 +336,7 @@ export const JourneyMap: React.FC = () => {
                           </span>
                         </div>
                         {(edu.focus || edu.honor) && (
-                          <div className="flex flex-col gap-2 mt-4">
+                          <div className="flex flex-col gap-1.5 mt-3">
                             {edu.focus && (
                               <div className="flex items-start gap-2 text-xs text-gray-500 leading-snug">
                                 <Target size={12} className="text-[#8e6bbf] shrink-0 mt-0.5" />
@@ -332,18 +358,18 @@ export const JourneyMap: React.FC = () => {
                     {details.experiences?.map((exp: any, expIdx: number) => (
                       <div
                         key={expIdx}
-                        className={`transition-all duration-500 p-6 rounded-2xl border ${
+                          className={`transition-all duration-500 p-4 rounded-2xl border ${
                           isActive
                             ? 'bg-white shadow-sm border-[#2D2926]/10'
                             : 'bg-white/30 border-transparent grayscale-[0.5] opacity-60'
                         }`}
                       >
-                        <h5 className="font-bold text-base text-[#2D2926] mb-4">{exp.company}</h5>
-                        <div className="flex flex-col gap-3">
+                        <h5 className="font-bold text-base text-[#2D2926] mb-3">{exp.company}</h5>
+                        <div className="flex flex-col gap-2.5">
                           {exp.roles.map((role: any, rIdx: number) => (
                             <div
                               key={rIdx}
-                              className="p-4 bg-[#f7f6f3] border border-[#2D2926]/5 rounded-xl"
+                              className="p-3 bg-[#f7f6f3] border border-[#2D2926]/5 rounded-xl"
                             >
                               <div className="flex justify-between items-start">
                                 <span
@@ -374,7 +400,7 @@ export const JourneyMap: React.FC = () => {
                         <h4 className="text-xs font-bold text-[#2D2926] mb-2 uppercase tracking-widest">
                           {impact.title}
                         </h4>
-                        <p className="text-sm text-gray-500 leading-relaxed mb-4">
+                        <p className="text-sm text-gray-500 leading-relaxed mb-3">
                           {impact.desc}
                         </p>
                         {impact.statsType === 'boxes' && impact.stats && (
@@ -382,7 +408,7 @@ export const JourneyMap: React.FC = () => {
                             {impact.stats.map((stat: any, sIdx: number) => (
                               <div
                                 key={sIdx}
-                                className="px-4 py-3 rounded-xl border border-[#2D2926]/5 bg-white shadow-sm"
+                                className="px-3 py-2.5 rounded-xl border border-[#2D2926]/5 bg-white shadow-sm"
                               >
                                 <span className={`block text-xl font-black mb-0.5 ${
                                   stat.theme === 'purple' ? 'text-[#8e6bbf]' : 'text-[#f5b002]'
@@ -415,18 +441,19 @@ export const JourneyMap: React.FC = () => {
               </div>
             );
           })}
+          </div>
         </div>
 
         {/* ── Right Column: Non-scrolling Map (60% width on desktop) ── */}
         <div
           ref={mapContainerRef}
-          className="w-full lg:w-[60%] bg-[#f7f6f3] relative overflow-hidden overscroll-none h-[60vh] lg:h-full"
+          className="w-full lg:w-[60%] bg-[#f7f6f3] relative overflow-hidden overscroll-none h-[54vh] lg:h-full min-h-0 p-[5px]"
         >
           {/* Decorative technical border */}
-          <div className="absolute inset-0 border-l border-[#c4c2b7]/20 pointer-events-none" />
+          <div className="absolute inset-[5px] border-l border-[#c4c2b7]/20 pointer-events-none" />
 
           {/* Measuring Rulers */}
-          <div className="absolute top-0 left-0 right-0 h-6 border-b border-[#c4c2b7]/20 bg-[#f7f6f3] z-10 flex items-center px-4 overflow-hidden pointer-events-none">
+          <div className="absolute top-[5px] left-[5px] right-[5px] h-6 border-b border-[#c4c2b7]/20 bg-[#f7f6f3] z-10 flex items-center px-4 overflow-hidden pointer-events-none">
             {Array.from({ length: 40 }).map((_, i) => (
               <div key={i} className="flex-shrink-0 flex flex-col items-center" style={{ width: '40px' }}>
                 <div className="h-2 w-px bg-[#c4c2b7]/40" />
@@ -434,7 +461,7 @@ export const JourneyMap: React.FC = () => {
               </div>
             ))}
           </div>
-          <div className="absolute top-0 left-0 bottom-0 w-6 border-r border-[#c4c2b7]/20 bg-[#f7f6f3] z-10 flex flex-col items-center py-4 overflow-hidden pointer-events-none">
+          <div className="absolute top-[5px] left-[5px] bottom-[5px] w-6 border-r border-[#c4c2b7]/20 bg-[#f7f6f3] z-10 flex flex-col items-center py-4 overflow-hidden pointer-events-none">
             {Array.from({ length: 30 }).map((_, i) => (
               <div key={i} className="flex-shrink-0 flex items-center justify-end pr-1" style={{ height: '40px', width: '24px' }}>
                 <span className="text-[8px] font-mono text-[#c4c2b7]/40 mr-1">{i * 10}°</span>
@@ -444,7 +471,7 @@ export const JourneyMap: React.FC = () => {
           </div>
 
           {/* Map Section Navigation - Moved to Top */}
-          <div className="absolute top-12 left-1/2 -translate-x-1/2 z-20 flex gap-1 bg-white/60 backdrop-blur-md p-1.5 rounded-2xl border border-[#c4c2b7]/5 shadow-sm">
+          <div className="absolute top-[53px] left-1/2 -translate-x-1/2 z-20 flex gap-1 bg-white/60 backdrop-blur-md p-1.5 rounded-2xl border border-[#c4c2b7]/5 shadow-sm">
             {CITIES.map((city, idx) => (
               <button
                 key={city.id}
@@ -462,7 +489,7 @@ export const JourneyMap: React.FC = () => {
           </div>
 
           {/* Mathematical formulas as decorative elements */}
-          <div className="absolute top-16 right-8 text-[#c4c2b7]/20 font-mono text-[9px] pointer-events-none text-right space-y-1">
+          <div className="absolute top-[69px] right-[37px] text-[#c4c2b7]/20 font-mono text-[9px] pointer-events-none text-right space-y-1">
             <p>distance = arccos(sin(φ1)sin(φ2) + cos(φ1)cos(φ2)cos(Δλ))R</p>
             <p>bearing = atan2(sin(Δλ)cos(φ2), cos(φ1)sin(φ2) - sin(φ1)cos(φ2)cos(Δλ))</p>
             <p>Δλ = λ2 - λ1</p>

@@ -87,7 +87,7 @@ export const Projects: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -16 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="relative"
+          className="relative h-full overflow-hidden"
           style={{
             backgroundImage: "url('/bg/SandDune.svg')",
             backgroundRepeat: 'no-repeat',
@@ -96,8 +96,8 @@ export const Projects: React.FC = () => {
           }}
         >
           {/* Breadcrumb / back bar */}
-          <div className="sticky top-0 z-20 px-6 pt-3">
-            <div className="max-w-6xl mx-auto px-5 py-2 flex items-center gap-2.5 bg-base-bg/90 backdrop-blur-sm border border-[#2d2d2d]/6 rounded-2xl">
+          <div className="sticky top-0 z-20 px-6 pt-2">
+            <div className="max-w-6xl mx-auto px-5 py-1.5 flex items-center gap-2.5 bg-base-bg/90 backdrop-blur-sm border border-[#2d2d2d]/6 rounded-2xl">
               <button
                 onClick={() => setView('entry')}
                 className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#2d2d2d]/40 hover:text-[#8e6bbf] transition-colors group"
@@ -113,7 +113,7 @@ export const Projects: React.FC = () => {
           </div>
 
           {/* Section content */}
-          <div className="px-6 max-w-6xl mx-auto py-10 pb-20">
+          <div className={`px-6 mx-auto pt-5 pb-4 ${view === 'web3' ? 'max-w-[1280px]' : 'max-w-6xl'}`}>
             {view === 'web3' ? (
               <Web3Strategy />
             ) : (
