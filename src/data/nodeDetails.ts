@@ -1,3 +1,47 @@
+export type JourneyCityId = 'shanghai' | 'alexandria' | 'dubai';
+
+export type JourneyRole = {
+  title: string;
+  period: string;
+  isPrimary?: boolean;
+};
+
+export type JourneyExperience = {
+  company: string;
+  roles: JourneyRole[];
+};
+
+export type JourneyEducation = {
+  school: string;
+  subSchool?: string;
+  degree: string;
+  period: string;
+  focus?: string;
+  honor?: string;
+};
+
+export type JourneyImpactStat = {
+  value: string;
+  label: string;
+  theme?: 'purple' | 'yellow';
+};
+
+export type JourneyImpact = {
+  title: string;
+  desc: string;
+  statsType?: 'boxes' | 'tags';
+  stats?: JourneyImpactStat[];
+  tags?: string[];
+};
+
+export type JourneyNodeDetails = {
+  experiences?: JourneyExperience[];
+  educations?: JourneyEducation[];
+  impacts?: JourneyImpact[];
+};
+
+export type JourneyNodeDetailsMap = Record<JourneyCityId, JourneyNodeDetails>;
+
 export const nodeDetailsDataEn =
 {
   shanghai: {
@@ -105,7 +149,7 @@ export const nodeDetailsDataEn =
       }
     ]
   }
-};
+} satisfies JourneyNodeDetailsMap;
 
 export const nodeDetailsDataCn =
 {
@@ -217,4 +261,4 @@ export const nodeDetailsDataCn =
       }
     ]
   }
-};
+} satisfies JourneyNodeDetailsMap;

@@ -1,0 +1,333 @@
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+
+type StampLayoutItem = {
+  src: string;
+  x: number;
+  y: number;
+  width: number;
+  rotate: number;
+  zIndex: number;
+};
+
+type StampDef = {
+  id: string;
+  label: string;
+  src: string;
+  scale?: number;
+};
+
+type StampOffset = {
+  x: number;
+  y: number;
+};
+
+type StampClusterProps = {
+  isEditMode: boolean;
+  setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const STAMPS: StampDef[] = [
+  { id: 'uaecamel', label: 'UAE Camel', src: '/stamps/uaecamel.png' },
+  { id: 'shanghai', label: 'Shanghai', src: '/stamps/shanghaioriental.png' },
+  { id: 'giza', label: 'Giza', src: '/stamps/giza.png' },
+  { id: 'riyadh', label: 'Riyadh', src: '/stamps/riyadh.png' },
+  { id: 'redsea', label: 'Red Sea', src: '/stamps/redsea.png' },
+  { id: 'osaka', label: 'Osaka', src: '/stamps/osaka.png' },
+  { id: 'alexandria', label: 'Alexandria', src: '/stamps/alexandria.png' },
+  { id: 'pompeyspillar', label: "Pompey's Pillar", src: '/stamps/pompeyspillar.png', scale: 1.18 },
+];
+
+const DEFAULT_OFFSETS: Record<string, StampOffset> = {
+  uaecamel: { x: 30, y: -70 },
+  shanghai: { x: 6, y: -101 },
+  giza: { x: 15, y: -61 },
+  riyadh: { x: 2, y: -134 },
+  redsea: { x: 41, y: -96 },
+  osaka: { x: 28, y: -87 },
+  alexandria: { x: 52, y: -43 },
+  pompeyspillar: { x: 67, y: -4 },
+};
+
+const STORAGE_KEY = 'stampOffsets_v1';
+
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+
+const computeStampLayout = (args: {
+  sources: string[];
+  containerWidth: number;
+  containerHeight: number;
+}): StampLayoutItem[] => {
+  const { sources, containerWidth, containerHeight } = args;
+  if (containerWidth <= 0 || containerHeight <= 0) return [];
+
+  const stampWidth = clamp(containerWidth / 2.15, 74, 120);
+  const stampHeight = stampWidth * 0.78;
+
+  const cols = 2;
+  const rows = 4;
+  const overlapXRatio = 0.08;
+  const overlapYRatio = 0.06;
+  const colStepX = stampWidth * (1 - overlapXRatio);
+  const gapY = stampHeight * 0.18;
+  const rowStepY = stampHeight + gapY;
+  const colOffsetY = stampHeight * (1 - overlapYRatio);
+  const layoutWidth = colStepX + stampWidth;
+  const layoutHeight = colOffsetY + ((rows - 1) * rowStepY) + stampHeight;
+  const baseOffsetX = (containerWidth - layoutWidth) / 2;
+  const baseOffsetY = (containerHeight - layoutHeight) / 2;
+  const rotations = [-15, 18, -10, 10, -25, 1, -15, 7];
+
+  return sources.slice(0, cols * rows).map((src, idx) => {
+    const col = idx % cols;
+    const row = Math.floor(idx / cols);
+    const jitterX = (((idx * 37) % 7) - 3) * 0.6;
+    const jitterY = (((idx * 29) % 7) - 3) * 0.5;
+    const xRaw = baseOffsetX + (col * colStepX) + jitterX;
+    const yRaw = baseOffsetY + (row * rowStepY) + (col === 1 ? colOffsetY : 0) + jitterY;
+    const margin = 4;
+
+    return {
+      src,
+      x: clamp(xRaw, margin, containerWidth - stampWidth - margin),
+      y: clamp(yRaw, margin, containerHeight - stampHeight - margin),
+      width: stampWidth,
+      rotate: rotations[idx] ?? ((idx % 2 === 0 ? -1 : 1) * 4),
+      zIndex: 10 + (row * cols) + col,
+    };
+  });
+};
+
+const useStampOffsets = () => {
+  const [offsets, setOffsets] = useState<Record<string, StampOffset>>(DEFAULT_OFFSETS);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object') return;
+
+      const next = { ...(parsed as Record<string, StampOffset>) };
+      if ('pompeypillar' in next && !('pompeyspillar' in next)) {
+        next.pompeyspillar = next.pompeypillar;
+      }
+      delete (next as Record<string, unknown>).pompeypillar;
+      setOffsets((prev) => ({ ...prev, ...next }));
+    } catch {
+      // Keep defaults when stored editor state is malformed.
+    }
+  }, []);
+
+  const saveOffsets = () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(offsets));
+  };
+
+  const resetOffsets = () => {
+    setOffsets(DEFAULT_OFFSETS);
+    localStorage.removeItem(STORAGE_KEY);
+  };
+
+  return { offsets, setOffsets, saveOffsets, resetOffsets };
+};
+
+export const StampCluster: React.FC<StampClusterProps> = ({ isEditMode, setIsEditMode }) => {
+  const sources = useMemo(() => STAMPS.map((s) => s.src), []);
+  const clusterRef = useRef<HTMLDivElement>(null);
+  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const { offsets, setOffsets, saveOffsets, resetOffsets } = useStampOffsets();
+
+  useEffect(() => {
+    if (!clusterRef.current) return;
+    const element = clusterRef.current;
+    const ro = new ResizeObserver(() => {
+      const rect = element.getBoundingClientRect();
+      setContainerSize({ width: rect.width, height: rect.height });
+    });
+    ro.observe(element);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('stamps') === 'edit' || params.get('editStamps') === '1') {
+      setIsEditMode(true);
+    }
+  }, [setIsEditMode]);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'e') {
+        e.preventDefault();
+        setIsEditMode((v) => !v);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [setIsEditMode]);
+
+  const layout = useMemo(
+    () =>
+      computeStampLayout({
+        sources,
+        containerWidth: containerSize.width,
+        containerHeight: containerSize.height,
+      }),
+    [sources, containerSize.width, containerSize.height]
+  );
+
+  return (
+    <div
+      ref={clusterRef}
+      className="relative w-[236px] min-h-[360px] xl:w-[286px] xl:min-h-[430px] pointer-events-none"
+      aria-label="Stamp cluster"
+      style={{ height: 'clamp(350px, 48vh, 450px)' }}
+    >
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={
+          isEditMode
+            ? {
+                backgroundImage:
+                  'linear-gradient(rgba(45,45,45,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(45,45,45,0.06) 1px, transparent 1px)',
+                backgroundSize: '24px 24px',
+                borderRadius: '16px',
+              }
+            : undefined
+        }
+      >
+        {layout.map((item, idx) => {
+          const stamp = STAMPS[idx];
+          const dx = stamp ? offsets[stamp.id]?.x ?? 0 : 0;
+          const dy = stamp ? offsets[stamp.id]?.y ?? 0 : 0;
+          const left = item.x + dx;
+          const top = item.y + dy;
+          const baseScale = stamp?.scale ?? 1;
+
+          return (
+            <motion.button
+              key={item.src}
+              type="button"
+              onMouseEnter={() => setHoveredIndex(idx)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              className="absolute select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8e6bbf]/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f7f6f3] rounded-lg pointer-events-auto"
+              style={{
+                left,
+                top,
+                width: item.width,
+                zIndex: isEditMode ? item.zIndex : hoveredIndex === idx ? 100 : item.zIndex,
+              }}
+              aria-label={`Stamp ${stamp?.label ?? idx + 1}`}
+              initial={false}
+              animate={{
+                rotate: item.rotate,
+                y: isEditMode ? 0 : hoveredIndex === idx ? -6 : 0,
+                scale: baseScale,
+              }}
+              whileHover={{
+                scale: isEditMode ? baseScale : baseScale * 1.03,
+              }}
+              transition={{ type: 'spring', stiffness: 420, damping: 30 }}
+            >
+              <img
+                src={item.src}
+                alt=""
+                draggable={false}
+                onError={(e) => {
+                  if (item.src !== '/stamps/giza.png') return;
+                  const img = e.currentTarget;
+                  if (img.dataset.fallbackApplied === '1') return;
+                  img.dataset.fallbackApplied = '1';
+                  img.src = '/stamps/egyptgiza.png';
+                }}
+                className="w-full h-auto drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)] hover:drop-shadow-[0_18px_32px_rgba(0,0,0,0.16)] transition-[filter,box-shadow] duration-200"
+              />
+              {isEditMode && (
+                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[9px] font-mono text-text-dark/60 bg-white/70 backdrop-blur-sm border border-black/10 rounded px-1.5 py-0.5 whitespace-nowrap">
+                  x {Math.round(left)} · y {Math.round(top)}
+                </div>
+              )}
+            </motion.button>
+          );
+        })}
+
+        {isEditMode && (
+          <div className="absolute top-10 left-0 right-0 mx-auto w-[240px] z-[260] bg-white/85 backdrop-blur-sm border border-black/10 rounded-2xl shadow-lg p-3 text-text-dark xl:left-full xl:right-auto xl:mx-0 xl:ml-8 pointer-events-auto">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-text-dark/70">Stamp Edit</span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={saveOffsets}
+                  className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#8e6bbf] hover:text-[#7e4ba6] transition-colors"
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={resetOffsets}
+                  className="text-[10px] font-mono uppercase tracking-[0.18em] text-text-dark/55 hover:text-text-dark transition-colors"
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+
+            <div className="text-[10px] font-mono text-text-dark/55 leading-relaxed mb-2">
+              X→右，Y→下。建议每次调整 1–6px。
+            </div>
+
+            <div className="flex flex-col gap-2 max-h-[360px] overflow-auto pr-1">
+              {STAMPS.map((stamp) => {
+                const current = offsets[stamp.id] ?? { x: 0, y: 0 };
+                return (
+                  <div key={stamp.id} className="border border-black/5 rounded-xl p-2 bg-white/60">
+                    <div className="text-[10px] font-mono uppercase tracking-[0.16em] text-text-dark/70 mb-1">
+                      {stamp.label}
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <label className="flex flex-col gap-1">
+                        <span className="text-[9px] font-mono text-text-dark/50">X</span>
+                        <input
+                          type="number"
+                          step="1"
+                          value={Number.isFinite(current.x) ? current.x : 0}
+                          onChange={(e) => {
+                            const next = Number(e.target.value);
+                            setOffsets((prev) => ({
+                              ...prev,
+                              [stamp.id]: { x: Number.isFinite(next) ? next : 0, y: prev[stamp.id]?.y ?? 0 },
+                            }));
+                          }}
+                          className="h-8 px-2 rounded-lg border border-black/10 bg-white text-[11px] font-mono text-text-dark focus:outline-none focus:ring-2 focus:ring-[#8e6bbf]/25"
+                        />
+                      </label>
+                      <label className="flex flex-col gap-1">
+                        <span className="text-[9px] font-mono text-text-dark/50">Y</span>
+                        <input
+                          type="number"
+                          step="1"
+                          value={Number.isFinite(current.y) ? current.y : 0}
+                          onChange={(e) => {
+                            const next = Number(e.target.value);
+                            setOffsets((prev) => ({
+                              ...prev,
+                              [stamp.id]: { x: prev[stamp.id]?.x ?? 0, y: Number.isFinite(next) ? next : 0 },
+                            }));
+                          }}
+                          className="h-8 px-2 rounded-lg border border-black/10 bg-white text-[11px] font-mono text-text-dark focus:outline-none focus:ring-2 focus:ring-[#8e6bbf]/25"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

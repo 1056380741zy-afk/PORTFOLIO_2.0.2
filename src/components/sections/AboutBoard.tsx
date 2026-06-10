@@ -1,78 +1,42 @@
 import React, { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Postcard } from '../about/sections/Postcard';
 import { Blueprint, LanguageProficiency, Toolbox, StickyNote } from '../about/sections/AboutCards';
+import { BoardControls } from './about-board/BoardControls';
+import { DraggableCard } from './about-board/DraggableCard';
+import type { CardControl, CardId, StampControl } from './about-board/types';
 
-// --- Card Types ---
-type CardId =
-  | 'postcard'
-  | 'blueprint'
-  | 'language'
-  | 'toolbox'
-  | 'sticky';
+const CARD_CONTROLS: CardControl[] = [
+  { id: 'postcard', label: 'Postcard' },
+  { id: 'blueprint', label: 'Blueprint' },
+  { id: 'language', label: 'Language' },
+  { id: 'toolbox', label: 'Toolbox' },
+  { id: 'sticky', label: 'Sticky' },
+];
 
-interface DraggableCardProps {
-  id: CardId;
-  children: React.ReactNode;
-  initialPos: { top: string; left: string };
-  initialRotate: number;
-  activeId: CardId;
-  setActiveId: (id: CardId) => void;
-  constraintsRef: React.RefObject<HTMLDivElement>;
-  className?: string;
-}
-
-const DraggableCard: React.FC<DraggableCardProps> = ({
-  id,
-  children,
-  initialPos,
-  initialRotate,
-  activeId,
-  setActiveId,
-  constraintsRef,
-  className = "",
-}) => {
-  return (
-    <motion.div
-      drag
-      dragConstraints={constraintsRef}
-      dragElastic={0.1}
-      onDragStart={() => setActiveId(id)}
-      onMouseDown={() => setActiveId(id)}
-      initial={{ 
-        top: initialPos.top, 
-        left: initialPos.left, 
-        rotate: initialRotate,
-        opacity: 0,
-        scale: 0.9
-      }}
-      animate={{ 
-        opacity: 1, 
-        scale: 1,
-        zIndex: activeId === id ? 50 : 10
-      }}
-      whileDrag={{ 
-        scale: 1.05, 
-        cursor: "grabbing", 
-        zIndex: 100,
-        transition: { duration: 0 }
-      }}
-      className={`absolute cursor-grab select-none ${className}`}
-      style={{ top: initialPos.top, left: initialPos.left }}
-    >
-      {children}
-    </motion.div>
-  );
+type AboutBoardProps = {
+  stampControl?: StampControl;
 };
 
-// --- Main Board Component ---
-
-export const AboutBoard: React.FC = () => {
+export const AboutBoard: React.FC<AboutBoardProps> = ({ stampControl }) => {
   const { t } = useLanguage();
   const [activeId, setActiveId] = useState<CardId>('toolbox');
   const constraintsRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [cardMenuOpen, setCardMenuOpen] = useState(false);
+  const [hiddenCards, setHiddenCards] = useState<Set<CardId>>(new Set());
+
+  const toggleCardVisibility = (id: CardId) => {
+    setHiddenCards((current) => {
+      const next = new Set(current);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
 
   React.useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 1024);
@@ -176,10 +140,22 @@ export const AboutBoard: React.FC = () => {
         </div>
       </div>
 
+      <BoardControls
+        cardControls={CARD_CONTROLS}
+        cardMenuOpen={cardMenuOpen}
+        hiddenCards={hiddenCards}
+        stampControl={stampControl}
+        onToggleCardMenu={() => setCardMenuOpen((open) => !open)}
+        onToggleCardVisibility={toggleCardVisibility}
+      />
+
+      {!hiddenCards.has('sticky') && (
       <div className="absolute top-6 right-8 z-40">
         <StickyNote />
       </div>
+      )}
       
+      {!hiddenCards.has('postcard') && (
       <DraggableCard
         id="postcard"
         initialPos={{ top: '-2%', left: '23%' }}
@@ -192,7 +168,9 @@ export const AboutBoard: React.FC = () => {
           <Postcard />
         </div>
       </DraggableCard>
+      )}
 
+      {!hiddenCards.has('blueprint') && (
       <DraggableCard
         id="blueprint"
         initialPos={{ top: '48%', left: '27%' }}
@@ -205,7 +183,9 @@ export const AboutBoard: React.FC = () => {
           <Blueprint />
         </div>
       </DraggableCard>
+      )}
 
+      {!hiddenCards.has('language') && (
       <DraggableCard
         id="language"
         initialPos={{ top: '21%', left: '53%' }}
@@ -218,7 +198,9 @@ export const AboutBoard: React.FC = () => {
           <LanguageProficiency />
         </div>
       </DraggableCard>
+      )}
 
+      {!hiddenCards.has('toolbox') && (
       <DraggableCard
         id="toolbox"
         initialPos={{ top: '50%', left: '66%' }}
@@ -231,6 +213,7 @@ export const AboutBoard: React.FC = () => {
           <Toolbox />
         </div>
       </DraggableCard>
+      )}
 
       {/* Page Hint */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-400 font-mono text-[10px] uppercase tracking-[0.3em] pointer-events-none opacity-50">

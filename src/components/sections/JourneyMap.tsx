@@ -5,12 +5,21 @@ import { Target, Award } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { MapPathLayer } from './MapPathLayer';
 import { calculateAdaptiveMapScale } from '../../utils/journeyMapScale';
+import type { JourneyCityId, JourneyNodeDetails, JourneyNodeDetailsMap } from '../../data/nodeDetails';
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 const LAND_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json';
 
 // --- City definitions ---
-const CITIES = [
+const CITIES: Array<{
+  id: JourneyCityId;
+  name: string;
+  emoji: string;
+  country: string;
+  coordinates: [number, number];
+  range: string;
+  mapConfig: { center: [number, number]; scale: number };
+}> = [
   {
     id: 'shanghai',
     name: 'Shanghai',
@@ -54,6 +63,24 @@ const ROUTE_SEGMENTS = [
   { from: CITIES[0].coordinates, to: CITIES[1].coordinates }, // Shanghai → Alexandria
   { from: CITIES[1].coordinates, to: CITIES[2].coordinates }, // Alexandria → Dubai
 ];
+
+const HIGHLIGHT_TAGS = new Set([
+  '~800 Daily Peak Visits',
+  '30.2% eDM Open Rate',
+  '8.5% CTR',
+  'Top 1 Comprehensive Evaluation',
+  'Academic Excellence Certificate',
+  'Diplomatic Reception',
+  'Academic Summit Coordination',
+  '日访问峰值近 800 次',
+  'eDM 打开率 30.18%',
+  '点击率 8.50%',
+  'Top 1 综合测评',
+  '学业优秀证明',
+  '中 / 英 / 阿 多语种',
+  '外事活动接待',
+  '学术峰会协调',
+]);
 
 // Navbar height in px (matches sticky top-0 nav: py-4 + text = ~60px)
 const NAVBAR_HEIGHT = 60;
@@ -174,8 +201,8 @@ export const JourneyMap: React.FC = () => {
   }, []);
 
   // --- Helpers ---
-  const getNodeDetails = (cityId: string) => {
-    return (t.journey as any).nodeDetails?.[cityId];
+  const getNodeDetails = (cityId: JourneyCityId): JourneyNodeDetails | undefined => {
+    return (t.journey.nodeDetails as JourneyNodeDetailsMap | undefined)?.[cityId];
   };
 
   useEffect(() => {
@@ -312,7 +339,7 @@ export const JourneyMap: React.FC = () => {
                 {details && (
                   <div className="flex flex-col gap-4 pl-12 md:pl-14 max-w-xl">
                     {/* Education blocks */}
-                    {details.educations?.map((edu: any, eduIdx: number) => (
+                    {details.educations?.map((edu, eduIdx) => (
                       <div
                         key={eduIdx}
                           className={`transition-all duration-500 p-4 rounded-2xl border ${
@@ -355,7 +382,7 @@ export const JourneyMap: React.FC = () => {
                     ))}
 
                     {/* Experience blocks */}
-                    {details.experiences?.map((exp: any, expIdx: number) => (
+                    {details.experiences?.map((exp, expIdx) => (
                       <div
                         key={expIdx}
                           className={`transition-all duration-500 p-4 rounded-2xl border ${
@@ -366,14 +393,14 @@ export const JourneyMap: React.FC = () => {
                       >
                         <h5 className="font-bold text-base text-[#2D2926] mb-3">{exp.company}</h5>
                         <div className="flex flex-col gap-2.5">
-                          {exp.roles.map((role: any, rIdx: number) => (
+                          {exp.roles.map((role, rIdx) => (
                             <div
                               key={rIdx}
                               className="p-3 bg-[#f7f6f3] border border-[#2D2926]/5 rounded-xl"
                             >
                               <div className="flex justify-between items-start">
                                 <span
-                                  className={`text-sm font-bold ${
+                                  className={`text-xs font-bold ${
                                     role.isPrimary ? 'text-[#8e6bbf]' : 'text-[#2D2926]'
                                   }`}
                                 >
@@ -390,7 +417,7 @@ export const JourneyMap: React.FC = () => {
                     ))}
 
                     {/* Impact blocks */}
-                    {details.impacts?.map((impact: any, impactIdx: number) => (
+                    {details.impacts?.map((impact, impactIdx) => (
                       <div
                         key={impactIdx}
                         className={`relative pl-6 border-l-2 transition-all duration-500 ${
@@ -405,7 +432,7 @@ export const JourneyMap: React.FC = () => {
                         </p>
                         {impact.statsType === 'boxes' && impact.stats && (
                           <div className="flex gap-3 flex-wrap">
-                            {impact.stats.map((stat: any, sIdx: number) => (
+                            {impact.stats.map((stat, sIdx) => (
                               <div
                                 key={sIdx}
                                 className="px-3 py-2.5 rounded-xl border border-[#2D2926]/5 bg-white shadow-sm"
@@ -427,7 +454,11 @@ export const JourneyMap: React.FC = () => {
                             {impact.tags.map((tag: string, tIdx: number) => (
                               <span
                                 key={tIdx}
-                                className="text-[11px] font-bold px-3 py-1 bg-[#2D2926]/5 text-[#2D2926]/60 rounded-full border border-[#2D2926]/10"
+                                className={`text-[11px] font-bold px-3 py-1 rounded-full border ${
+                                  HIGHLIGHT_TAGS.has(tag)
+                                    ? 'bg-[#f5b002]/10 text-[#f5b002] border-[#f5b002]/20'
+                                    : 'bg-[#2D2926]/5 text-[#2D2926]/60 border-[#2D2926]/10'
+                                }`}
                               >
                                 {tag}
                               </span>

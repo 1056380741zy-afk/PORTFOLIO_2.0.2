@@ -42,5 +42,3 @@ assert(
   reservedSpaceScale < referenceViewportScale,
   `Expected more reserved space to reduce scale, got ${reservedSpaceScale} vs ${referenceViewportScale}`
 );
-
-console.log('journeyMapScale tests passed');

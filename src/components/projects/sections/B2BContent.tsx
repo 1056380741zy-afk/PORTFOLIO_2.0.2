@@ -136,8 +136,8 @@ export const B2BContent: React.FC = () => {
               >
                 <Card depth={2} className="p-6 flex-1 hover:bg-white transition-colors">
                   <StrategicBlock icon="🎯" title={t.projects.case1.taskTitle} description={t.projects.case1.taskDesc}>
-                    <StrategicItem label="Pain Point" text={t.projects.case1.painPoint} />
-                    <StrategicItem label="Limitation" text={t.projects.case1.limitation} />
+                    <StrategicItem text={t.projects.case1.painPoint} />
+                    <StrategicItem text={t.projects.case1.limitation} />
                   </StrategicBlock>
                 </Card>
 
@@ -175,8 +175,8 @@ export const B2BContent: React.FC = () => {
                 >
                   <Card depth={2} className="p-6 flex-1 hover:bg-white transition-colors">
                     <StrategicBlock icon="🎯" title={t.projects.case2.taskTitle} description={t.projects.case2.taskDesc}>
-                      <StrategicItem label="Difficulty" text={t.projects.case2.difficulty} />
-                      <StrategicItem label="Requirement" text={t.projects.case2.req} />
+                      <StrategicItem text={t.projects.case2.difficulty} />
+                      <StrategicItem text={t.projects.case2.req} />
                     </StrategicBlock>
                   </Card>
 
