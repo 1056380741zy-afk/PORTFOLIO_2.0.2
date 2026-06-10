@@ -201,7 +201,7 @@ export const JourneyMap: React.FC = () => {
   return (
     <section
       id="journey"
-      className="w-full h-full min-h-0 bg-[#f7f6f3] overscroll-none overflow-hidden"
+      className="w-full h-full min-h-0 overscroll-none overflow-hidden"
     >
       <div
         style={{
@@ -217,9 +217,9 @@ export const JourneyMap: React.FC = () => {
       >
         {/* ── Two-Column Body: 40/60 Split ── */}
         <div
-          className="flex flex-col lg:flex-row w-full h-full max-h-full min-h-0 overflow-hidden rounded-[28px] border border-[#2d2d2d]/5 bg-[#fbfaf7]/45 shadow-[0_10px_30px_rgba(45,45,45,0.035)] px-[10px] py-[15px]"
+          className="flex flex-col lg:flex-row w-full h-full max-h-full min-h-0 overflow-hidden rounded-[32px] border border-[#2d2d2d]/5 bg-[#fbfaf7]/45 shadow-[0_10px_30px_rgba(45,45,45,0.035)] px-[10px] py-[15px]"
           style={{
-            clipPath: 'inset(0 round 28px)',
+            clipPath: 'inset(0 round 32px)',
             contain: 'paint',
           }}
         >
@@ -228,7 +228,7 @@ export const JourneyMap: React.FC = () => {
         <div className="w-full lg:w-[40%] relative lg:border-r lg:border-[#c4c2b7]/15 lg:h-full min-h-0 overflow-hidden flex flex-col">
           <div className="shrink-0 px-6 md:px-10">
             <div className="pt-4 md:pt-5 pb-3">
-              <div className="px-6 md:px-7 py-4 md:py-5 bg-base-bg/90 backdrop-blur-sm rounded-[28px]">
+              <div className="px-6 md:px-7 py-4 md:py-5 bg-base-bg/90 backdrop-blur-sm rounded-[32px]">
               <div className="flex items-end justify-between">
                 <h2 className="page-title mb-0">
                   {t.journey.title}
