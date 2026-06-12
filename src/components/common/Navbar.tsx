@@ -19,14 +19,14 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      {/* 桌面端语言切换 (置于 viewport 右上角) */}
-      <div className="hidden lg:block fixed top-6 right-6 z-[100]">
+      {/* 桌面端语言切换 */}
+      <div className="hidden lg:block absolute top-3 right-4 z-[100]">
         <button
           onClick={toggleLanguage}
-          className="flex items-center gap-2 h-9 px-3 rounded-lg border border-[#2d2d2d]/15 bg-white/50 backdrop-blur-sm text-text-dark/60 hover:text-text-dark hover:bg-white transition-all duration-200 font-mono text-[11px] uppercase tracking-[0.22em] shadow-sm focus-visible:outline-none"
+          className="flex h-7 min-w-[58px] items-center justify-center gap-2 rounded-full border border-[#2d2d2d]/12 bg-white/55 px-3.5 text-[9px] font-mono uppercase tracking-[0.18em] text-text-dark/60 shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-text-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8e6bbf]/25"
           aria-label="Toggle language"
         >
-          <Globe size={14} />
+          <Globe size={11} />
           <span>{language === 'en' ? 'CN' : 'EN'}</span>
         </button>
       </div>
@@ -73,9 +73,11 @@ export const Navbar: React.FC = () => {
           </div>
           <button
             onClick={toggleLanguage}
-            className="p-1.5 text-text-dark/60"
+            className="flex h-7 items-center gap-1 rounded-full border border-[#2d2d2d]/10 bg-white/45 px-2 text-[9px] font-mono uppercase tracking-[0.14em] text-text-dark/60"
+            aria-label="Toggle language"
           >
-            <Globe size={16} />
+            <Globe size={12} />
+            <span>{language === 'en' ? 'CN' : 'EN'}</span>
           </button>
         </div>
       </nav>

@@ -536,9 +536,9 @@ export const JourneyMap: React.FC = () => {
             style={{ width: '100%', height: '100%' }}
           >
             <defs>
-              {/* 海岸线排线图案：密集横线纹理 */}
-              <pattern id="hatch-ocean" width="4" height="6" patternUnits="userSpaceOnUse">
-                <line x1="0" y1="0.75" x2="4" y2="0.75" stroke="#5e5b4c94" strokeWidth="0.9" opacity="0.8" />
+              {/* 海洋排线图案：细、密、低对比度的地图纹理 */}
+              <pattern id="hatch-ocean" width="4" height="5.5" patternUnits="userSpaceOnUse">
+                <line x1="0" y1="0.75" x2="4" y2="0.75" stroke="#cdcdc7" strokeWidth="0.8" opacity="1" />
               </pattern>
             </defs>
 
@@ -547,29 +547,22 @@ export const JourneyMap: React.FC = () => {
             <rect x="-10000" y="-10000" width="20000" height="20000" fill="#f6f6f1" />
             <rect x="-10000" y="-10000" width="20000" height="20000" fill="url(#hatch-ocean)" />
 
-            {/* 第一部分：海岸线外围装饰（双层效果）
-                使用 LAND_URL 获取整体轮廓 */}
+            {/* 第一部分：海岸线外围装饰（双层效果） */}
             <Geographies geography={LAND_URL}>
               {({ geographies }) =>
                 geographies.map((geo) => (
                   <React.Fragment key={geo.rsmKey}>
-                    {/* 第 1 层：最外层实线（灰色）。
-                        宽度设为 8px，由于有一半被内层盖住，视觉上形成距海岸线 4px 的细线。 */}
                     <Geography
                       geography={geo}
                       fill="none"
-                      stroke="#c4c2b7"
-                      strokeWidth={8}
-                      opacity={0.4}
+                      stroke="#76716b"
+                      strokeWidth={9}
+                      opacity={0.9}
                       style={{
                         default: { outline: 'none', vectorEffect: 'non-scaling-stroke', pointerEvents: 'none' },
                         hover: { outline: 'none', vectorEffect: 'non-scaling-stroke', pointerEvents: 'none' },
                       }}
                     />
-
-                    {/* 第 2 层：中间空白缓冲缝隙（与背景色一致）。
-                        宽度设为 7px，盖住上一层的内部，露出 1px 的灰色边线。
-                        这一层也会“切断”海洋中的横向排线，形成干净的白边。 */}
                     <Geography
                       geography={geo}
                       fill="none"
@@ -603,9 +596,9 @@ export const JourneyMap: React.FC = () => {
                       key={geo.rsmKey}
                       geography={geo}
                       fill={fill}
-                      stroke="#5e5b4cff"
-                      strokeWidth={0.2}
-                      opacity={1}
+                      stroke="#9a9b91"
+                      strokeWidth={0.28}
+                      opacity={0.82}
                       style={{
                         default: { outline: 'none', vectorEffect: 'non-scaling-stroke', pointerEvents: 'none' },
                         hover: { outline: 'none', vectorEffect: 'non-scaling-stroke', pointerEvents: 'none' },
