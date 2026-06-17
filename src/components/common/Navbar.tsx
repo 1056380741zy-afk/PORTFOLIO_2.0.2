@@ -20,7 +20,7 @@ export const Navbar: React.FC = () => {
   return (
     <>
       {/* 桌面端语言切换 */}
-      <div className="hidden lg:block absolute top-3 right-4 z-[100]">
+      <div className="hidden lg:block absolute top-3 right-5 z-[100]">
         <button
           onClick={toggleLanguage}
           className="flex h-7 min-w-[58px] items-center justify-center gap-2 rounded-full border border-[#2d2d2d]/12 bg-white/55 px-3.5 text-[9px] font-mono uppercase tracking-[0.18em] text-text-dark/60 shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-text-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8e6bbf]/25"

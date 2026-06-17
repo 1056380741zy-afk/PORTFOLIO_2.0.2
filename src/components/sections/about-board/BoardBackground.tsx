@@ -33,6 +33,26 @@ export const BoardBackground: React.FC = () => {
           backgroundPosition: '0 0, 0 0, 0 0',
         }}
       />
+      <div
+        className="absolute right-[8%] top-[12%] h-[48%] w-[28%] opacity-[0.18]"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(142,107,191,0.42) 0 1px, transparent 1.15px)',
+          backgroundSize: '9px 9px',
+          WebkitMaskImage: 'radial-gradient(ellipse at 52% 48%, #000 0%, #000 28%, transparent 64%)',
+          maskImage: 'radial-gradient(ellipse at 52% 48%, #000 0%, #000 28%, transparent 64%)',
+          mixBlendMode: 'multiply',
+        }}
+      />
+      <div
+        className="absolute left-[28%] top-[38%] h-[30%] w-[22%] opacity-[0.14]"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(245,176,2,0.46) 0 1px, transparent 1.15px)',
+          backgroundSize: '8px 8px',
+          WebkitMaskImage: 'radial-gradient(ellipse at 48% 52%, #000 0%, #000 26%, transparent 62%)',
+          maskImage: 'radial-gradient(ellipse at 48% 52%, #000 0%, #000 26%, transparent 62%)',
+          mixBlendMode: 'multiply',
+        }}
+      />
       <div className="absolute left-0 right-0 top-[70%] h-px bg-[#2d2d2d]/10" />
       <div
         className="absolute left-7 bottom-10 h-px w-[140px] opacity-60"

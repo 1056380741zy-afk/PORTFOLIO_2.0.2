@@ -31,7 +31,7 @@ const sanitizeMessages = (messages: ChatMessage[] = []) =>
     .slice(-12)
     .map((message) => ({
       role: message.role,
-      content: message.content.slice(0, 4000),
+      content: message.content.slice(0, 8000),
     }));
 
 export default async (request: Request): Promise<Response> => {

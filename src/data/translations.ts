@@ -3,7 +3,7 @@ import { nodeDetailsDataEn, nodeDetailsDataCn } from './nodeDetails';
 export const translations = {
   en: {
     homePage: {
-      greetingArabic: "مرحبا، اسمي سها",
+      greetingArabic: "مرحبا، انا سها",
       greetingEnglish: "Hi, I’m Suha.",
       intro: "I have experience in digital marketing and international projects, and I’ve worked on large-scale exhibitions, global events, and cross-border operations, helping brands reach the right audience and execute smoothly in complex environments.",
       experience: "Drag the panels on the right to explore more about me, or click the assistant in the bottom-right corner to ask anything 👉"
@@ -131,7 +131,7 @@ export const translations = {
           label: 'Research',
           sidebarTitle: "Women in UAE Web3",
           sidebarTags: ['Empirical Survey', 'Interviews', 'Inclusiveness Signals'],
-          banner: "/images/Project 3-Institutional and Cultural Drivers of Women's Participation in the UAE WEB3 Sector.png",
+          banner: "/images/Project 3-Institutional and Cultural Drivers of Women's Participation in the UAE WEB3.png",
           projectTag: 'Phase 01 · Research',
           fullTitle: "Research-Driven Strategy: UAE & Women Participation",
           subtitle: '',
@@ -407,7 +407,7 @@ export const translations = {
   },
   cn: {
     homePage: {
-      greetingArabic: "مرحبا، اسمي سها",
+      greetingArabic: "مرحبا، انا سها",
       greetingEnglish: "Hi, I’m Suha.",
       intro: "我具备数字营销与国际项目经验，参与过大型展会、国际会议和跨境项目运营，擅长在复杂环境中推动项目落地，并帮助品牌精准触达目标受众。",
       experience: "拖动右侧的版块查看相关信息，或点击右下角的助手询问任何内容 👉"
@@ -535,7 +535,7 @@ export const translations = {
           label: '调研',
           sidebarTitle: "阿联酋 Web3 女性参与度",
           sidebarTags: ['实证调查', '深度访谈', '包容性信号'],
-          banner: "/images/Project 3-Institutional and Cultural Drivers of Women's Participation in the UAE WEB3 Sector.png",
+          banner: "/images/Project 3-Institutional and Cultural Drivers of Women's Participation in the UAE WEB3.png",
           projectTag: '阶段 01 · 调研',
           fullTitle: "调研驱动策略：阿联酋与女性参与",
           subtitle: '',

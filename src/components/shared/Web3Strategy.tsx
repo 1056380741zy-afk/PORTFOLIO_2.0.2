@@ -57,7 +57,7 @@ export const Web3Strategy: React.FC = () => {
   if (!strategyData.length) return null;
 
   return (
-    <div className="mb-0">
+    <div className="mb-0 w-full">
       <div className="grid grid-cols-1 lg:grid-cols-[230px_1fr] gap-4 items-stretch w-full relative">
         {/* 1. Navigator (Left Sidebar / Top Grid) */}
         <div className="w-full grid grid-cols-3 lg:grid-cols-1 lg:grid-rows-3 gap-3 md:gap-4 h-full lg:h-[490px]">

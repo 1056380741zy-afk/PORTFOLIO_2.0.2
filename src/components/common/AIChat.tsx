@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, X, ChevronRight, Terminal, Sparkles, Bot } from 'lucide-react';
+import { Send, X, Sparkles, Bot } from 'lucide-react';
 import { SuhaBot } from '../shared/SuhaBot';
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -144,7 +144,7 @@ export function AIChat() {
         <SuhaBot size={40} showBackground={false} />
       </button>
 
-      <div className={`fixed bottom-6 right-6 w-[90vw] max-w-[400px] h-[600px] max-h-[80vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 z-[9999] origin-bottom-right ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}>
+      <div className={`ai-chat-scrollbarless fixed bottom-6 right-6 w-[90vw] max-w-[400px] h-[600px] max-h-[80vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 z-[9999] origin-bottom-right ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}>
         
         <div className="px-5 py-4 bg-[#8e6bbf] text-white flex justify-between items-center">
           <div className="flex items-center gap-2.5">
@@ -159,7 +159,7 @@ export function AIChat() {
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto bg-white flex flex-col relative scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+        <div className="flex-1 overflow-y-auto bg-white flex flex-col relative">
           
           {!hasStarted ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center px-8 gap-4 pb-10">
@@ -222,15 +222,18 @@ export function AIChat() {
               }}
               placeholder={currentT.placeholder}
               disabled={isLoading}
-              rows={input.split('\n').length > 1 ? Math.min(input.split('\n').length, 4) : 1}
-              className="w-full bg-white border border-gray-200 rounded-xl py-3.5 pl-4 pr-12 text-[14px] text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#8e6bbf] focus:ring-1 focus:ring-[#8e6bbf] transition-all disabled:opacity-50 resize-none scrollbar-thin scrollbar-thumb-gray-200 min-h-[48px]"
-              style={{ lineHeight: '1.5' }}
+              rows={1}
+              className="w-full bg-white border border-gray-200 rounded-xl py-3.5 pl-4 pr-12 text-[14px] text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#8e6bbf] focus:ring-1 focus:ring-[#8e6bbf] transition-all disabled:opacity-50 resize-none min-h-[55px] max-h-[100px] overflow-y-auto"
+              style={{
+                height: `min(100px, max(55px, ${Math.min(100, 38 + ((input.match(/\n/g)?.length ?? 0) + 1) * 22)}px))`,
+                lineHeight: '1.5',
+              }}
             />
             <button
               type="button"
               onClick={() => handleSubmit()}
               disabled={!input.trim() || isLoading}
-              className="absolute right-2 bottom-2 w-9 h-9 rounded-lg bg-[#b498dc] text-white hover:bg-[#8e6bbf] disabled:opacity-50 disabled:hover:bg-[#b498dc] transition-colors flex items-center justify-center"
+              className="absolute right-2 bottom-2.5 w-9 h-9 rounded-lg bg-[#b498dc] text-white hover:bg-[#8e6bbf] disabled:opacity-50 disabled:hover:bg-[#b498dc] transition-colors flex items-center justify-center"
             >
               <Send className="w-4 h-4" />
             </button>

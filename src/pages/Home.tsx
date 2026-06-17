@@ -37,10 +37,10 @@ export const Home: React.FC = () => {
         }}
       >
         <div
-          className="hidden lg:block absolute top-[clamp(92px,14vh,132px)] z-[240] pointer-events-none"
+          className="hidden lg:block absolute top-[clamp(92px,14vh,132px)] z-[230] pointer-events-none"
           style={{ left: '38%' }}
         >
-          <div className="relative" style={{ transform: 'translateX(calc(-50% - 70px))' }}>
+          <div className="relative" style={{ transform: 'translateX(calc(-50% - 80px))' }}>
             <StampCluster isEditMode={isStampEditMode} setIsEditMode={setIsStampEditMode} />
           </div>
         </div>

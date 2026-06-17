@@ -48,6 +48,18 @@
 ::-webkit-scrollbar-thumb:hover { background: #AEACA6; }
 ::-selection { background-color: #EDE6F5; color: #8e6bbf; }
 
+.ai-chat-scrollbarless,
+.ai-chat-scrollbarless * {
+  scrollbar-width: none;
+}
+
+.ai-chat-scrollbarless::-webkit-scrollbar,
+.ai-chat-scrollbarless *::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
 /* Compass Animation */
 .compass-container {
   position: relative;
