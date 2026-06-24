@@ -6,7 +6,7 @@ export const Footer: React.FC = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[#f6ede4]/80 bg-[#f6ede4] rounded-b-[32px] overflow-hidden">
+    <footer className="border-t border-[#f9f4e8]/80 bg-[#f9f4e8] rounded-b-[32px] overflow-hidden">
 
       {/* Copyright */}
       <div className="py-8 px-6">

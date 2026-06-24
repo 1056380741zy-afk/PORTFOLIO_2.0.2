@@ -22,17 +22,19 @@ export const BoardControls: React.FC<BoardControlsProps> = ({
   const isCardVisible = (id: CardId) => !hiddenCards.has(id);
 
   return (
-    <div className="absolute bottom-5 left-5 z-[320] flex items-end gap-2">
+    <div
+      className="fixed z-[10000] hidden items-start gap-1 lg:flex"
+      style={{
+        top: 'calc(clamp(1rem, 3vw, 2.5rem) - 24px)',
+        left: 'calc(clamp(1rem, 4vw, 3rem) + 25vw)',
+      }}
+    >
       {stampControl && (
         <button
           type="button"
           onClick={stampControl.onToggle}
           aria-pressed={stampControl.isActive}
-          className={`flex h-9 min-w-[104px] items-center justify-center gap-2 rounded-full border px-3 text-[10px] font-mono uppercase tracking-[0.2em] shadow-sm backdrop-blur-sm transition-colors ${
-            stampControl.isActive
-              ? 'border-[#8e6bbf]/25 bg-[#8e6bbf]/10 text-[#8e6bbf]'
-              : 'border-[#2d2d2d]/10 bg-white/75 text-text-dark/65 hover:bg-white hover:text-text-dark'
-          }`}
+          className={`board-file-tab ${stampControl.isActive ? 'active' : 'is-muted'}`}
         >
           <Stamp size={13} />
           Stamps
@@ -44,14 +46,14 @@ export const BoardControls: React.FC<BoardControlsProps> = ({
           type="button"
           onClick={onToggleCardMenu}
           aria-expanded={cardMenuOpen}
-          className="flex h-9 min-w-[104px] items-center justify-center gap-2 rounded-full border border-[#2d2d2d]/10 bg-white/75 px-3 text-[10px] font-mono uppercase tracking-[0.2em] text-text-dark/65 shadow-sm backdrop-blur-sm transition-colors hover:bg-white hover:text-text-dark"
+          className={`board-file-tab ${cardMenuOpen ? 'active' : ''}`}
         >
           <SlidersHorizontal size={13} />
           Cards
         </button>
 
         {cardMenuOpen && (
-          <div className="absolute bottom-full left-1/2 mb-2 w-[164px] -translate-x-1/2 rounded-lg border border-[#2d2d2d]/10 bg-white/85 p-2 shadow-md backdrop-blur-sm">
+          <div className="absolute left-1/2 top-full mt-2 w-[164px] -translate-x-1/2 rounded-lg border border-[#2d2d2d]/10 bg-[#f9f4e8]/90 p-2 shadow-md backdrop-blur-sm">
             {cardControls.map((card) => {
               const visible = isCardVisible(card.id);
               return (
@@ -59,7 +61,7 @@ export const BoardControls: React.FC<BoardControlsProps> = ({
                   key={card.id}
                   type="button"
                   onClick={() => onToggleCardVisibility(card.id)}
-                  className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-[10px] font-mono uppercase tracking-[0.14em] text-text-dark/65 transition-colors hover:bg-[#f7f6f3] hover:text-text-dark"
+                  className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-[10px] font-mono uppercase tracking-[0.14em] text-text-dark/65 transition-colors hover:bg-[#efe1d1] hover:text-text-dark"
                 >
                   {visible ? (
                     <Eye size={13} className="text-[#8e6bbf]" />

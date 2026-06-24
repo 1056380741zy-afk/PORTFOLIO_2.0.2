@@ -15,6 +15,57 @@ const CARD_CONTROLS: CardControl[] = [
   { id: 'sticky', label: 'Sticky' },
 ];
 
+const SpinePunchHoles: React.FC = () => {
+  const holes = [
+    { top: 0, height: 10 },
+    { top: 60, height: 16 },
+    { top: 96, height: 16 },
+    { top: 156, height: 10 },
+    { top: 216, height: 16 },
+    { top: 252, height: 16 },
+    { top: 312, height: 10 },
+  ];
+  const stripWidth = 30;
+  const stripCenterX = stripWidth / 2;
+  const svgHeight = 600;
+  const holeGroupHeight = 328;
+  const yOffset = 8;
+  const holeStartY = svgHeight / 2 - holeGroupHeight / 2 + yOffset;
+
+  return (
+    <div
+      className="absolute top-0 bottom-0 z-[220] hidden pointer-events-none lg:block"
+      style={{ top: '7.5px', bottom: '7.5px', left: '-9px', width: `${stripWidth}px` }}
+      aria-hidden="true"
+    >
+      <svg
+        viewBox={`0 0 ${stripWidth} ${svgHeight}`}
+        preserveAspectRatio="none"
+        className="absolute inset-0"
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <path fill="#f9f4e8" d={`M 0 0 H ${stripWidth} V ${svgHeight} H 0 Z`} />
+        {holes.map((hole) => (
+          <ellipse
+            key={hole.top}
+            cx={stripCenterX}
+            cy={holeStartY + hole.top}
+            rx="3.2"
+            ry={hole.height / 2}
+            fill="#efe1d1"
+            stroke="rgba(77, 57, 36, 0.22)"
+            strokeWidth="0.8"
+            vectorEffect="non-scaling-stroke"
+          />
+        ))}
+      </svg>
+    </div>
+  );
+};
+
 type AboutBoardProps = {
   stampControl?: StampControl;
 };
@@ -74,11 +125,9 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({ stampControl }) => {
   return (
     <div 
       ref={constraintsRef}
-      className="main-panel w-full h-full min-h-[400px] lg:min-h-0 relative overflow-hidden"
-      style={{ boxSizing: 'border-box', top: 'clamp(10px, 2.5vh, 18px)' }}
+      className="relative h-full min-h-[400px] lg:min-h-0"
+      style={{ boxSizing: 'border-box', top: '-5px', height: 'calc(100% + 15px)', width: 'calc(100% - 5px)' }}
     >
-      <BoardBackground />
-
       <BoardControls
         cardControls={CARD_CONTROLS}
         cardMenuOpen={cardMenuOpen}
@@ -87,6 +136,11 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({ stampControl }) => {
         onToggleCardMenu={() => setCardMenuOpen((open) => !open)}
         onToggleCardVisibility={toggleCardVisibility}
       />
+
+      <SpinePunchHoles />
+
+      <div className="main-panel overflow-hidden" style={{ position: 'absolute', top: '5px', right: 0, bottom: '5px', left: '27px' }}>
+      <BoardBackground />
 
       {!hiddenCards.has('sticky') && (
       <div className="absolute top-6 right-[calc(2rem+30px)] z-40">
@@ -157,6 +211,7 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({ stampControl }) => {
       {/* Page Hint */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-400 font-mono text-[10px] uppercase tracking-[0.3em] pointer-events-none opacity-50">
         {t.aboutBoard.hint}
+      </div>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ export const BoardBackground: React.FC = () => {
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: "url('/bg/paper.png')",
+          backgroundImage: "url('/bg/backgroundpaper.png')",
           backgroundSize: '105% auto',
           backgroundPosition: 'center calc(50% + 10px)',
           backgroundRepeat: 'no-repeat',
