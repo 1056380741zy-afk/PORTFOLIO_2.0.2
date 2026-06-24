@@ -74,7 +74,7 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({ stampControl }) => {
   return (
     <div 
       ref={constraintsRef}
-      className="w-full h-full min-h-[400px] lg:min-h-0 bg-[#f7f6f3] relative overflow-hidden"
+      className="main-panel w-full h-full min-h-[400px] lg:min-h-0 relative overflow-hidden"
       style={{ boxSizing: 'border-box', top: 'clamp(10px, 2.5vh, 18px)' }}
     >
       <BoardBackground />
@@ -89,7 +89,7 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({ stampControl }) => {
       />
 
       {!hiddenCards.has('sticky') && (
-      <div className="absolute top-6 right-[calc(2rem+20px)] z-40">
+      <div className="absolute top-6 right-[calc(2rem+30px)] z-40">
         <StickyNote />
       </div>
       )}
@@ -97,7 +97,7 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({ stampControl }) => {
       {!hiddenCards.has('postcard') && (
       <DraggableCard
         id="postcard"
-        initialPos={{ top: '-2%', left: 'calc(23% - 30px)' }}
+        initialPos={{ top: 'calc(-2% - 5px)', left: 'calc(23% - 40px)' }}
         initialRotate={-6}
         activeId={activeId}
         setActiveId={setActiveId}
@@ -112,7 +112,7 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({ stampControl }) => {
       {!hiddenCards.has('blueprint') && (
       <DraggableCard
         id="blueprint"
-        initialPos={{ top: '48%', left: 'calc(27% - 30px)' }}
+        initialPos={{ top: '48%', left: 'calc(27% - 95px)' }}
         initialRotate={2}
         activeId={activeId}
         setActiveId={setActiveId}
@@ -127,7 +127,7 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({ stampControl }) => {
       {!hiddenCards.has('language') && (
       <DraggableCard
         id="language"
-        initialPos={{ top: '21%', left: 'calc(53% - 20px)' }}
+        initialPos={{ top: '21%', left: 'calc(53% - 30px)' }}
         initialRotate={-2}
         activeId={activeId}
         setActiveId={setActiveId}
@@ -142,7 +142,7 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({ stampControl }) => {
       {!hiddenCards.has('toolbox') && (
       <DraggableCard
         id="toolbox"
-        initialPos={{ top: '50%', left: 'calc(66% - 20px)' }}
+        initialPos={{ top: '50%', left: 'calc(66% - 30px)' }}
         initialRotate={6}
         activeId={activeId}
         setActiveId={setActiveId}

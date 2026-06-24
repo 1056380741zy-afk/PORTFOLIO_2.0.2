@@ -12,13 +12,14 @@ const Project = lazy(() => import('./pages/Project').then(m => ({ default: m.Pro
 
 // 加载中占位组件
 const PageLoader = () => (
-  <div className="flex-1 flex items-center justify-center bg-[#f7f6f3] min-h-[60vh]">
+  <div className="flex-1 flex items-center justify-center bg-[#efe1d4] min-h-[60vh]">
     <div className="w-8 h-8 border-2 border-[#8e6bbf]/20 border-t-[#8e6bbf] rounded-full animate-spin" />
   </div>
 );
 
 const AppContent: React.FC = () => {
   const location = useLocation();
+  const shouldShowGlobalFooter = location.pathname !== '/' && location.pathname !== '/journey';
 
   // 页面切换时滚动到顶部
   useEffect(() => {
@@ -29,13 +30,13 @@ const AppContent: React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <div className="h-dvh bg-[#ece9e0] pl-[clamp(1rem,4vw,3rem)] pr-[calc(clamp(2.5rem,8vw,6rem)-5px)] py-[clamp(1rem,3vw,2.5rem)] flex items-stretch font-sans overflow-hidden">
+    <div className="h-dvh bg-[#f6ebe1] pl-[clamp(1rem,4vw,3rem)] pr-[calc(clamp(2.5rem,8vw,6rem)-5px)] py-[clamp(1rem,3vw,2.5rem)] flex items-stretch font-sans overflow-hidden">
       <div className="relative flex-1 flex flex-col min-h-0">
         <div
-          className="relative flex-1 bg-[#f7f6f3] rounded-[32px] flex flex-col min-h-0"
+          className="relative flex-1 bg-[#f6ede4] rounded-[32px] flex flex-col min-h-0"
           style={{
             boxShadow:
-              '0 0 50px rgba(0,0,0,0.05), inset 0 0 0 1px rgba(45,45,45,0.055), inset 0 0 18px rgba(126,92,45,0.045)',
+              '0 18px 36px rgba(90, 70, 45, 0.18), inset 0 0 0 1px rgba(241, 228, 212, 0.82), inset 0 1px 0 rgba(255,255,255,0.42)',
           }}
         >
           <header className="relative z-50 shrink-0">
@@ -58,7 +59,7 @@ const AppContent: React.FC = () => {
             </div>
           </main>
 
-          {location.pathname !== '/journey' && (
+          {shouldShowGlobalFooter && (
             <footer className="relative z-40 shrink-0">
               <Footer />
             </footer>

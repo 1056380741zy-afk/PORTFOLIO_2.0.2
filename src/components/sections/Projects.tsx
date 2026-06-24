@@ -96,7 +96,7 @@ export const Projects: React.FC = () => {
           }}
         >
           {/* Breadcrumb / back bar */}
-          <div className="sticky top-0 z-20 shrink-0 px-6 pt-2">
+          <div className="sticky top-0 z-20 shrink-0 px-6 pt-[10px]">
             <div className="max-w-6xl mx-auto px-5 py-1.5 flex items-center gap-2.5 bg-base-bg/90 backdrop-blur-sm border border-[#2d2d2d]/6 rounded-2xl">
               <button
                 onClick={() => setView('entry')}

@@ -234,7 +234,7 @@ export const JourneyMap: React.FC = () => {
         style={{
           paddingTop: 'clamp(18px, 2vw, 28px)',
           paddingRight: 'clamp(18px, 2vw, 28px)',
-          paddingBottom: 'clamp(18px, 2vw, 28px)',
+          paddingBottom: 'calc(clamp(18px, 2vw, 28px) + 15px)',
           paddingLeft: 'clamp(18px, 2vw, 28px)',
           height: '100%',
           maxHeight: '100%',
@@ -252,7 +252,7 @@ export const JourneyMap: React.FC = () => {
         >
 
         {/* ── Left Column: Fixed heading + scrollable timeline (40% width on desktop) ── */}
-        <div className="w-full lg:w-[40%] relative lg:border-r lg:border-[#c4c2b7]/15 lg:h-full min-h-0 overflow-hidden flex flex-col">
+        <div className="w-full lg:w-[40%] relative lg:border-r lg:border-[#c4c2b7]/15 lg:h-full min-h-0 overflow-hidden flex flex-col items-center justify-center">
           <div className="shrink-0 px-6 md:px-10">
             <div className="pt-4 md:pt-5 pb-3">
               <div className="px-6 md:px-7 py-4 md:py-5 bg-base-bg/90 backdrop-blur-sm rounded-[32px]">
@@ -478,7 +478,7 @@ export const JourneyMap: React.FC = () => {
         {/* ── Right Column: Non-scrolling Map (60% width on desktop) ── */}
         <div
           ref={mapContainerRef}
-          className="w-full lg:w-[60%] bg-[#f7f6f3] relative overflow-hidden overscroll-none h-[54vh] lg:h-full min-h-0 p-[5px]"
+          className="w-full lg:w-[60%] bg-[#f7f6f3] relative overflow-hidden overscroll-none h-[54vh] lg:h-full min-h-0 p-[5px] flex items-center justify-center"
         >
           {/* Decorative technical border */}
           <div className="absolute inset-[5px] border-l border-[#c4c2b7]/20 pointer-events-none" />

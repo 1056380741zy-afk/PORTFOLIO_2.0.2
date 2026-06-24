@@ -135,6 +135,9 @@ export const translations = {
           projectTag: 'Phase 01 · Research',
           fullTitle: "Research-Driven Strategy: UAE & Women Participation",
           subtitle: '',
+          skills: 'Research Framework Design｜Survey & Interview Planning｜Primary Research｜Insight Synthesis｜Market Insight｜Independent Research Ownership',
+          process: 'Studied women’s participation in UAE Web3 through institutional, cultural, and platform factors. Collected survey and interview data, then grouped findings around access, recognition, learning barriers, and platform inclusiveness.',
+          output: 'The project maps key barriers and support mechanisms shaping women’s Web3 participation in the UAE. It supports market entry thinking, user segmentation, inclusive growth, and female user engagement strategy.',
           infographic: '/images/Project 3.png',
           infographicTag: 'Edited by AnyGen',
           blocks: [
@@ -153,6 +156,9 @@ export const translations = {
           projectTag: 'Phase 02 · Strategy',
           fullTitle: 'Platform Collaboration Strategy: The Sandbox & Yalla',
           subtitle: '',
+          skills: 'Team Leadership｜Strategy Coordination｜MENA Market Entry｜Partner Mapping｜Alliance Strategy｜Risk Mapping｜Strategic Presentation',
+          process: 'Analysed The Sandbox’s MENA entry challenges across users, social engagement, culture, regulation, and growth. Evaluated Yalla Group’s fit and compared alliance, marketing, content, and future JV options.',
+          output: 'The project defines Yalla Group’s partnership value, the fit of a non-equity alliance, and a staged route from pilot projects to localised operations. It covers community, virtual events, branded content, user conversion, risk control, and execution.',
           infographic: '/images/Project 1.png',
           infographicTag: 'Edited by Canva',
           blocks: [
@@ -171,6 +177,9 @@ export const translations = {
           projectTag: 'Phase 03 · Scale',
           fullTitle: 'Exchange Market Strategy: Binance Case Project',
           subtitle: '',
+          skills: 'Team Collaboration｜Strategy Research Support｜Regulatory Analysis｜Compliance Mapping｜Regional Research｜Business Analysis',
+          process: 'Analysed Binance’s global expansion through PESTEL and SWOT. Assessed platform strengths, regulatory pressure, market opportunities, compliance risks, and regional business conditions.',
+          output: 'The project covers PESTEL, SWOT, regional regulation, and compliance risk mapping. It identifies growth-ready markets, cautious-entry markets, and strategy choices for balancing growth, trust, compliance, and localisation.',
           infographic: '/images/Project 2.png',
           infographicTag: 'Edited by ChatGPT',
           blocks: [
@@ -539,6 +548,9 @@ export const translations = {
           projectTag: '阶段 01 · 调研',
           fullTitle: "调研驱动策略：阿联酋与女性参与",
           subtitle: '',
+          skills: '研究框架设计｜问卷与访谈规划｜一手资料研究｜洞察提炼｜市场洞察｜独立研究推进',
+          process: '围绕 UAE Web3 行业中的女性参与问题，将研究拆成三个方向：制度支持、文化影响和技术平台体验。通过问卷和访谈收集一手资料，并整理出政策认知、资金和银行准入、职业认可、学习成本和平台包容性等核心主题。',
+          output: '项目展示了女性进入 UAE Web3 行业时面对的主要阻力，并梳理了能推动参与和留存的支持机制。内容可用于 Web3 市场进入判断、用户细分、包容性增长和女性用户参与策略。',
           infographic: '/images/Project 3.png',
           infographicTag: 'Edited by AnyGen',
           blocks: [
@@ -557,6 +569,9 @@ export const translations = {
           projectTag: '阶段 02 · 策略',
           fullTitle: '平台协作策略：The Sandbox & Yalla',
           subtitle: '',
+          skills: '团队领导力｜策略协调｜MENA 市场进入｜合作伙伴映射｜联盟策略｜风险梳理｜战略展示',
+          process: '分析 The Sandbox 进入 MENA 市场时需要解决的本地用户触达、社交场景、文化适配、监管环境和平台增长问题。随后评估 Yalla Group 的匹配度，并比较非股权战略联盟、联合营销、内容合作和未来合资等合作方式。',
+          output: '项目明确了 Yalla Group 的合作价值、非股权战略联盟的适配性，以及从低风险试点到深度本地化运营的推进路径。内容覆盖社交社区、虚拟活动、品牌内容、用户转化、风险控制和商业落地。',
           infographic: '/images/Project 1.png',
           infographicTag: 'Edited by Canva',
           blocks: [
@@ -575,6 +590,9 @@ export const translations = {
           projectTag: '阶段 03 · 扩张',
           fullTitle: '交易所市场策略：币安案例项目',
           subtitle: '',
+          skills: '团队协作｜策略研究支持｜监管分析｜合规映射｜区域研究｜商业分析',
+          process: '从政治、经济、社会、技术、环境和法律因素出发，分析 Binance 在不同地区扩张时受到的外部影响。结合 SWOT 等方法，梳理平台优势、监管压力、市场机会和合规风险，并比较不同区域的监管态度和业务环境。',
+          output: '项目形成了全球加密平台战略分析内容，覆盖 PESTEL、SWOT、区域监管比较和合规风险地图。内容明确了更适合增长的市场、更需要谨慎进入的市场，并提出了增长、信任、合规和本地化之间的平衡策略。',
           infographic: '/images/Project 2.png',
           infographicTag: 'Edited by ChatGPT',
           blocks: [

@@ -2,7 +2,16 @@ import React from 'react';
 
 export const BoardBackground: React.FC = () => {
   return (
-    <div className="absolute inset-0 pointer-events-none">
+    <div className="absolute inset-0 pointer-events-none z-[1]">
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: "url('/bg/paper.png')",
+          backgroundSize: '105% auto',
+          backgroundPosition: 'center calc(50% + 10px)',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
       <div
         className="absolute inset-0 opacity-[0.19]"
         style={{

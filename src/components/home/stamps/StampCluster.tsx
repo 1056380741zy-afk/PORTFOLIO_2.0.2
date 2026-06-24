@@ -39,17 +39,17 @@ const STAMPS: StampDef[] = [
 ];
 
 const DEFAULT_OFFSETS: Record<string, StampOffset> = {
-  uaecamel: { x: 30, y: -70 },
-  shanghai: { x: 6, y: -101 },
-  giza: { x: 15, y: -61 },
-  riyadh: { x: 2, y: -134 },
-  redsea: { x: 41, y: -96 },
-  osaka: { x: 28, y: -87 },
-  alexandria: { x: 52, y: -43 },
-  pompeyspillar: { x: 67, y: -4 },
+  uaecamel: { x: 30, y: -88 },
+  shanghai: { x: 6, y: -62 },
+  giza: { x: 15, y: -39 },
+  riyadh: { x: 2, y: -52 },
+  redsea: { x: 41, y: -3 },
+  osaka: { x: 28, y: -7 },
+  alexandria: { x: 52, y: 33 },
+  pompeyspillar: { x: 67, y: 112 },
 };
 
-const STORAGE_KEY = 'stampOffsets_v1';
+const STORAGE_KEY = 'stampOffsets_v2';
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 

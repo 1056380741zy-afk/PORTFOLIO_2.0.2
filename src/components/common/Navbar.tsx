@@ -20,10 +20,10 @@ export const Navbar: React.FC = () => {
   return (
     <>
       {/* 桌面端语言切换 */}
-      <div className="hidden lg:block absolute top-3 right-5 z-[100]">
+      <div className="hidden lg:block absolute right-7 top-[-24px] z-[100]">
         <button
           onClick={toggleLanguage}
-          className="flex h-7 min-w-[58px] items-center justify-center gap-2 rounded-full border border-[#2d2d2d]/12 bg-white/55 px-3.5 text-[9px] font-mono uppercase tracking-[0.18em] text-text-dark/60 shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-text-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8e6bbf]/25"
+          className="language-tab"
           aria-label="Toggle language"
         >
           <Globe size={11} />
@@ -38,14 +38,15 @@ export const Navbar: React.FC = () => {
       >
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
+          const tabKey = item.path === '/' ? 'home' : item.path.replace('/', '');
           return (
             <Link
               key={item.path}
               to={item.path}
               aria-current={isActive ? 'page' : undefined}
-              className={`side-tab ${isActive ? 'active' : ''}`}
+              className={`side-tab side-tab-${tabKey} ${isActive ? 'active' : ''}`}
             >
-              {item.label}
+              <span>{item.label}</span>
             </Link>
           );
         })}

@@ -1,52 +1,16 @@
 import React, { useState } from 'react';
-import { BookOpen, Users, Lightbulb, Globe, ShieldCheck, Zap, TrendingUp, Scale, Layers, ClipboardList, ArrowRight, Milestone, Puzzle, Calendar } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Box, Star, Workflow } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { ScrambleHoverTitle } from './ScrambleHoverTitle';
 import { useLanguage } from '../../contexts/LanguageContext';
 
-const ICON_MAP: Record<string, React.ElementType> = {
-  BookOpen,
-  Users,
-  Lightbulb,
-  Globe,
-  ShieldCheck,
-  Zap,
-  TrendingUp,
-  Scale,
-  Layers,
-  ClipboardList,
-  ArrowRight,
-  Milestone,
-  Puzzle,
-  Calendar
-};
+const DETAIL_ICONS = [Star, Workflow, Box];
 
-const renderTextWithTags = (text: string) => {
-  const lines = text.split('\n');
-  return lines.map((line, idx) => {
-    // Matches: Short, Mid, Long, 0–12m, 1–3yr, 3yr+, 0–12月, 1–3年, 3年以上, 短期, 中期, 长期
-    // The dash is now optional to support "删除破折号" request
-    const tagMatch = line.match(/^(Short|Mid|Long|0–12m|1–3yr|3yr\+|0–12月|1–3年|3年以上|短期|中期|长期)\s*[—\-]?\s*(.*)$/);
-    
-    if (tagMatch) {
-      const tag = tagMatch[1];
-      const content = tagMatch[2];
-      
-      // Unified highlight yellow style from theme (#f5b002)
-      const tagStyle = "bg-[#f5b002]/10 text-[#f5b002] border border-[#f5b002]/20";
-
-      return (
-        <div key={idx} className="flex items-start gap-1.5 mb-1 last:mb-0">
-          <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-tight shrink-0 mt-0.5 ${tagStyle}`}>
-            {tag}
-          </span>
-          <span className="text-[10px] font-medium text-text-dark leading-snug">{content}</span>
-        </div>
-      );
-    }
-    return <div key={idx} className="text-[10px] font-medium text-text-dark leading-snug">{line}</div>;
-  });
-};
+const splitDetailTags = (text: string) =>
+  text
+    .split(/[,，、｜|]/)
+    .map((tag) => tag.trim().replace(/[.。]$/, ''))
+    .filter(Boolean);
 
 export const Web3Strategy: React.FC = () => {
   const { t } = useLanguage();
@@ -125,80 +89,73 @@ export const Web3Strategy: React.FC = () => {
                         pointerEvents: isActive ? 'auto' : 'none'
                       }}
                       transition={{ duration: 0.5, ease: "easeInOut" }}
-                      className="absolute inset-0 w-full h-full grid grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-0 bg-white overflow-y-auto lg:overflow-hidden"
+                      className="absolute inset-0 w-full h-full grid grid-cols-1 lg:grid-cols-[minmax(0,2.35fr)_minmax(220px,0.8fr)] gap-0 bg-white overflow-y-auto lg:overflow-hidden"
                     >
                       {/* Banner & Text Area */}
-                      <div className="flex flex-col border-b lg:border-b-0 lg:border-r border-gray-100 h-fit lg:h-full">
-                        <div className="pt-2 pb-0 px-0 shrink-0 flex justify-center">
-                          <div className="relative w-full max-w-[92%] aspect-video max-h-[clamp(120px,24vh,210px)] overflow-hidden bg-[#f0f0f0] shrink-0 rounded-xl">
-                            <motion.img 
-                              animate={{ scale: isActive ? 1 : 1.05 }}
-                              transition={{ duration: 0.7, ease: "easeOut" }}
-                              src={project.banner} 
-                              alt={project.fullTitle} 
-                              className="w-full h-full object-contain" 
-                            />
-                          </div>
-                        </div>
-
-                        <div className="w-full max-w-[92%] mx-auto flex flex-col flex-1 py-2.5 gap-1.5 overflow-hidden">
-                          <motion.span 
-                            animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 10 }}
-                            transition={{ duration: 0.4, delay: 0.1 }}
-                            className="inline-block px-2 py-0.5 bg-gray-100 text-gray-500 font-mono text-[8px] rounded-full w-fit tracking-wider uppercase"
+                      <div className="flex h-fit flex-col border-b border-gray-100 bg-white lg:h-full lg:border-b-0 lg:border-r">
+                        <div className="mx-auto flex h-full w-full max-w-[92%] flex-col py-5">
+                          <motion.div
+                            animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 8 }}
+                            transition={{ duration: 0.35, delay: 0.05 }}
+                            className="shrink-0"
                           >
-                            {project.projectTag}
-                          </motion.span>
-
-                          <div className="relative z-10">
-                            <ScrambleHoverTitle 
-                              text={project.fullTitle} 
-                              className="text-sm md:text-base font-bold text-text-dark leading-tight whitespace-nowrap" 
+                            <ScrambleHoverTitle
+                              text={project.fullTitle}
+                              className="text-sm md:text-base font-bold text-text-dark leading-tight whitespace-nowrap"
                             />
+                          </motion.div>
+
+                          <div className="mt-3 flex shrink-0 justify-center">
+                            <div className="relative aspect-video w-[45%] overflow-hidden rounded-lg border border-gray-200 bg-[#f7f6f3]">
+                              <motion.img
+                                animate={{ scale: isActive ? 1 : 1.02 }}
+                                transition={{ duration: 0.7, ease: "easeOut" }}
+                                src={project.banner}
+                                alt={project.fullTitle}
+                                className="h-full w-full object-contain"
+                              />
+                            </div>
                           </div>
 
-                          {project.subtitle && (
-                            <motion.p 
-                              animate={{ opacity: isActive ? 1 : 0 }}
-                              transition={{ duration: 0.4, delay: 0.2 }}
-                              className="text-gray-600 text-[9px] leading-relaxed"
-                            >
-                              {project.subtitle}
-                            </motion.p>
-                          )}
-
-                          <div className="flex flex-col gap-1 mt-0.5 pb-1">
-                            {project.blocks.map((block: any, idx: number) => {
-                              const isEmoji = typeof block.icon === 'string' && !ICON_MAP[block.icon];
-                              const IconComponent = !isEmoji ? ICON_MAP[block.icon] : null;
-                              
+                          <div className="mt-4 grid min-h-0 flex-1 grid-cols-2 gap-3">
+                            {[
+                              { label: 'SKILLS', text: project.skills },
+                              { label: 'PROCESS', text: project.process },
+                              { label: 'OUTPUT', text: project.output }
+                            ].map((block, idx) => {
+                              const Icon = DETAIL_ICONS[idx];
                               return (
-                                <motion.div 
-                                  key={`${project.id}-block-${idx}`}
-                                  animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : 10 }}
-                                  transition={{ duration: 0.3, delay: 0.3 + (idx * 0.05) }}
-                                  className="flex items-start gap-1.5 p-1.5 rounded-xl bg-gray-50/50 border border-gray-100 hover:bg-white hover:shadow-sm transition-all duration-300 group"
+                                <motion.div
+                                  key={`${project.id}-${block.label}`}
+                                  animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 8 }}
+                                  transition={{ duration: 0.3, delay: 0.14 + idx * 0.04 }}
+                                  className={`flex min-h-[74px] items-start gap-3 rounded-lg border border-gray-200 bg-white/80 p-3 shadow-[0_8px_20px_rgba(0,0,0,0.02)] ${
+                                    block.label === 'SKILLS' ? 'col-span-2' : ''
+                                  }`}
                                 >
-                                  <div className="p-1 bg-white rounded-lg text-gray-400 group-hover:text-black border border-gray-100 shadow-sm transition-colors shrink-0 flex items-center justify-center w-6 h-6">
-                                    {isEmoji ? <span className="text-sm">{block.icon}</span> : (IconComponent && <IconComponent size={12} />)}
+                                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#8e6bbf]/35 bg-[#8e6bbf]/5 text-[#8e6bbf]">
+                                    <Icon size={20} strokeWidth={1.6} />
                                   </div>
-                                  <div className="flex flex-col gap-0.5 w-full">
-                                    <div className="flex items-center gap-1.5 flex-wrap">
-                                      <span className="font-mono text-[9px] uppercase text-gray-400 tracking-wider font-bold">
-                                        {block.label}
-                                      </span>
-                                      <span className="px-1.5 py-0.5 bg-white border border-gray-200 rounded text-[9px] font-medium text-gray-500">
-                                        {block.badge}
-                                      </span>
+                                  <div className="min-w-0">
+                                    <div className="text-[13px] font-bold uppercase leading-tight text-text-dark">
+                                      {block.label}
                                     </div>
-                                    {(block as any).isList ? (
-                                      <div className="w-full">
-                                        {renderTextWithTags(block.text)}
+                                    <div className="mt-1 h-px w-7 bg-[#8e6bbf]" />
+                                    {block.label === 'SKILLS' ? (
+                                      <div className="mt-2 flex flex-wrap gap-1">
+                                        {splitDetailTags(block.text).map((tag) => (
+                                          <span
+                                            key={tag}
+                                            className="rounded border border-[#8e6bbf]/20 bg-[#8e6bbf]/5 px-1.5 py-0.5 text-[9px] font-medium leading-tight text-text-dark/70"
+                                          >
+                                            {tag}
+                                          </span>
+                                        ))}
                                       </div>
                                     ) : (
-                                      <span className="text-[10px] font-medium text-text-dark leading-snug">
+                                      <p className="mt-2 text-[10px] font-medium leading-snug text-text-dark/70">
                                         {block.text}
-                                      </span>
+                                      </p>
                                     )}
                                   </div>
                                 </motion.div>
@@ -209,8 +166,8 @@ export const Web3Strategy: React.FC = () => {
                       </div>
 
                       {/* Infographic Area */}
-                      <div className="bg-white relative flex flex-col items-center justify-start p-2 h-full overflow-hidden">
-                         <div className="absolute top-3 right-3 z-10 font-mono text-[8px] bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded shadow-sm text-gray-600 border border-gray-100">
+                      <div className="bg-white relative flex flex-col items-center justify-center p-1 h-full overflow-hidden">
+                         <div className="absolute top-2 right-2 z-10 font-mono text-[8px] bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded shadow-sm text-gray-600 border border-gray-100">
                             {(project as any).infographicTag || 'INFOGRAPHIC_9:16'}
                          </div>
                          <motion.img 
@@ -218,7 +175,7 @@ export const Web3Strategy: React.FC = () => {
                            transition={{ duration: 0.5 }}
                            src={project.infographic} 
                            alt="Infographic Analysis" 
-                           className="h-[calc(100%-2.5rem)] w-auto max-w-[86%] object-contain object-top rounded-3xl mt-5"
+                           className="h-[calc(100%-3rem)] w-auto max-w-[90%] object-contain object-center rounded-3xl"
                          />
                       </div>
                     </motion.div>
