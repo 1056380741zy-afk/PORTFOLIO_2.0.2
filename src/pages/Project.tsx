@@ -7,7 +7,7 @@ import { Projects as ProjectsSection } from '../components/sections/Projects';
  */
 export const Project: React.FC = () => {
   return (
-    <main className="flex-1 min-h-full flex flex-col">
+    <main className="flex-1 h-full min-h-0 overflow-hidden flex flex-col">
       <ProjectsSection />
     </main>
   );

@@ -4,16 +4,16 @@ export const BoardBackground: React.FC = () => {
   return (
     <div className="absolute inset-0 pointer-events-none z-[1]">
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 z-0"
         style={{
-          backgroundImage: "url('/bg/backgroundpaper.png')",
+          backgroundImage: "url('/bg/background4.png')",
           backgroundSize: '105% auto',
-          backgroundPosition: 'center calc(50% + 10px)',
+          backgroundPosition: 'calc(50% + 5px) calc(50% + 5px)',
           backgroundRepeat: 'no-repeat',
         }}
       />
       <div
-        className="absolute inset-0 opacity-[0.19]"
+        className="absolute inset-0 z-10 opacity-[0.19]"
         style={{
           backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(45,45,45,0.18) 0.65px, transparent 0)',
           backgroundSize: '28px 28px',
@@ -21,7 +21,7 @@ export const BoardBackground: React.FC = () => {
         }}
       />
       <div
-        className="absolute inset-0 opacity-[0.17]"
+        className="absolute inset-0 z-10 opacity-[0.17]"
         style={{
           backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(45,45,45,0.16) 0.6px, transparent 0)',
           backgroundSize: '18px 18px',
@@ -31,7 +31,7 @@ export const BoardBackground: React.FC = () => {
         }}
       />
       <div
-        className="absolute inset-0 opacity-[0.24]"
+        className="absolute inset-0 z-10 opacity-[0.24]"
         style={{
           backgroundImage: [
             'radial-gradient(circle at 54% 52%, rgba(45,45,45,0.14) 0 1px, transparent 1px)',
@@ -43,7 +43,7 @@ export const BoardBackground: React.FC = () => {
         }}
       />
       <div
-        className="absolute right-[8%] top-[12%] h-[48%] w-[28%] opacity-[0.18]"
+        className="absolute right-[8%] top-[12%] z-10 h-[48%] w-[28%] opacity-[0.18]"
         style={{
           backgroundImage: 'radial-gradient(circle, rgba(142,107,191,0.42) 0 1px, transparent 1.15px)',
           backgroundSize: '9px 9px',
@@ -53,7 +53,7 @@ export const BoardBackground: React.FC = () => {
         }}
       />
       <div
-        className="absolute left-[28%] top-[38%] h-[30%] w-[22%] opacity-[0.14]"
+        className="absolute left-[28%] top-[38%] z-10 h-[30%] w-[22%] opacity-[0.14]"
         style={{
           backgroundImage: 'radial-gradient(circle, rgba(245,176,2,0.46) 0 1px, transparent 1.15px)',
           backgroundSize: '8px 8px',
@@ -62,15 +62,15 @@ export const BoardBackground: React.FC = () => {
           mixBlendMode: 'multiply',
         }}
       />
-      <div className="absolute left-0 right-0 top-[70%] h-px bg-[#2d2d2d]/10" />
+      <div className="absolute left-0 right-0 top-[70%] z-20 h-px bg-[#2d2d2d]/10" />
       <div
-        className="absolute left-7 bottom-10 h-px w-[140px] opacity-60"
+        className="absolute left-7 bottom-10 z-20 h-px w-[140px] opacity-60"
         style={{
           backgroundImage: 'repeating-linear-gradient(90deg, rgba(45,45,45,0.18) 0 18px, transparent 18px 30px)',
         }}
       />
       <div
-        className="absolute top-0 right-0 bottom-0 w-24 opacity-70"
+        className="absolute top-0 right-0 bottom-0 z-20 w-24 opacity-70"
         style={{
           backgroundImage: [
             'linear-gradient(to bottom, transparent 0, transparent 100%)',
@@ -81,16 +81,16 @@ export const BoardBackground: React.FC = () => {
           backgroundRepeat: 'no-repeat, repeat',
         }}
       />
-      <div className="absolute right-2 top-3 text-[9px] font-mono text-text-dark/40 tracking-[0.22em]">
+      <div className="absolute right-2 top-3 z-30 text-[9px] font-mono text-text-dark/40 tracking-[0.22em]">
         00:00:00
       </div>
-      <div className="absolute right-2 top-12 text-[9px] font-mono text-text-dark/40 tracking-[0.22em]">
+      <div className="absolute right-2 top-12 z-30 text-[9px] font-mono text-text-dark/40 tracking-[0.22em]">
         00:01:28
       </div>
-      <div className="absolute right-2 top-[44%] text-[9px] font-mono text-text-dark/35 tracking-[0.22em]">
+      <div className="absolute right-2 top-[44%] z-30 text-[9px] font-mono text-text-dark/35 tracking-[0.22em]">
         N 31.23
       </div>
-      <div className="absolute right-2 top-[60%] text-[9px] font-mono text-text-dark/35 tracking-[0.22em]">
+      <div className="absolute right-2 top-[60%] z-30 text-[9px] font-mono text-text-dark/35 tracking-[0.22em]">
         E 121.47
       </div>
     </div>

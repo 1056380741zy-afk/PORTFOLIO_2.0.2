@@ -43,7 +43,7 @@ const CITIES: Array<{
     id: 'dubai',
     name: 'Dubai',
     emoji: '🇦🇪',
-    country: 'United Arab Emirates',
+    country: 'UAE',
     coordinates: [55.2708, 25.2048] as [number, number],
     range: '2024.9 – 2025.11',
     mapConfig: { center: [55, 24] as [number, number], scale: 520 },
@@ -228,34 +228,49 @@ export const JourneyMap: React.FC = () => {
   return (
     <section
       id="journey"
-      className="w-full h-full min-h-0 overscroll-none overflow-hidden"
+      className="min-h-0 overscroll-none overflow-hidden bg-[#fdfcf4] rounded-[28px]"
+      style={{
+        marginTop: '20px',
+        marginLeft: '5px',
+        width: 'calc(100% - 13px)',
+        height: 'calc(100% - 47px)',
+      }}
     >
       <div
         style={{
-          paddingTop: 'clamp(18px, 2vw, 28px)',
-          paddingRight: 'clamp(18px, 2vw, 28px)',
-          paddingBottom: 'calc(clamp(18px, 2vw, 28px) + 15px)',
-          paddingLeft: 'clamp(18px, 2vw, 28px)',
           height: '100%',
           maxHeight: '100%',
           boxSizing: 'border-box',
           overflow: 'hidden',
+          borderRadius: '28px',
+          backgroundColor: '#fdfcf4',
         }}
       >
         {/* ── Two-Column Body: 40/60 Split ── */}
         <div
-          className="flex flex-col lg:flex-row w-full h-full max-h-full min-h-0 overflow-hidden rounded-[32px] border border-[#2d2d2d]/5 bg-[#fbfaf7]/45 shadow-[0_10px_30px_rgba(45,45,45,0.035)] px-[10px] py-[15px]"
+          className="flex flex-col lg:flex-row w-full h-full max-h-full min-h-0 overflow-hidden rounded-[28px] bg-[#fdfcf4] shadow-[0_10px_30px_rgba(45,45,45,0.035)]"
           style={{
-            clipPath: 'inset(0 round 32px)',
+            clipPath: 'inset(0 round 28px)',
             contain: 'paint',
+            marginTop: '5px',
+            justifyContent: 'center',
+            gap: 0,
           }}
         >
 
         {/* ── Left Column: Fixed heading + scrollable timeline (40% width on desktop) ── */}
-        <div className="w-full lg:w-[40%] relative lg:border-r lg:border-[#c4c2b7]/15 lg:h-full min-h-0 overflow-hidden flex flex-col items-center justify-center">
-          <div className="shrink-0 px-6 md:px-10">
+        <div
+          className="w-full lg:w-[40%] relative lg:border-r lg:border-[#c4c2b7]/15 min-h-0 overflow-hidden flex flex-col items-stretch justify-center"
+          style={{
+            marginTop: '15px',
+            marginBottom: '15px',
+            width: '485px',
+            height: 'calc(100% - 30px)',
+          }}
+        >
+          <div className="shrink-0 px-[15px]">
             <div className="pt-4 md:pt-5 pb-3">
-              <div className="px-6 md:px-7 py-4 md:py-5 bg-base-bg/90 backdrop-blur-sm rounded-[32px]">
+              <div className="px-6 md:px-7 py-4 md:py-5 bg-[#fdfcf4] backdrop-blur-sm rounded-[32px]">
               <div className="flex items-end justify-between">
                 <h2 className="page-title mb-0">
                   {t.journey.title}
@@ -270,7 +285,7 @@ export const JourneyMap: React.FC = () => {
 
           <div
             id="journey-details-scroll"
-            className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden hide-scrollbar px-6 md:px-10 relative pt-2 pb-8"
+            className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden hide-scrollbar px-[15px] relative pt-2 pb-0"
           >
 
           {/* Vertical dashed line guide */}
@@ -284,7 +299,8 @@ export const JourneyMap: React.FC = () => {
               <div
                 key={city.id}
                 ref={(el) => { cityRefs.current[idx] = el; }}
-                className="min-h-[410px] lg:min-h-[440px] py-0.5 last:border-b-0 flex flex-col relative z-10"
+                className="min-h-[410px] lg:min-h-[440px] last:border-b-0 flex flex-col relative z-10"
+                style={{ marginLeft: '-10px', marginRight: '-15px' }}
               >
                 {/* Explorer Cursor (Timeline marker) */}
                 <div className="absolute left-[2.9rem] top-20 -translate-x-1/2">
@@ -478,13 +494,17 @@ export const JourneyMap: React.FC = () => {
         {/* ── Right Column: Non-scrolling Map (60% width on desktop) ── */}
         <div
           ref={mapContainerRef}
-          className="w-full lg:w-[60%] bg-[#f7f6f3] relative overflow-hidden overscroll-none h-[54vh] lg:h-full min-h-0 p-[5px] flex items-center justify-center"
+          className="w-full lg:w-[60%] bg-[#fdfcf4] relative overflow-hidden overscroll-none h-[54vh] min-h-0 p-[5px] flex items-center justify-center rounded-[28px]"
+          style={{
+            margin: '15px',
+            height: 'calc(100% - 30px)',
+          }}
         >
           {/* Decorative technical border */}
           <div className="absolute inset-[5px] border-l border-[#c4c2b7]/20 pointer-events-none" />
 
           {/* Measuring Rulers */}
-          <div className="absolute top-[5px] left-[5px] right-[5px] h-6 border-b border-[#c4c2b7]/20 bg-[#f7f6f3] z-10 flex items-center px-4 overflow-hidden pointer-events-none">
+          <div className="absolute top-[5px] left-[5px] right-[5px] h-6 border-b border-[#c4c2b7]/20 bg-[#fdfcf4] z-10 flex items-center px-4 overflow-hidden pointer-events-none">
             {Array.from({ length: 40 }).map((_, i) => (
               <div key={i} className="flex-shrink-0 flex flex-col items-center" style={{ width: '40px' }}>
                 <div className="h-2 w-px bg-[#c4c2b7]/40" />
@@ -492,7 +512,7 @@ export const JourneyMap: React.FC = () => {
               </div>
             ))}
           </div>
-          <div className="absolute top-[5px] left-[5px] bottom-[5px] w-6 border-r border-[#c4c2b7]/20 bg-[#f7f6f3] z-10 flex flex-col items-center py-4 overflow-hidden pointer-events-none">
+          <div className="absolute top-[5px] left-[5px] bottom-[5px] w-6 border-r border-[#c4c2b7]/20 bg-[#fdfcf4] z-10 flex flex-col items-center py-4 overflow-hidden pointer-events-none">
             {Array.from({ length: 30 }).map((_, i) => (
               <div key={i} className="flex-shrink-0 flex items-center justify-end pr-1" style={{ height: '40px', width: '24px' }}>
                 <span className="text-[8px] font-mono text-[#c4c2b7]/40 mr-1">{i * 10}°</span>
@@ -533,7 +553,13 @@ export const JourneyMap: React.FC = () => {
               center: projConfig.center,
               scale: projConfig.scale,
             }}
-            style={{ width: '100%', height: '100%' }}
+            style={{
+              width: '100%',
+              height: '100%',
+              backgroundColor: '#fdfcf4',
+              borderRadius: '28px',
+              border: '1px solid #fdfcf4',
+            }}
           >
             <defs>
               {/* 海洋排线图案：细、密、低对比度的地图纹理 */}
@@ -544,7 +570,7 @@ export const JourneyMap: React.FC = () => {
 
             {/* 背景层：覆盖整个海洋区域的横线填充
                 使用 rect 并确保其在最底层渲染 */}
-            <rect x="-10000" y="-10000" width="20000" height="20000" fill="#f6f6f1" />
+            <rect x="-10000" y="-10000" width="20000" height="20000" fill="#fdfcf4" />
             <rect x="-10000" y="-10000" width="20000" height="20000" fill="url(#hatch-ocean)" />
 
             {/* 第一部分：海岸线外围装饰（双层效果） */}

@@ -1,12 +1,13 @@
 import React from 'react';
-import { Eye, EyeOff, SlidersHorizontal, Stamp } from 'lucide-react';
-import type { CardControl, CardId, StampControl } from './types';
+import { Eye, EyeOff, Move, RotateCcw, SlidersHorizontal, Stamp } from 'lucide-react';
+import type { CardAdjustControl, CardControl, CardId, StampControl } from './types';
 
 type BoardControlsProps = {
   cardControls: CardControl[];
   cardMenuOpen: boolean;
   hiddenCards: Set<CardId>;
   stampControl?: StampControl;
+  cardAdjustControl?: CardAdjustControl;
   onToggleCardMenu: () => void;
   onToggleCardVisibility: (id: CardId) => void;
 };
@@ -16,10 +17,12 @@ export const BoardControls: React.FC<BoardControlsProps> = ({
   cardMenuOpen,
   hiddenCards,
   stampControl,
+  cardAdjustControl,
   onToggleCardMenu,
   onToggleCardVisibility,
 }) => {
   const isCardVisible = (id: CardId) => !hiddenCards.has(id);
+  const adjustableCards = cardControls;
 
   return (
     <div
@@ -53,7 +56,7 @@ export const BoardControls: React.FC<BoardControlsProps> = ({
         </button>
 
         {cardMenuOpen && (
-          <div className="absolute left-1/2 top-full mt-2 w-[164px] -translate-x-1/2 rounded-lg border border-[#2d2d2d]/10 bg-[#f9f4e8]/90 p-2 shadow-md backdrop-blur-sm">
+          <div className="absolute left-1/2 top-full mt-2 w-[164px] -translate-x-1/2 rounded-lg border border-[#2d2d2d]/10 bg-[#fdfcf4]/90 p-2 shadow-md backdrop-blur-sm">
             {cardControls.map((card) => {
               const visible = isCardVisible(card.id);
               return (
@@ -75,6 +78,65 @@ export const BoardControls: React.FC<BoardControlsProps> = ({
           </div>
         )}
       </div>
+
+      {cardAdjustControl && (
+        <div className="relative">
+          <button
+            type="button"
+            onClick={cardAdjustControl.onToggle}
+            aria-expanded={cardAdjustControl.isOpen}
+            className={`board-file-tab ${cardAdjustControl.isOpen ? 'active' : ''}`}
+          >
+            <Move size={13} />
+            Adjust
+          </button>
+
+          {cardAdjustControl.isOpen && (
+            <div className="absolute left-1/2 top-full mt-2 w-[260px] -translate-x-1/2 rounded-lg border border-[#2d2d2d]/10 bg-[#fdfcf4]/90 p-3 shadow-md backdrop-blur-sm">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-text-dark/60">
+                  Card Position
+                </span>
+                <button
+                  type="button"
+                  onClick={cardAdjustControl.onReset}
+                  className="flex items-center gap-1 rounded px-1.5 py-1 text-[9px] font-mono uppercase tracking-[0.12em] text-text-dark/45 hover:bg-[#efe1d1] hover:text-text-dark"
+                >
+                  <RotateCcw size={11} />
+                  Reset
+                </button>
+              </div>
+
+              <div className="grid gap-2">
+                {adjustableCards.map((card) => {
+                  const current = cardAdjustControl.offsets[card.id] ?? { x: 0, y: 0 };
+                  return (
+                    <div key={card.id} className="grid grid-cols-[76px_1fr_1fr] items-center gap-2">
+                      <span className="text-[9px] font-mono uppercase tracking-[0.12em] text-text-dark/60">
+                        {card.label}
+                      </span>
+                      {(['x', 'y'] as const).map((axis) => (
+                        <label key={axis} className="flex items-center gap-1">
+                          <span className="text-[9px] font-mono uppercase text-text-dark/35">{axis}</span>
+                          <input
+                            type="number"
+                            value={current[axis]}
+                            onChange={(event) => {
+                              const next = Number(event.target.value);
+                              cardAdjustControl.onChange(card.id, axis, Number.isFinite(next) ? next : 0);
+                            }}
+                            className="h-7 w-full rounded border border-[#2d2d2d]/10 bg-white/70 px-1.5 text-[10px] font-mono text-text-dark outline-none focus:border-[#8e6bbf]/45"
+                          />
+                        </label>
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

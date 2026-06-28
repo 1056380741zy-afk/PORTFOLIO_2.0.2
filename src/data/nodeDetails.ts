@@ -204,7 +204,7 @@ export const nodeDetailsDataCn =
         degree: "国际商务 (硕士)",
         period: "2024.09 – 2025.11",
         focus: "市场战略、Web3 生态、中东非体制环境",
-        honor: "GPA 3.6/4.0"
+        honor: "全额奖学金"
       }
     ],
     impacts: [
@@ -237,7 +237,7 @@ export const nodeDetailsDataCn =
         degree: "阿拉伯语专业 (本科交换)",
         period: "2022.09 – 2023.06",
         focus: "阿拉伯语语言与文化沉浸",
-        honor: "GPA 4.0/4.0, 综测年级第一"
+        honor: "综测年级第一"
       }
     ],
     impacts: [

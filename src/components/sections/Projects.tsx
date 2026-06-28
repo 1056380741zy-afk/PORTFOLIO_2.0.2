@@ -11,6 +11,7 @@ type View = 'entry' | 'web3' | 'b2b';
 export const Projects: React.FC = () => {
   const { t } = useLanguage();
   const [view, setView] = useState<View>('entry');
+  const year = new Date().getFullYear();
 
   useEffect(() => {
     if (view !== 'entry') {
@@ -37,7 +38,8 @@ export const Projects: React.FC = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 0.99 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
-          className="relative h-[calc(85vh-3.75rem)] flex flex-col px-6 overflow-hidden"
+          className="relative h-full w-full items-center justify-center rounded-[28px] flex flex-col px-0 overflow-hidden"
+          style={{ backgroundColor: '#fdfcf4' }}
         >
           <div
             className="absolute inset-0 pointer-events-none opacity-100"
@@ -48,7 +50,7 @@ export const Projects: React.FC = () => {
               backgroundPosition: 'center',
             }}
           />
-          <div className="max-w-6xl mx-auto w-full flex flex-col h-full py-16">
+          <div className="max-w-6xl mx-auto w-full flex flex-col flex-1 min-h-0 py-16">
 
             {/* Large display title */}
             <div className="relative z-10 flex-none">
@@ -76,6 +78,9 @@ export const Projects: React.FC = () => {
             </div>
 
           </div>
+          <div className="relative z-10 max-w-6xl mx-auto w-full border-t border-[#2d2d2d]/10 px-0 pt-5 pb-5 font-mono text-[10px] leading-none text-text-dark/65">
+            © {year} Yan Zhu. {t.footer.rights}
+          </div>
         </motion.div>
       )}
 
@@ -87,8 +92,12 @@ export const Projects: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -16 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="relative h-full overflow-hidden flex flex-col"
+          className={`relative h-full flex flex-col ${view === 'b2b' ? 'overflow-y-auto overflow-x-hidden custom-scrollbar' : 'overflow-hidden'}`}
           style={{
+            width: 'calc(100% - 8px)',
+            height: 'calc(100% - 20px)',
+            margin: '0 auto',
+            backgroundColor: '#fdfcf4',
             backgroundImage: "url('/bg/SandDune.svg')",
             backgroundRepeat: 'no-repeat',
             backgroundSize: '100% auto',
@@ -117,7 +126,7 @@ export const Projects: React.FC = () => {
             className={`px-6 mx-auto w-full ${
               view === 'web3'
                 ? 'max-w-[1280px] flex-1 min-h-0 flex items-center py-4'
-                : 'max-w-6xl pt-5 pb-4'
+                : 'max-w-6xl pt-5 pb-10'
             }`}
           >
             {view === 'web3' ? (

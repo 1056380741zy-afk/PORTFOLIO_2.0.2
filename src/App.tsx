@@ -1,5 +1,6 @@
 import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Navbar } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { AIChat } from './components/common/AIChat';
@@ -12,14 +13,14 @@ const Project = lazy(() => import('./pages/Project').then(m => ({ default: m.Pro
 
 // 加载中占位组件
 const PageLoader = () => (
-  <div className="flex-1 flex items-center justify-center bg-[#efe1d1] min-h-[60vh]">
+  <div className="flex-1 flex items-center justify-center bg-[#faf4eb] min-h-[60vh]">
     <div className="w-8 h-8 border-2 border-[#8e6bbf]/20 border-t-[#8e6bbf] rounded-full animate-spin" />
   </div>
 );
 
 const AppContent: React.FC = () => {
   const location = useLocation();
-  const shouldShowGlobalFooter = location.pathname !== '/' && location.pathname !== '/journey';
+  const shouldShowGlobalFooter = location.pathname !== '/' && location.pathname !== '/journey' && location.pathname !== '/projects';
 
   // 页面切换时滚动到顶部
   useEffect(() => {
@@ -30,10 +31,10 @@ const AppContent: React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <div className="h-dvh bg-[#efe1d1] pl-[clamp(1rem,4vw,3rem)] pr-[calc(clamp(2.5rem,8vw,6rem)-5px)] py-[clamp(1rem,3vw,2.5rem)] flex items-stretch font-sans overflow-hidden">
-      <div className="relative flex-1 flex flex-col min-h-0">
+    <div className="h-dvh bg-[#faf4eb] pl-[clamp(1rem,4vw,3rem)] pr-[calc(clamp(2.5rem,8vw,6rem)-5px)] py-[clamp(1rem,3vw,2.5rem)] flex items-stretch font-sans overflow-hidden">
+      <div className="relative flex-1 flex flex-col min-h-0 rounded-[28px]">
         <div
-          className="relative flex-1 bg-[#f9f4e8] rounded-[32px] flex flex-col min-h-0"
+          className="relative flex-1 bg-[#f9f4e8] rounded-[28px] flex flex-col min-h-0"
           style={{
             boxShadow:
               '0 18px 36px rgba(90, 70, 45, 0.18), inset 0 0 0 1px rgba(241, 228, 212, 0.82), inset 0 1px 0 rgba(255,255,255,0.42)',
@@ -43,18 +44,29 @@ const AppContent: React.FC = () => {
             <Navbar />
           </header>
           
-          <main className="flex-1 min-h-0 relative overflow-hidden rounded-b-[32px]">
+          <main className="flex-1 min-h-0 relative overflow-hidden rounded-[28px]">
             <div
               id="main-scroll-container"
-              className="h-full overflow-x-hidden overflow-y-auto relative custom-scrollbar scroll-smooth"
+              className="h-full overflow-x-hidden overflow-y-auto relative custom-scrollbar scroll-smooth rounded-[28px]"
             >
               <Suspense fallback={<PageLoader />}>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/journey" element={<Journey />} />
-                  <Route path="/projects" element={<Project />} />
-                  <Route path="/about" element={<Navigate to="/" replace />} />
-                </Routes>
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={location.pathname}
+                    className="h-full"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.22, ease: 'easeInOut' }}
+                  >
+                    <Routes location={location}>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/journey" element={<Journey />} />
+                      <Route path="/projects" element={<Project />} />
+                      <Route path="/about" element={<Navigate to="/" replace />} />
+                    </Routes>
+                  </motion.div>
+                </AnimatePresence>
               </Suspense>
             </div>
           </main>
