@@ -45,7 +45,7 @@ const CITIES: Array<{
     emoji: '🇦🇪',
     country: 'UAE',
     coordinates: [55.2708, 25.2048] as [number, number],
-    range: '2024.9 – 2025.11',
+    range: '2024.9 – 2026.1',
     mapConfig: { center: [55, 24] as [number, number], scale: 520 },
   },
 ];
@@ -228,12 +228,13 @@ export const JourneyMap: React.FC = () => {
   return (
     <section
       id="journey"
-      className="min-h-0 overscroll-none overflow-hidden bg-[#fdfcf4] rounded-[28px]"
+      className="min-h-0 overscroll-none overflow-hidden rounded-[28px]"
       style={{
         marginTop: '20px',
         marginLeft: '5px',
         width: 'calc(100% - 13px)',
         height: 'calc(100% - 47px)',
+        backgroundColor: '#fcf9f0',
       }}
     >
       <div
@@ -243,12 +244,13 @@ export const JourneyMap: React.FC = () => {
           boxSizing: 'border-box',
           overflow: 'hidden',
           borderRadius: '28px',
-          backgroundColor: '#fdfcf4',
+          border: '1px solid #f7f6f3',
+          backgroundColor: 'rgba(252, 249, 240, 0.88)',
         }}
       >
         {/* ── Two-Column Body: 40/60 Split ── */}
         <div
-          className="flex flex-col lg:flex-row w-full h-full max-h-full min-h-0 overflow-hidden rounded-[28px] bg-[#fdfcf4] shadow-[0_10px_30px_rgba(45,45,45,0.035)]"
+          className="flex flex-col lg:flex-row w-full h-full max-h-full min-h-0 overflow-hidden rounded-[28px] bg-[#fcf9f0]/88 shadow-[0_10px_30px_rgba(90,70,45,0.08)]"
           style={{
             clipPath: 'inset(0 round 28px)',
             contain: 'paint',
@@ -269,10 +271,10 @@ export const JourneyMap: React.FC = () => {
           }}
         >
           <div className="shrink-0 px-[15px]">
-            <div className="pt-4 md:pt-5 pb-3">
-              <div className="px-6 md:px-7 py-4 md:py-5 bg-[#fdfcf4] backdrop-blur-sm rounded-[32px]">
-              <div className="flex items-end justify-between">
-                <h2 className="page-title mb-0">
+            <div className="pt-0 pb-2.5">
+              <div className="px-0 py-[11px] bg-[#fcf9f0] backdrop-blur-sm rounded-none">
+              <div className="-mt-5 flex items-end justify-between">
+                <h2 className="page-title journey-page-title mb-0">
                   {t.journey.title}
                 </h2>
                 <p className="text-xs text-[#2D2926]/60 hidden md:block uppercase tracking-widest mt-1">
@@ -283,9 +285,15 @@ export const JourneyMap: React.FC = () => {
           </div>
           </div>
 
-          <div
-            id="journey-details-scroll"
-            className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden hide-scrollbar px-[15px] relative pt-2 pb-0"
+        <div
+          id="journey-details-scroll"
+            className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden hide-scrollbar relative pb-0"
+            style={{
+              width: '490px',
+              paddingTop: 0,
+              paddingRight: '25px',
+              paddingLeft: 0,
+            }}
           >
 
           {/* Vertical dashed line guide */}
@@ -300,14 +308,14 @@ export const JourneyMap: React.FC = () => {
                 key={city.id}
                 ref={(el) => { cityRefs.current[idx] = el; }}
                 className="min-h-[410px] lg:min-h-[440px] last:border-b-0 flex flex-col relative z-10"
-                style={{ marginLeft: '-10px', marginRight: '-15px' }}
+                style={{ marginLeft: '-10px', marginRight: '0px' }}
               >
                 {/* Explorer Cursor (Timeline marker) */}
                 <div className="absolute left-[2.9rem] top-20 -translate-x-1/2">
                   <motion.div
                     animate={isActive ? { scale: [1, 1.2, 1], opacity: 1 } : { scale: 1, opacity: 0.3 }}
                     className={`w-4 h-4 rounded-full border-2 border-white shadow-sm transition-colors duration-500 ${
-                      isActive ? 'bg-[#8e6bbf]' : 'bg-gray-300'
+                      isActive ? 'bg-[#9f8fdb]' : 'bg-gray-300'
                     }`}
                   />
                   {isActive && (
@@ -315,7 +323,7 @@ export const JourneyMap: React.FC = () => {
                       initial={{ scale: 0.5, opacity: 0 }}
                       animate={{ scale: 1.5, opacity: 0 }}
                       transition={{ duration: 1.5, repeat: Infinity }}
-                      className="absolute inset-0 rounded-full bg-[#8e6bbf]"
+                      className="absolute inset-0 rounded-full bg-[#9f8fdb]"
                     />
                   )}
                 </div>
@@ -325,7 +333,7 @@ export const JourneyMap: React.FC = () => {
                   <div
                     className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl transition-all duration-500 ${
                       isActive
-                        ? 'bg-[#8e6bbf]/10 shadow-sm ring-1 ring-[#8e6bbf]/20'
+                        ? 'bg-[#9f8fdb]/10 shadow-sm ring-1 ring-[#9f8fdb]/20'
                         : 'bg-white/50 grayscale opacity-40'
                     }`}
                   >
@@ -344,7 +352,7 @@ export const JourneyMap: React.FC = () => {
                         {city.range}
                       </p>
                       <span className="w-1 h-1 rounded-full bg-gray-300" />
-                      <span className="text-xs font-bold text-[#8e6bbf] uppercase tracking-wider">
+                      <span className="text-xs font-bold text-[#9f8fdb] uppercase tracking-wider">
                         {city.country}
                       </span>
                     </div>
@@ -371,7 +379,7 @@ export const JourneyMap: React.FC = () => {
                           <div className="text-xs text-gray-500 font-medium mb-2">{edu.subSchool}</div>
                         )}
                         <div className="flex items-center justify-between pt-3 border-t border-[#2D2926]/5 mt-2">
-                          <span className="text-xs font-bold text-[#8e6bbf] uppercase tracking-wide">
+                          <span className="text-xs font-bold text-[#9f8fdb] uppercase tracking-wide">
                             {edu.degree}
                           </span>
                           <span className="text-[10px] font-mono text-gray-400">
@@ -382,7 +390,7 @@ export const JourneyMap: React.FC = () => {
                           <div className="flex flex-col gap-1.5 mt-3">
                             {edu.focus && (
                               <div className="flex items-start gap-2 text-xs text-gray-500 leading-snug">
-                                <Target size={12} className="text-[#8e6bbf] shrink-0 mt-0.5" />
+                                <Target size={12} className="text-[#9f8fdb] shrink-0 mt-0.5" />
                                 <span>{edu.focus}</span>
                               </div>
                             )}
@@ -417,7 +425,7 @@ export const JourneyMap: React.FC = () => {
                               <div className="flex justify-between items-start">
                                 <span
                                   className={`text-xs font-bold ${
-                                    role.isPrimary ? 'text-[#8e6bbf]' : 'text-[#2D2926]'
+                                    role.isPrimary ? 'text-[#9f8fdb]' : 'text-[#2D2926]'
                                   }`}
                                 >
                                   {role.title}
@@ -437,7 +445,7 @@ export const JourneyMap: React.FC = () => {
                       <div
                         key={impactIdx}
                         className={`relative pl-6 border-l-2 transition-all duration-500 ${
-                          isActive ? 'border-[#8e6bbf] opacity-100' : 'border-gray-200 opacity-40'
+                          isActive ? 'border-[#9f8fdb] opacity-100' : 'border-gray-200 opacity-40'
                         }`}
                       >
                         <h4 className="text-xs font-bold text-[#2D2926] mb-2 uppercase tracking-widest">
@@ -454,7 +462,7 @@ export const JourneyMap: React.FC = () => {
                                 className="px-3 py-2.5 rounded-xl border border-[#2D2926]/5 bg-white shadow-sm"
                               >
                                 <span className={`block text-xl font-black mb-0.5 ${
-                                  stat.theme === 'purple' ? 'text-[#8e6bbf]' : 'text-[#f5b002]'
+                                  stat.theme === 'purple' ? 'text-[#9f8fdb]' : 'text-[#f5b002]'
                                 }`}>
                                   {stat.value}
                                 </span>
@@ -496,8 +504,9 @@ export const JourneyMap: React.FC = () => {
           ref={mapContainerRef}
           className="w-full lg:w-[60%] bg-[#fdfcf4] relative overflow-hidden overscroll-none h-[54vh] min-h-0 p-[5px] flex items-center justify-center rounded-[28px]"
           style={{
-            margin: '15px',
-            height: 'calc(100% - 30px)',
+            margin: 0,
+            height: '634px',
+            maxHeight: 'none',
           }}
         >
           {/* Decorative technical border */}
@@ -529,7 +538,7 @@ export const JourneyMap: React.FC = () => {
                 onClick={() => scrollToCity(idx)}
                 className={`px-4 py-2 rounded-xl text-[11px] font-bold transition-all duration-300 flex items-center gap-2 ${
                   activeCityIdx === idx
-                    ? 'bg-[#8e6bbf] text-white shadow-lg shadow-[#8e6bbf]/20'
+                    ? 'bg-[#9f8fdb] text-white shadow-lg shadow-[#9f8fdb]/20'
                     : 'text-[#c4c2b7]/60 hover:bg-white/80'
                 }`}
               >
@@ -556,21 +565,21 @@ export const JourneyMap: React.FC = () => {
             style={{
               width: '100%',
               height: '100%',
-              backgroundColor: '#fdfcf4',
+              backgroundColor: '#fcf9f0',
               borderRadius: '28px',
-              border: '1px solid #fdfcf4',
+              border: '1px solid #f7f6f3',
             }}
           >
             <defs>
               {/* 海洋排线图案：细、密、低对比度的地图纹理 */}
               <pattern id="hatch-ocean" width="4" height="5.5" patternUnits="userSpaceOnUse">
-                <line x1="0" y1="0.75" x2="4" y2="0.75" stroke="#cdcdc7" strokeWidth="0.8" opacity="1" />
+                <line x1="0" y1="0.75" x2="4" y2="0.75" stroke="#cfc8bb" strokeWidth="0.8" opacity="0.82" />
               </pattern>
             </defs>
 
             {/* 背景层：覆盖整个海洋区域的横线填充
                 使用 rect 并确保其在最底层渲染 */}
-            <rect x="-10000" y="-10000" width="20000" height="20000" fill="#fdfcf4" />
+            <rect x="-10000" y="-10000" width="20000" height="20000" fill="#fcf9f0" />
             <rect x="-10000" y="-10000" width="20000" height="20000" fill="url(#hatch-ocean)" />
 
             {/* 第一部分：海岸线外围装饰（双层效果） */}
@@ -650,7 +659,7 @@ export const JourneyMap: React.FC = () => {
                   isVisible: activeCityIdx >= 2,
                 },
               ]}
-              color="#8e6bbf"
+              color="#9f8fdb"
             />
 
             {/* City markers */}
@@ -671,18 +680,18 @@ export const JourneyMap: React.FC = () => {
                     <circle
                       r={isActive ? 8 : 4}
                       fill="none"
-                      stroke={visited ? '#8e6bbf' : '#c4c2b7'}
+                      stroke={visited ? '#9f8fdb' : '#c4c2b7'}
                       strokeWidth={1}
                     />
                     <circle
                       r={isActive ? 4 : 2}
-                      fill={visited ? '#8e6bbf' : '#c4c2b7'}
+                      fill={visited ? '#9f8fdb' : '#c4c2b7'}
                     />
                     {isActive && (
                        <motion.circle
                         r={12}
                         fill="none"
-                        stroke="#8e6bbf"
+                        stroke="#9f8fdb"
                         strokeWidth={0.5}
                         strokeDasharray="2 2"
                         animate={{ rotate: 360 }}
@@ -698,7 +707,7 @@ export const JourneyMap: React.FC = () => {
                       style={{
                         fontFamily: 'JetBrains Mono, monospace',
                         fontSize: isActive ? 10 : 8,
-                        fill: isActive ? '#8e6bbf' : '#c4c2b7',
+                        fill: isActive ? '#9f8fdb' : '#c4c2b7',
                         fontWeight: isActive ? 700 : 500,
                         pointerEvents: 'none',
                         textTransform: 'uppercase',

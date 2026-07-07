@@ -15,7 +15,7 @@ export const StrategicBlock: React.FC<StrategicBlockProps> = ({
 }) => {
   return (
     <div className="space-y-2">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <span className="text-sm">{icon}</span>
         <h5 className="font-bold text-text-dark text-sm uppercase tracking-wide">{title}</h5>
       </div>

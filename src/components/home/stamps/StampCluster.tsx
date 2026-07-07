@@ -212,7 +212,7 @@ export const StampCluster: React.FC<StampClusterProps> = ({ isEditMode, setIsEdi
               type="button"
               onMouseEnter={() => setHoveredIndex(idx)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className="absolute select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8e6bbf]/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f7f6f3] rounded-lg pointer-events-auto"
+              className="absolute select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9f8fdb]/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f7f6f3] rounded-lg pointer-events-auto"
               style={{
                 left,
                 top,
@@ -261,7 +261,7 @@ export const StampCluster: React.FC<StampClusterProps> = ({ isEditMode, setIsEdi
                 <button
                   type="button"
                   onClick={saveOffsets}
-                  className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#8e6bbf] hover:text-[#7e4ba6] transition-colors"
+                  className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#9f8fdb] hover:text-[#8f7ed1] transition-colors"
                 >
                   Save
                 </button>
@@ -301,7 +301,7 @@ export const StampCluster: React.FC<StampClusterProps> = ({ isEditMode, setIsEdi
                               [stamp.id]: { x: Number.isFinite(next) ? next : 0, y: prev[stamp.id]?.y ?? 0 },
                             }));
                           }}
-                          className="h-8 px-2 rounded-lg border border-black/10 bg-white text-[11px] font-mono text-text-dark focus:outline-none focus:ring-2 focus:ring-[#8e6bbf]/25"
+                          className="h-8 px-2 rounded-lg border border-black/10 bg-white text-[11px] font-mono text-text-dark focus:outline-none focus:ring-2 focus:ring-[#9f8fdb]/25"
                         />
                       </label>
                       <label className="flex flex-col gap-1">
@@ -317,7 +317,7 @@ export const StampCluster: React.FC<StampClusterProps> = ({ isEditMode, setIsEdi
                               [stamp.id]: { x: prev[stamp.id]?.x ?? 0, y: Number.isFinite(next) ? next : 0 },
                             }));
                           }}
-                          className="h-8 px-2 rounded-lg border border-black/10 bg-white text-[11px] font-mono text-text-dark focus:outline-none focus:ring-2 focus:ring-[#8e6bbf]/25"
+                          className="h-8 px-2 rounded-lg border border-black/10 bg-white text-[11px] font-mono text-text-dark focus:outline-none focus:ring-2 focus:ring-[#9f8fdb]/25"
                         />
                       </label>
                     </div>

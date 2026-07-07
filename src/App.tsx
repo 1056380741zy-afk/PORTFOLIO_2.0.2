@@ -9,18 +9,18 @@ import { LanguageProvider } from './contexts/LanguageContext';
 // 路由懒加载
 const Home = lazy(() => import('./pages/Home').then(m => ({ default: m.Home })));
 const Journey = lazy(() => import('./pages/Journey').then(m => ({ default: m.Journey })));
-const Project = lazy(() => import('./pages/Project').then(m => ({ default: m.Project })));
+const ProjectPreview = lazy(() => import('./pages/ProjectPreview').then(m => ({ default: m.ProjectPreview })));
 
 // 加载中占位组件
 const PageLoader = () => (
   <div className="flex-1 flex items-center justify-center bg-[#faf4eb] min-h-[60vh]">
-    <div className="w-8 h-8 border-2 border-[#8e6bbf]/20 border-t-[#8e6bbf] rounded-full animate-spin" />
+    <div className="w-8 h-8 border-2 border-[#9f8fdb]/20 border-t-[#9f8fdb] rounded-full animate-spin" />
   </div>
 );
 
 const AppContent: React.FC = () => {
   const location = useLocation();
-  const shouldShowGlobalFooter = location.pathname !== '/' && location.pathname !== '/journey' && location.pathname !== '/projects';
+  const shouldShowGlobalFooter = !['/', '/journey'].includes(location.pathname) && !location.pathname.startsWith('/projects');
 
   // 页面切换时滚动到顶部
   useEffect(() => {
@@ -61,8 +61,11 @@ const AppContent: React.FC = () => {
                   >
                     <Routes location={location}>
                       <Route path="/" element={<Home />} />
+                      <Route path="/home-2" element={<Navigate to="/" replace />} />
                       <Route path="/journey" element={<Journey />} />
-                      <Route path="/projects" element={<Project />} />
+                      <Route path="/projects/preview" element={<ProjectPreview />} />
+                      <Route path="/projects/preview/:detail" element={<ProjectPreview />} />
+                      <Route path="/projects" element={<Navigate to="/projects/preview" replace />} />
                       <Route path="/about" element={<Navigate to="/" replace />} />
                     </Routes>
                   </motion.div>

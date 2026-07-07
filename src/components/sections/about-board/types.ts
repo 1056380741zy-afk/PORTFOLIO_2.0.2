@@ -1,4 +1,4 @@
-export type CardId = 'postcard' | 'blueprint' | 'language' | 'toolbox' | 'sticky';
+export type CardId = 'postcardBack' | 'postcardFront' | 'blueprint' | 'language' | 'toolbox' | 'sticky';
 
 export type CardControl = {
   id: CardId;
@@ -8,6 +8,7 @@ export type CardControl = {
 export type CardAdjustOffset = {
   x: number;
   y: number;
+  scale: number;
 };
 
 export type CardAdjustControl = {

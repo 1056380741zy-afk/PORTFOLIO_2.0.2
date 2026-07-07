@@ -1,5 +1,5 @@
 import React from 'react';
-import { Eye, EyeOff, Move, RotateCcw, SlidersHorizontal, Stamp } from 'lucide-react';
+import { Eye, EyeOff, Move, RotateCcw, SlidersHorizontal } from 'lucide-react';
 import type { CardAdjustControl, CardControl, CardId, StampControl } from './types';
 
 type BoardControlsProps = {
@@ -7,7 +7,7 @@ type BoardControlsProps = {
   cardMenuOpen: boolean;
   hiddenCards: Set<CardId>;
   stampControl?: StampControl;
-  cardAdjustControl?: CardAdjustControl;
+  adjustControl?: CardAdjustControl;
   onToggleCardMenu: () => void;
   onToggleCardVisibility: (id: CardId) => void;
 };
@@ -16,13 +16,11 @@ export const BoardControls: React.FC<BoardControlsProps> = ({
   cardControls,
   cardMenuOpen,
   hiddenCards,
-  stampControl,
-  cardAdjustControl,
+  adjustControl,
   onToggleCardMenu,
   onToggleCardVisibility,
 }) => {
   const isCardVisible = (id: CardId) => !hiddenCards.has(id);
-  const adjustableCards = cardControls;
 
   return (
     <div
@@ -32,18 +30,6 @@ export const BoardControls: React.FC<BoardControlsProps> = ({
         left: 'calc(clamp(1rem, 4vw, 3rem) + 25vw)',
       }}
     >
-      {stampControl && (
-        <button
-          type="button"
-          onClick={stampControl.onToggle}
-          aria-pressed={stampControl.isActive}
-          className={`board-file-tab ${stampControl.isActive ? 'active' : 'is-muted'}`}
-        >
-          <Stamp size={13} />
-          Stamps
-        </button>
-      )}
-
       <div className="relative">
         <button
           type="button"
@@ -56,7 +42,7 @@ export const BoardControls: React.FC<BoardControlsProps> = ({
         </button>
 
         {cardMenuOpen && (
-          <div className="absolute left-1/2 top-full mt-2 w-[164px] -translate-x-1/2 rounded-lg border border-[#2d2d2d]/10 bg-[#fdfcf4]/90 p-2 shadow-md backdrop-blur-sm">
+          <div className="absolute left-1/2 top-full mt-2 w-[164px] -translate-x-1/2 rounded-lg border border-[#2d2d2d]/10 bg-[#fcf9f0]/90 p-2 shadow-md backdrop-blur-sm">
             {cardControls.map((card) => {
               const visible = isCardVisible(card.id);
               return (
@@ -67,7 +53,7 @@ export const BoardControls: React.FC<BoardControlsProps> = ({
                   className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-[10px] font-mono uppercase tracking-[0.14em] text-text-dark/65 transition-colors hover:bg-[#efe1d1] hover:text-text-dark"
                 >
                   {visible ? (
-                    <Eye size={13} className="text-[#8e6bbf]" />
+                    <Eye size={13} className="text-[#9f8fdb]" />
                   ) : (
                     <EyeOff size={13} className="text-text-dark/35" />
                   )}
@@ -79,56 +65,70 @@ export const BoardControls: React.FC<BoardControlsProps> = ({
         )}
       </div>
 
-      {cardAdjustControl && (
+      {adjustControl && (
         <div className="relative">
           <button
             type="button"
-            onClick={cardAdjustControl.onToggle}
-            aria-expanded={cardAdjustControl.isOpen}
-            className={`board-file-tab ${cardAdjustControl.isOpen ? 'active' : ''}`}
+            onClick={adjustControl.onToggle}
+            aria-expanded={adjustControl.isOpen}
+            className={`board-file-tab ${adjustControl.isOpen ? 'active' : 'is-muted'}`}
           >
             <Move size={13} />
             Adjust
           </button>
 
-          {cardAdjustControl.isOpen && (
-            <div className="absolute left-1/2 top-full mt-2 w-[260px] -translate-x-1/2 rounded-lg border border-[#2d2d2d]/10 bg-[#fdfcf4]/90 p-3 shadow-md backdrop-blur-sm">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-text-dark/60">
-                  Card Position
-                </span>
+          {adjustControl.isOpen && (
+            <div className="absolute left-1/2 top-full mt-2 w-[330px] -translate-x-1/2 rounded-lg border border-[#2d2d2d]/10 bg-[#fcf9f0]/92 p-3 shadow-md backdrop-blur-sm">
+              <div className="mb-2 flex items-center justify-between gap-3">
+                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-text-dark/55">
+                  Card Position / Scale
+                </div>
                 <button
                   type="button"
-                  onClick={cardAdjustControl.onReset}
-                  className="flex items-center gap-1 rounded px-1.5 py-1 text-[9px] font-mono uppercase tracking-[0.12em] text-text-dark/45 hover:bg-[#efe1d1] hover:text-text-dark"
+                  onClick={adjustControl.onReset}
+                  className="inline-flex items-center gap-1 rounded-full px-2 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-text-dark/45 transition-colors hover:bg-[#9f8fdb]/12 hover:text-[#9f8fdb]"
                 >
                   <RotateCcw size={11} />
                   Reset
                 </button>
               </div>
 
-              <div className="grid gap-2">
-                {adjustableCards.map((card) => {
-                  const current = cardAdjustControl.offsets[card.id] ?? { x: 0, y: 0 };
+              <div className="grid grid-cols-[78px_repeat(3,minmax(0,1fr))] gap-1.5 font-mono text-[9px] uppercase tracking-[0.16em] text-text-dark/40">
+                <div />
+                <div>X</div>
+                <div>Y</div>
+                <div>Scale</div>
+              </div>
+
+              <div className="mt-1.5 space-y-1.5">
+                {cardControls.map((card) => {
+                  const offset = adjustControl.offsets[card.id];
                   return (
-                    <div key={card.id} className="grid grid-cols-[76px_1fr_1fr] items-center gap-2">
-                      <span className="text-[9px] font-mono uppercase tracking-[0.12em] text-text-dark/60">
+                    <div key={card.id} className="grid grid-cols-[78px_repeat(3,minmax(0,1fr))] items-center gap-1.5">
+                      <label className="font-mono text-[9px] uppercase tracking-[0.18em] text-text-dark/55">
                         {card.label}
-                      </span>
-                      {(['x', 'y'] as const).map((axis) => (
-                        <label key={axis} className="flex items-center gap-1">
-                          <span className="text-[9px] font-mono uppercase text-text-dark/35">{axis}</span>
-                          <input
-                            type="number"
-                            value={current[axis]}
-                            onChange={(event) => {
-                              const next = Number(event.target.value);
-                              cardAdjustControl.onChange(card.id, axis, Number.isFinite(next) ? next : 0);
-                            }}
-                            className="h-7 w-full rounded border border-[#2d2d2d]/10 bg-white/70 px-1.5 text-[10px] font-mono text-text-dark outline-none focus:border-[#8e6bbf]/45"
-                          />
-                        </label>
-                      ))}
+                      </label>
+                      <input
+                        type="number"
+                        value={offset.x}
+                        onChange={(event) => adjustControl.onChange(card.id, 'x', Number(event.target.value))}
+                        className="h-7 rounded-md border border-[#2d2d2d]/10 bg-white/72 px-2 font-mono text-[11px] text-text-dark outline-none transition-colors focus:border-[#9f8fdb]/55"
+                      />
+                      <input
+                        type="number"
+                        value={offset.y}
+                        onChange={(event) => adjustControl.onChange(card.id, 'y', Number(event.target.value))}
+                        className="h-7 rounded-md border border-[#2d2d2d]/10 bg-white/72 px-2 font-mono text-[11px] text-text-dark outline-none transition-colors focus:border-[#9f8fdb]/55"
+                      />
+                      <input
+                        type="number"
+                        min="0.2"
+                        max="2"
+                        step="0.01"
+                        value={offset.scale}
+                        onChange={(event) => adjustControl.onChange(card.id, 'scale', Number(event.target.value))}
+                        className="h-7 rounded-md border border-[#2d2d2d]/10 bg-white/72 px-2 font-mono text-[11px] text-text-dark outline-none transition-colors focus:border-[#9f8fdb]/55"
+                      />
                     </div>
                   );
                 })}

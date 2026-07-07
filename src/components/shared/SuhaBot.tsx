@@ -25,7 +25,7 @@ export const SuhaBot: React.FC<SuhaBotProps> = ({
     >
       {/* 背景圆圈 */}
       {showBackground && (
-        <circle cx="50" cy="50" r="42" fill="#8e6bbf" />
+        <circle cx="50" cy="50" r="42" fill="#9f8fdb" />
       )}
 
       {/* 机器人整体：包含跳动逻辑 */}

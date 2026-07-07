@@ -28,10 +28,10 @@ const MENA_DATA = [
 ];
 
 const CHANNEL_DATA = [
-  { channel: 'Website', value: 56.0, color: '#8e6bbf' },
+  { channel: 'Website', value: 56.0, color: '#9f8fdb' },
   { channel: 'Call Center', value: 54.2, color: '#f1ebf5' },
-  { channel: 'WhatsApp', value: 48.9, color: '#8e6bbf' },
-  { channel: 'EDM', value: 43.3, color: '#8e6bbf' },
+  { channel: 'WhatsApp', value: 48.9, color: '#9f8fdb' },
+  { channel: 'EDM', value: 43.3, color: '#9f8fdb' },
   { channel: 'TikTok', value: 3.1, color: '#f1ebf5' },
 ];
 
@@ -119,7 +119,7 @@ export const ExhibitionPerformance: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
                 {/* Card 1: Scale (Double Axis) */}
-                <Card depth={2} className="p-6 shadow-sm col-span-1 lg:col-span-2 hover:bg-white transition-colors">
+                <Card depth={2} className="!bg-white p-6 shadow-sm col-span-1 lg:col-span-2 transition-shadow duration-300 hover:shadow-[0_14px_30px_rgba(90,70,45,0.12)]">
                     <div className="flex justify-between items-start mb-6">
                         <div>
                             <h4 className="font-bold text-text-dark flex items-center gap-2">
@@ -157,7 +157,7 @@ export const ExhibitionPerformance: React.FC = () => {
                 {/* Card 2: Overseas Growth (Big Stat) - ENHANCED HERO ELEMENT */}
                 <Card 
                     depth={2}
-                    className="p-6 flex flex-col justify-center items-center text-center relative overflow-hidden group hover:shadow-xl hover:bg-white transition-all duration-500 border border-[#2d2d2d]/5"
+                    className="!bg-white p-6 flex flex-col justify-center items-center text-center relative overflow-hidden group transition-shadow duration-300 hover:shadow-[0_14px_30px_rgba(90,70,45,0.12)] border border-[#2d2d2d]/5"
                 >
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <Globe size={120} />
@@ -181,7 +181,7 @@ export const ExhibitionPerformance: React.FC = () => {
                 </Card>
 
                 {/* Card 3: Buyer Quality (Pie) */}
-                <Card depth={2} className="p-6 shadow-sm hover:bg-white transition-colors">
+                <Card depth={2} className="!bg-white p-6 shadow-sm transition-shadow duration-300 hover:shadow-[0_14px_30px_rgba(90,70,45,0.12)]">
                      <h4 className="font-bold text-text-dark flex items-center gap-2 mb-2">
                         <Target size={18} color={THEME.colors.primaryPurple} />
                         {t.exhibitionPerformance.sec3.title}
@@ -216,7 +216,7 @@ export const ExhibitionPerformance: React.FC = () => {
                 </Card>
 
                 {/* Card 4: MENA Focus (Bar) */}
-                <Card depth={2} className="p-6 shadow-sm hover:bg-white transition-colors">
+                <Card depth={2} className="!bg-white p-6 shadow-sm transition-shadow duration-300 hover:shadow-[0_14px_30px_rgba(90,70,45,0.12)]">
                      <h4 className="font-bold text-text-dark flex items-center gap-2 mb-2">
                         <Globe size={18} color={THEME.colors.primaryOrange} />
                         {t.exhibitionPerformance.sec4.title}
@@ -240,7 +240,7 @@ export const ExhibitionPerformance: React.FC = () => {
                 </Card>
 
                 {/* Card 5: Channel Performance (Horizontal Bar) */}
-                 <Card depth={2} className="p-6 shadow-sm col-span-1 lg:col-span-1 hover:bg-white transition-colors">
+                 <Card depth={2} className="!bg-white p-6 shadow-sm col-span-1 lg:col-span-1 transition-shadow duration-300 hover:shadow-[0_14px_30px_rgba(90,70,45,0.12)]">
                      <h4 className="font-bold text-text-dark flex items-center gap-2 mb-2">
                         <MousePointerClick size={18} color={THEME.colors.primaryPurple} />
                         {t.exhibitionPerformance.sec5.title}

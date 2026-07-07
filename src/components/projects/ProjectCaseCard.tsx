@@ -23,13 +23,13 @@ export const ProjectCaseCard: React.FC<ProjectCaseCardProps> = ({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Left Column: Image/PDF Block */}
-      <Card depth={2} className="p-6 flex flex-col h-full hover:shadow-lg transition-shadow">
+      <Card depth={2} className="!bg-white p-6 flex flex-col h-full transition-shadow duration-300 hover:shadow-[0_14px_30px_rgba(90,70,45,0.12)]">
         <div className="flex justify-between items-center mb-6">
           <h6 className="font-bold text-text-dark flex items-center gap-3 text-sm tracking-wide">
             <span className="w-8 h-8 rounded-full bg-white flex items-center justify-center border border-[#2d2d2d]/5 shadow-sm text-sm">{icon}</span>
             {title}
           </h6>
-          <span className="border border-[#8e6bbf]/30 text-[#8e6bbf] px-3 py-1 rounded-full text-xs font-bold tracking-wider">{tag}</span>
+          <span className="border border-[#9f8fdb]/30 text-[#9f8fdb] px-3 py-1 rounded-full text-xs font-bold tracking-wider">{tag}</span>
         </div>
         
         <Card depth={3} className="flex-1 overflow-hidden shadow-sm relative min-h-[400px]">
@@ -53,7 +53,7 @@ export const ProjectCaseCard: React.FC<ProjectCaseCardProps> = ({
       </Card>
 
       {/* Right Column: Content Blocks */}
-      <div className="flex flex-col gap-4 h-full">
+      <div className="flex flex-col gap-4 h-full pr-2.5">
         {children}
       </div>
     </div>

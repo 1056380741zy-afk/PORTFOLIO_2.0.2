@@ -8,21 +8,48 @@ import { DraggableCard } from './about-board/DraggableCard';
 import type { CardAdjustOffset, CardControl, CardId, StampControl } from './about-board/types';
 
 const CARD_CONTROLS: CardControl[] = [
-  { id: 'postcard', label: 'Postcard' },
+  { id: 'postcardBack', label: 'Postcard A' },
+  { id: 'postcardFront', label: 'Postcard B' },
   { id: 'blueprint', label: 'Blueprint' },
   { id: 'language', label: 'Language' },
   { id: 'toolbox', label: 'Toolbox' },
   { id: 'sticky', label: 'Sticky' },
 ];
 
-const CARD_OFFSET_STORAGE_KEY = 'aboutBoardCardOffsets_v4';
+const CARD_OFFSET_STORAGE_KEY = 'aboutBoardCardOffsets_v16';
 
 const DEFAULT_CARD_OFFSETS: Record<CardId, CardAdjustOffset> = {
-  postcard: { x: 0, y: 150 },
-  blueprint: { x: -176, y: 150 },
-  language: { x: 0, y: 0 },
-  toolbox: { x: 0, y: 0 },
-  sticky: { x: 0, y: 0 },
+  postcardBack: { x: 121, y: 95, scale: 0.83 },
+  postcardFront: { x: 10, y: 0, scale: 1 },
+  blueprint: { x: -25, y: 12, scale: 0.9 },
+  language: { x: 85, y: 140, scale: 0.9 },
+  toolbox: { x: -51, y: -19, scale: 0.88 },
+  sticky: { x: 20, y: -315, scale: 1 },
+};
+
+const ARCHIVE_CARD_OFFSETS: Record<CardId, CardAdjustOffset> = {
+  postcardBack: { x: 0, y: 0, scale: 1 },
+  postcardFront: { x: 10, y: 0, scale: 1 },
+  blueprint: { x: 0, y: 0, scale: 1 },
+  language: { x: 0, y: 0, scale: 1 },
+  toolbox: { x: 0, y: 0, scale: 1 },
+  sticky: { x: 0, y: 0, scale: 1 },
+};
+
+const normalizeCardOffsets = (
+  offsets: Partial<Record<CardId, Partial<CardAdjustOffset>>>,
+  defaults: Record<CardId, CardAdjustOffset>,
+): Record<CardId, CardAdjustOffset> => {
+  return CARD_CONTROLS.reduce((acc, card) => {
+    const current = offsets[card.id] ?? {};
+    const fallback = defaults[card.id];
+    acc[card.id] = {
+      x: typeof current.x === 'number' ? current.x : fallback.x,
+      y: typeof current.y === 'number' ? current.y : fallback.y,
+      scale: typeof current.scale === 'number' ? current.scale : fallback.scale,
+    };
+    return acc;
+  }, {} as Record<CardId, CardAdjustOffset>);
 };
 
 const SpinePunchHoles: React.FC = () => {
@@ -57,14 +84,16 @@ const SpinePunchHoles: React.FC = () => {
           height: '100%',
         }}
       >
-        <path fill="#fdfcf4" d={`M 0 0 H ${stripWidth} V ${svgHeight} H 0 Z`} />
+        <path fill="#fcf9f0" d={`M 0 0 H ${stripWidth} V ${svgHeight} H 0 Z`} />
         {holes.map((hole) => (
-          <ellipse
+          <rect
             key={hole.top}
-            cx={stripCenterX}
-            cy={holeStartY + hole.top}
-            rx="3.2"
-            ry={hole.height / 2}
+            x={stripCenterX - 4}
+            y={holeStartY + hole.top - hole.height / 2}
+            width="8"
+            height={hole.height}
+            rx="4"
+            ry="4"
             fill="#efe1d1"
             stroke="rgba(77, 57, 36, 0.22)"
             strokeWidth="0.8"
@@ -78,18 +107,35 @@ const SpinePunchHoles: React.FC = () => {
 
 type AboutBoardProps = {
   stampControl?: StampControl;
+  cardDragConstraintsRef?: React.RefObject<HTMLDivElement>;
+  releaseCardFrame?: boolean;
+  layout?: 'default' | 'archive';
 };
 
-export const AboutBoard: React.FC<AboutBoardProps> = ({ stampControl }) => {
+export const AboutBoard: React.FC<AboutBoardProps> = ({
+  stampControl,
+  cardDragConstraintsRef,
+  releaseCardFrame = false,
+  layout = 'default',
+}) => {
   const { t } = useLanguage();
-  const [activeId, setActiveId] = useState<CardId>('blueprint');
+  const [activeId, setActiveId] = useState<CardId>('toolbox');
   const constraintsRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [cardMenuOpen, setCardMenuOpen] = useState(false);
-  const [cardAdjustOpen, setCardAdjustOpen] = useState(false);
-  const [cardOffsets, setCardOffsets] = useState<Record<CardId, CardAdjustOffset>>(DEFAULT_CARD_OFFSETS);
+  const defaultCardOffsets = layout === 'archive' ? ARCHIVE_CARD_OFFSETS : DEFAULT_CARD_OFFSETS;
+  const cardOffsetStorageKey = layout === 'archive' ? `${CARD_OFFSET_STORAGE_KEY}_archive_v2` : CARD_OFFSET_STORAGE_KEY;
+  const [cardOffsets, setCardOffsets] = useState<Record<CardId, CardAdjustOffset>>(defaultCardOffsets);
   const [hiddenCards, setHiddenCards] = useState<Set<CardId>>(new Set());
+  const dragConstraintsRef = cardDragConstraintsRef ?? panelRef;
+  const isArchiveLayout = layout === 'archive';
+  const rootStyle = isArchiveLayout
+    ? { boxSizing: 'border-box' as const, height: '100%', width: '100%' }
+    : { boxSizing: 'border-box' as const, top: '-5px', height: 'calc(100% + 15px)', width: 'calc(100% - 5px)' };
+  const panelStyle = isArchiveLayout
+    ? { position: 'absolute' as const, inset: 0 }
+    : { position: 'absolute' as const, top: '8px', right: 0, bottom: '5px', left: '27px' };
 
   const toggleCardVisibility = (id: CardId) => {
     setHiddenCards((current) => {
@@ -103,36 +149,32 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({ stampControl }) => {
     });
   };
 
-  const updateCardOffset = (id: CardId, axis: keyof CardAdjustOffset, value: number) => {
-    setCardOffsets((current) => {
-      const next = {
-        ...current,
-        [id]: {
-          ...(current[id] ?? { x: 0, y: 0 }),
-          [axis]: value,
-        },
-      };
-      localStorage.setItem(CARD_OFFSET_STORAGE_KEY, JSON.stringify(next));
-      return next;
-    });
-  };
-
-  const resetCardOffsets = () => {
-    setCardOffsets(DEFAULT_CARD_OFFSETS);
-    localStorage.removeItem(CARD_OFFSET_STORAGE_KEY);
+  const updateCardOffsetSnapshot = (id: CardId, nextOffset: CardAdjustOffset) => {
+    setCardOffsets((current) => ({
+      ...current,
+      [id]: {
+        x: Math.round(nextOffset.x),
+        y: Math.round(nextOffset.y),
+        scale: Math.max(0.2, Math.min(2, nextOffset.scale)),
+      },
+    }));
   };
 
   React.useEffect(() => {
     try {
-      const raw = localStorage.getItem(CARD_OFFSET_STORAGE_KEY);
+      const raw = localStorage.getItem(cardOffsetStorageKey);
       if (!raw) return;
       const parsed = JSON.parse(raw);
       if (!parsed || typeof parsed !== 'object') return;
-      setCardOffsets((current) => ({ ...current, ...(parsed as Record<CardId, CardAdjustOffset>) }));
+      setCardOffsets((current) => normalizeCardOffsets({ ...current, ...(parsed as Record<CardId, Partial<CardAdjustOffset>>) }, defaultCardOffsets));
     } catch {
       // Keep default card offsets when stored data is malformed.
     }
-  }, []);
+  }, [cardOffsetStorageKey, defaultCardOffsets]);
+
+  React.useEffect(() => {
+    localStorage.setItem(cardOffsetStorageKey, JSON.stringify(cardOffsets));
+  }, [cardOffsetStorageKey, cardOffsets]);
 
   React.useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 1024);
@@ -170,100 +212,113 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({ stampControl }) => {
     <div 
       ref={constraintsRef}
       className="relative h-full min-h-[400px] lg:min-h-0"
-      style={{ boxSizing: 'border-box', top: '-5px', height: 'calc(100% + 15px)', width: 'calc(100% - 5px)' }}
+      style={rootStyle}
     >
       <BoardControls
         cardControls={CARD_CONTROLS}
         cardMenuOpen={cardMenuOpen}
         hiddenCards={hiddenCards}
         stampControl={stampControl}
-        cardAdjustControl={{
-          isOpen: cardAdjustOpen,
-          offsets: cardOffsets,
-          onToggle: () => setCardAdjustOpen((open) => !open),
-          onChange: updateCardOffset,
-          onReset: resetCardOffsets,
-        }}
         onToggleCardMenu={() => setCardMenuOpen((open) => !open)}
         onToggleCardVisibility={toggleCardVisibility}
       />
 
-      <SpinePunchHoles />
+      {!isArchiveLayout && <SpinePunchHoles />}
 
-      <div ref={panelRef} className="main-panel overflow-hidden" style={{ position: 'absolute', top: '8px', right: 0, bottom: '5px', left: '27px' }}>
-      <BoardBackground />
+      <div
+        ref={panelRef}
+        className={`${isArchiveLayout ? 'archive-panel' : 'main-panel'} ${releaseCardFrame ? 'overflow-visible' : 'overflow-hidden'}`}
+        style={panelStyle}
+      >
+      <BoardBackground layout={layout} />
 
       {!hiddenCards.has('sticky') && (
       <div
-        className="absolute top-6 right-[calc(2rem+30px)] z-40"
-        style={{ transform: `translate(${cardOffsets.sticky.x}px, ${cardOffsets.sticky.y}px)` }}
+        className={isArchiveLayout ? 'absolute left-[22%] top-[75%] z-40' : 'absolute right-[4%] top-[61%] z-40'}
+        style={{
+          transform: `translate(${cardOffsets.sticky.x}px, ${cardOffsets.sticky.y}px) scale(${cardOffsets.sticky.scale})`,
+          transformOrigin: 'top left',
+        }}
       >
-        <StickyNote />
+        <StickyNote variant={isArchiveLayout ? 'archive' : 'default'} />
       </div>
       )}
       
-      {!hiddenCards.has('postcard') && (
+      {!hiddenCards.has('postcardBack') && (
       <DraggableCard
-        id="postcard"
-        initialPos={{ top: '7%', left: '18%' }}
-        initialRotate={-5}
+        id="postcardBack"
+        initialPos={isArchiveLayout ? { top: '7%', left: '30%' } : { top: '5%', left: '3%' }}
+        initialRotate={isArchiveLayout ? -1 : -4}
         activeId={activeId}
         setActiveId={setActiveId}
-        constraintsRef={panelRef}
-        visualScale={0.86}
-        adjustOffset={cardOffsets.postcard}
+        constraintsRef={dragConstraintsRef}
+        className={isArchiveLayout ? 'archive-card-postcard' : ''}
+        visualScale={isArchiveLayout ? 0.82 : 0.662}
+        adjustOffset={cardOffsets.postcardBack}
+        onAdjustOffsetChange={updateCardOffsetSnapshot}
       >
-        <Postcard />
+        <Postcard
+          variant={isArchiveLayout ? 'archive' : 'default'}
+          frontAdjust={cardOffsets.postcardFront}
+          hideFront={hiddenCards.has('postcardFront')}
+          onFrontAdjustChange={(nextOffset) => updateCardOffsetSnapshot('postcardFront', nextOffset)}
+        />
       </DraggableCard>
       )}
 
       {!hiddenCards.has('blueprint') && (
       <DraggableCard
         id="blueprint"
-        initialPos={{ top: '42%', left: '44%' }}
-        initialRotate={-2}
+        initialPos={isArchiveLayout ? { top: '45%', left: '35%' } : { top: '55%', left: '8%' }}
+        initialRotate={isArchiveLayout ? 0 : -5.5}
         activeId={activeId}
         setActiveId={setActiveId}
-        constraintsRef={panelRef}
-        visualScale={0.58}
+        constraintsRef={dragConstraintsRef}
+        className={isArchiveLayout ? 'archive-card-blueprint' : ''}
+        visualScale={isArchiveLayout ? 0.74 : 0.76}
         adjustOffset={cardOffsets.blueprint}
+        onAdjustOffsetChange={updateCardOffsetSnapshot}
       >
-        <Blueprint />
+        <Blueprint variant={isArchiveLayout ? 'archive' : 'default'} />
       </DraggableCard>
       )}
 
       {!hiddenCards.has('language') && (
       <DraggableCard
         id="language"
-        initialPos={{ top: '21%', left: 'calc(53% - 30px)' }}
-        initialRotate={-2}
+        initialPos={isArchiveLayout ? { top: '40%', left: '63%' } : { top: '23%', left: '62%' }}
+        initialRotate={isArchiveLayout ? 0 : -1}
         activeId={activeId}
         setActiveId={setActiveId}
-        constraintsRef={panelRef}
-        visualScale={0.86}
+        constraintsRef={dragConstraintsRef}
+        className={isArchiveLayout ? 'archive-card-language' : ''}
+        visualScale={isArchiveLayout ? 0.74 : 0.783}
         adjustOffset={cardOffsets.language}
+        onAdjustOffsetChange={updateCardOffsetSnapshot}
       >
-        <LanguageProficiency />
+        <LanguageProficiency variant={isArchiveLayout ? 'archive' : 'default'} />
       </DraggableCard>
       )}
 
       {!hiddenCards.has('toolbox') && (
       <DraggableCard
         id="toolbox"
-        initialPos={{ top: '50%', left: 'calc(66% - 30px)' }}
-        initialRotate={6}
+        initialPos={isArchiveLayout ? { top: '70%', left: '79%' } : { top: '54%', left: '47%' }}
+        initialRotate={isArchiveLayout ? 0 : 4}
         activeId={activeId}
         setActiveId={setActiveId}
-        constraintsRef={panelRef}
-        visualScale={0.82}
+        constraintsRef={dragConstraintsRef}
+        className={isArchiveLayout ? 'archive-card-toolbox' : ''}
+        visualScale={isArchiveLayout ? 0.68 : 0.684}
         adjustOffset={cardOffsets.toolbox}
+        onAdjustOffsetChange={updateCardOffsetSnapshot}
       >
-        <Toolbox />
+        <Toolbox variant={isArchiveLayout ? 'archive' : 'default'} />
       </DraggableCard>
       )}
 
       {/* Page Hint */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-400 font-mono text-[10px] uppercase tracking-[0.3em] pointer-events-none opacity-50">
+      <div className="absolute bottom-8 left-1/2 z-30 -translate-x-1/2 text-gray-400 font-mono text-[10px] uppercase tracking-[0.3em] pointer-events-none opacity-50">
         {t.aboutBoard.hint}
       </div>
       </div>

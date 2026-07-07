@@ -60,7 +60,7 @@ export const ExhibitionGridCard: React.FC<ExhibitionGridCardProps> = ({
             <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-1.5">{roleLabel}</span>
             <div className="flex flex-wrap gap-1.5">
               {roles.map((role) => (
-                <span key={role} className="px-2 py-0.5 border border-[#8e6bbf]/25 text-[#8e6bbf] rounded text-[10px] font-medium">
+                <span key={role} className="px-2 py-0.5 border border-[#9f8fdb]/25 text-[#9f8fdb] rounded text-[10px] font-medium">
                   {role}
                 </span>
               ))}

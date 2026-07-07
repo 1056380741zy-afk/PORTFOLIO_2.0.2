@@ -14,8 +14,8 @@ export default {
         'brand-red': '#b3473d',
         'brand-blue': '#3fa1d8',
         'brand-yellow': '#f5b002',
-        'brand-purple': '#8E6BBF',
-        'accent-purple': '#8E6BBF',
+        'brand-purple': '#9f8fdb',
+        'accent-purple': '#9f8fdb',
         'text-dark': '#2d2d2d',
         'card-bg': '#FFFFFF',
         // Chart colors

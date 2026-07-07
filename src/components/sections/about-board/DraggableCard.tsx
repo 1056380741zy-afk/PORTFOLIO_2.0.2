@@ -1,6 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, type PanInfo } from 'framer-motion';
 import type { CardAdjustOffset, CardId } from './types';
+
+const RESTING_Z_INDEX: Record<CardId, number> = {
+  language: 20,
+  sticky: 36,
+  postcardBack: 40,
+  postcardFront: 40,
+  blueprint: 50,
+  toolbox: 60,
+};
 
 type DraggableCardProps = {
   id: CardId;
@@ -13,6 +22,7 @@ type DraggableCardProps = {
   className?: string;
   visualScale?: number;
   adjustOffset?: CardAdjustOffset;
+  onAdjustOffsetChange?: (id: CardId, nextOffset: CardAdjustOffset) => void;
 };
 
 export const DraggableCard: React.FC<DraggableCardProps> = ({
@@ -25,10 +35,13 @@ export const DraggableCard: React.FC<DraggableCardProps> = ({
   constraintsRef,
   className = '',
   visualScale = 1,
-  adjustOffset = { x: 0, y: 0 },
+  adjustOffset = { x: 0, y: 0, scale: 1 },
+  onAdjustOffsetChange,
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
+  const dragStartOffsetRef = useRef({ x: 0, y: 0 });
   const [contentSize, setContentSize] = useState<{ width: number; height: number } | null>(null);
+  const adjustedScale = visualScale * (adjustOffset.scale ?? 1);
 
   useEffect(() => {
     if (!contentRef.current) return;
@@ -49,8 +62,8 @@ export const DraggableCard: React.FC<DraggableCardProps> = ({
 
   const scaledSize = contentSize
     ? {
-        width: contentSize.width * visualScale,
-        height: contentSize.height * visualScale,
+        width: contentSize.width * adjustedScale,
+        height: contentSize.height * adjustedScale,
       }
     : undefined;
 
@@ -59,7 +72,17 @@ export const DraggableCard: React.FC<DraggableCardProps> = ({
       drag
       dragConstraints={constraintsRef}
       dragElastic={0.1}
-      onDragStart={() => setActiveId(id)}
+      onDragStart={() => {
+        dragStartOffsetRef.current = { x: adjustOffset.x, y: adjustOffset.y };
+        setActiveId(id);
+      }}
+      onDragEnd={(_, info: PanInfo) => {
+        onAdjustOffsetChange?.(id, {
+          ...adjustOffset,
+          x: Math.round(dragStartOffsetRef.current.x + info.offset.x),
+          y: Math.round(dragStartOffsetRef.current.y + info.offset.y),
+        });
+      }}
       onMouseDown={() => setActiveId(id)}
       initial={{
         top: initialPos.top,
@@ -74,7 +97,7 @@ export const DraggableCard: React.FC<DraggableCardProps> = ({
         x: adjustOffset.x,
         y: adjustOffset.y,
         rotate: initialRotate,
-        zIndex: activeId === id ? 50 : 10,
+        zIndex: activeId === id ? 70 : RESTING_Z_INDEX[id],
       }}
       whileDrag={{
         cursor: 'grabbing',
@@ -87,7 +110,7 @@ export const DraggableCard: React.FC<DraggableCardProps> = ({
       <div
         ref={contentRef}
         style={{
-          transform: `scale(${visualScale})`,
+          transform: `scale(${adjustedScale})`,
           transformOrigin: 'top left',
           width: 'max-content',
         }}

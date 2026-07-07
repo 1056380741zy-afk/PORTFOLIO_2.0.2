@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { AboutBoard } from '../components/sections/AboutBoard';
 import { StampCluster } from '../components/home/stamps/StampCluster';
 import { useLanguage } from '../contexts/LanguageContext';
 
-export const Home: React.FC = () => {
+type HomeProps = {
+  globalCardDrag?: boolean;
+};
+
+export const Home: React.FC<HomeProps> = ({ globalCardDrag = false }) => {
   const { t } = useLanguage();
+  const pageRef = useRef<HTMLDivElement>(null);
   const [isStampEditMode, setIsStampEditMode] = useState(false);
-  const [isStampVisible, setIsStampVisible] = useState(true);
+  const [isStampVisible, setIsStampVisible] = useState(false);
   const year = new Date().getFullYear();
+  const pageBackgroundColor = globalCardDrag ? 'rgba(252, 249, 240, 0.3)' : '#fcf9f0';
 
   return (
     <main
@@ -19,12 +25,13 @@ export const Home: React.FC = () => {
       }}
     >
       <div
-        className="min-h-full lg:h-full w-full flex flex-col lg:flex-row relative"
+        ref={pageRef}
+        className={`min-h-full lg:h-full w-full ${globalCardDrag ? 'block' : 'flex flex-col lg:flex-row'} relative`}
         style={{
           padding: 0,
           margin: 0,
           borderRadius: '28px',
-          backgroundColor: '#fdfcf4',
+          backgroundColor: pageBackgroundColor,
           backgroundRepeat: 'no-repeat',
           backgroundSize: '100% auto',
           backgroundPosition: 'center',
@@ -42,13 +49,17 @@ export const Home: React.FC = () => {
         )}
 
         <div
-          className="relative z-20 w-full lg:w-[25%] lg:h-full shrink-0 flex flex-col bg-[#fdfcf4] px-[50px] py-5"
-          style={{ boxShadow: '3px 0 10px rgba(90, 70, 45, 0.12)' }}
+          className={
+            globalCardDrag
+              ? 'absolute left-[42px] top-[52px] z-[80] w-[270px] flex flex-col px-0 py-0'
+              : 'relative z-20 w-full lg:w-[320px] lg:h-full shrink-0 flex flex-col px-[50px] py-5'
+          }
+          style={globalCardDrag ? undefined : { backgroundColor: pageBackgroundColor, boxShadow: '3px 0 10px rgba(90, 70, 45, 0.12)' }}
         >
-          <div className="max-w-[520px] my-auto">
+          <div className="max-w-[520px] my-auto mx-[-6px]">
             <div className="space-y-[clamp(2rem,5vh,3rem)]">
-              <div className="inline-flex flex-col items-end">
-                <div dir="rtl" className="text-[34px] leading-[1.1] text-text-dark font-makina text-right">
+              <div className="inline-flex w-full flex-col items-end text-right">
+                <div dir="rtl" className="w-full text-[34px] leading-[1.1] text-text-dark font-makina text-right">
                   {t.homePage.greetingArabic}
                 </div>
               </div>
@@ -63,22 +74,37 @@ export const Home: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-8 border-t border-[#2d2d2d]/10 pt-5 text-[10px] leading-none text-text-dark/65 font-mono">
+          <div className={`${globalCardDrag ? 'mt-10' : 'mt-8 border-t border-[#2d2d2d]/10 pt-5'} text-[10px] leading-none text-text-dark/65 font-mono`}>
             © {year} Yan Zhu. {t.footer.rights}
           </div>
         </div>
 
         <div
-          className="w-full lg:w-[75%] lg:flex-1 shrink-0 relative z-10 overflow-visible bg-[#fdfcf4] min-h-[400px] lg:min-h-0 lg:h-full rounded-[28px]"
-          style={{
-            margin: '5px 10px',
-            padding: '15px',
-            width: 'calc(75% - 20px)',
-            height: 'calc(100% - 10px)',
-          }}
+          className={
+            globalCardDrag
+              ? 'absolute inset-0 z-30 overflow-visible rounded-[28px]'
+              : 'w-full lg:flex-1 shrink-0 relative z-10 overflow-visible min-h-[400px] lg:min-h-0 lg:h-full rounded-[28px]'
+          }
+          style={
+            globalCardDrag
+              ? { backgroundColor: pageBackgroundColor }
+              : {
+                  margin: '10px 0',
+                  padding: '15px',
+                  width: 'calc(100% - 320px)',
+                  height: 'calc(100% - 15px)',
+                  backgroundColor: pageBackgroundColor,
+                }
+          }
         >
-          <div className="w-full h-full overflow-visible rounded-[28px] bg-[#fdfcf4] flex items-center justify-center">
+          <div
+            className="w-full h-full overflow-visible rounded-[28px] flex items-center justify-center"
+            style={{ backgroundColor: pageBackgroundColor }}
+          >
             <AboutBoard
+              cardDragConstraintsRef={globalCardDrag ? pageRef : undefined}
+              releaseCardFrame={globalCardDrag}
+              layout={globalCardDrag ? 'archive' : 'default'}
               stampControl={{
                 isActive: isStampVisible,
                 onToggle: () => setIsStampVisible((visible) => !visible),

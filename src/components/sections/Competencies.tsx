@@ -30,16 +30,16 @@ export const Competencies: React.FC = () => {
               <Card 
                 key={idx} 
                 depth={1}
-                className="p-10 hover:shadow-xl hover:shadow-[#8e6bbf]/10 transition-all duration-500 group flex flex-col bg-white border border-gray-100 hover:border-[#8e6bbf]/30 rounded-xl"
+                className="p-10 hover:shadow-xl hover:shadow-[#9f8fdb]/10 transition-all duration-500 group flex flex-col bg-white border border-gray-100 hover:border-[#9f8fdb]/30 rounded-xl"
                 style={{ transitionDelay: `${idx * 100}ms` }}
               >
                 <div 
-                  className="w-16 h-16 flex items-center justify-center mb-8 border border-[#8e6bbf]/20 bg-[#8e6bbf]/5 text-[#8e6bbf] group-hover:bg-[#8e6bbf] group-hover:text-white transition-all duration-500 rounded-2xl"
+                  className="w-16 h-16 flex items-center justify-center mb-8 border border-[#9f8fdb]/20 bg-[#9f8fdb]/5 text-[#9f8fdb] group-hover:bg-[#9f8fdb] group-hover:text-white transition-all duration-500 rounded-2xl"
                 >
                   {ICONS[idx]}
                 </div>
                 
-                <h3 className="text-2xl font-bold mb-6 text-text-dark group-hover:text-[#8e6bbf] transition-colors">{comp.title}</h3>
+                <h3 className="text-2xl font-bold mb-6 text-text-dark group-hover:text-[#9f8fdb] transition-colors">{comp.title}</h3>
                 
                 <ul className="space-y-4 flex-1">
                   {comp.list.map((item, itemIdx) => (

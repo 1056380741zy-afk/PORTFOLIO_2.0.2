@@ -10,7 +10,7 @@ export const Navbar: React.FC = () => {
   const navItems = [
     { path: '/', label: 'HOME / / ABOUT INFO' },
     { path: '/journey', label: t.nav.journey || 'Journey' },
-    { path: '/projects', label: t.nav.projects },
+    { path: '/projects/preview', label: t.nav.projects },
   ];
 
   const toggleLanguage = () => {
@@ -37,8 +37,12 @@ export const Navbar: React.FC = () => {
         aria-label="Primary Desktop"
       >
         {navItems.map((item) => {
-          const isActive = location.pathname === item.path;
-          const tabKey = item.path === '/' ? 'home' : item.path.replace('/', '');
+          const isActive = item.path === '/projects/preview'
+            ? location.pathname.startsWith('/projects/preview')
+            : location.pathname === item.path;
+          const tabKey = item.path === '/'
+            ? 'home'
+            : item.path.split('/').filter(Boolean).join('-');
           return (
             <Link
               key={item.path}
@@ -60,12 +64,14 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex gap-3">
             {navItems.map((item) => {
-              const isActive = location.pathname === item.path;
+              const isActive = item.path === '/projects/preview'
+                ? location.pathname.startsWith('/projects/preview')
+                : location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`text-[10px] font-mono uppercase tracking-widest ${isActive ? 'text-[#8e6bbf] font-bold' : 'text-text-dark/60'}`}
+                  className={`text-[10px] font-mono uppercase tracking-widest ${isActive ? 'text-[#9f8fdb] font-bold' : 'text-text-dark/60'}`}
                 >
                   {item.label}
                 </Link>

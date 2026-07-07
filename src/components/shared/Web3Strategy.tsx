@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
-import { Box, Star, Workflow } from 'lucide-react';
+import {
+  ArrowRight,
+  BadgeCheck,
+  BarChart3,
+  ClipboardList,
+  Lightbulb,
+  Maximize2,
+  Network,
+  Search,
+  Target,
+  UserCheck,
+  Users,
+  X,
+} from 'lucide-react';
 import { motion } from 'framer-motion';
 import { ScrambleHoverTitle } from './ScrambleHoverTitle';
 import { useLanguage } from '../../contexts/LanguageContext';
 
-const DETAIL_ICONS = [Star, Workflow, Box];
+const DETAIL_ICONS = [Users, Target, BadgeCheck];
+const SKILL_ICONS = [Network, ClipboardList, Search, Lightbulb, BarChart3, UserCheck];
 
 const splitDetailTags = (text: string) =>
   text
@@ -13,180 +27,216 @@ const splitDetailTags = (text: string) =>
     .filter(Boolean);
 
 export const Web3Strategy: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   // Ensure we have data even if context update is pending or type mismatch
   const strategyData = t.projects.web3Strategy || [];
   const [activeId, setActiveId] = useState(strategyData[0]?.id || 'uae');
+  const [expandedImage, setExpandedImage] = useState<null | { src: string; alt: string }>(null);
 
   if (!strategyData.length) return null;
 
+  const activeProject = strategyData.find((item) => item.id === activeId) || strategyData[0];
+  const isCn = language === 'cn';
+  let focusCopy = isCn
+    ? '从监管、平台能力和区域机会判断交易所扩张路径。'
+    : 'Regulatory, platform and regional signals for exchange expansion strategy.';
+
+  if (activeProject.id === 'uae') {
+    focusCopy = isCn
+      ? '制度、文化与平台因素如何影响阿联酋 Web3 女性参与。'
+      : "Institutional, cultural and platform factors shaping women's participation in UAE Web3.";
+  } else if (activeProject.id === 'sandbox') {
+    focusCopy = isCn
+      ? '围绕 MENA 市场进入、社交平台协同与低风险联盟路线展开。'
+      : 'MENA market entry, social platform synergy and a lower-risk alliance route.';
+  }
+
   return (
     <div className="mb-0 w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-[230px_1fr] gap-4 items-stretch w-full relative">
-        {/* 1. Navigator (Left Sidebar / Top Grid) */}
-        <div className="w-full grid grid-cols-3 lg:grid-cols-1 lg:grid-rows-3 gap-3 md:gap-4 h-full lg:h-[490px]">
-          {strategyData.map((item) => {
-            const isActive = activeId === item.id;
-            return (
-              <button
-                key={item.id}
-                id={`card${item.num}`}
-                onClick={() => setActiveId(item.id)}
-                className={`group relative flex flex-col items-start px-3 py-2.5 rounded-xl text-left transition-all duration-300 flex-1 lg:h-full min-w-[180px] lg:min-w-0 ${
-                  isActive 
-                    ? 'bg-white border border-gray-200 shadow-sm' 
-                    : 'bg-transparent border border-transparent hover:bg-white/50'
-                }`}
-              >
-                <div className="flex items-center justify-between w-full mb-1.5">
-                  <span className={`font-mono text-lg leading-none ${isActive ? 'text-black font-semibold' : 'text-gray-400'}`}>
-                    {item.num}
-                  </span>
-                  {isActive && <div className="w-1.5 h-1.5 rounded-full bg-black animate-pulse"></div>}
-                </div>
-                
-                <div className="flex flex-col gap-1 w-full">
-                  <span className="font-mono text-[9px] uppercase tracking-wider text-gray-500">
+      <div className="grid w-full grid-cols-1 gap-3 lg:min-h-[520px] lg:grid-cols-[730px_459px]">
+        <div className="flex min-w-0 max-w-[730px] flex-col gap-3">
+          <div className="grid w-full max-w-[700px] grid-cols-1 gap-3 md:grid-cols-[repeat(3,220px)] md:justify-between">
+            {strategyData.map((item) => {
+              const isActive = activeId === item.id;
+              const accentText = isActive ? 'text-[#9f8fdb]' : 'text-[#7E8966] group-hover:text-[#9f8fdb]';
+              return (
+                <button
+                  key={item.id}
+                  id={`card${item.num}`}
+                  onClick={() => setActiveId(item.id)}
+                  className={`group relative flex min-h-[132px] flex-col items-start overflow-visible rounded-xl border bg-white/[0.76] px-4 py-4 text-left shadow-[0_8px_18px_rgba(52,35,24,0.08)] transition-all duration-300 before:absolute before:left-5 before:right-5 before:top-0 before:h-2 before:-translate-y-[3px] before:rounded-t-md before:content-[''] hover:border-[#9f8fdb]/42 hover:bg-white hover:before:bg-[#9f8fdb] ${
+                    isActive
+                      ? 'border-[#9f8fdb]/40 before:bg-[#9f8fdb] shadow-[0_10px_22px_rgba(73,48,34,0.12),0_3px_0_#32136f]'
+                      : 'border-[#7E8966]/24 before:bg-[#7E8966]'
+                  }`}
+                >
+                  <div className="flex w-full items-start justify-between gap-3">
+                    <span
+                      className={`font-serif text-[30px] font-semibold leading-none transition-colors duration-200 ${accentText}`}
+                    >
+                      {item.num}
+                    </span>
+                    <ArrowRight
+                      size={20}
+                      strokeWidth={1.5}
+                      className="mt-1 shrink-0 text-[#7E8966] transition-all duration-200 group-hover:translate-x-1 group-hover:text-[#9f8fdb]"
+                    />
+                  </div>
+
+                  <span
+                    className={`mt-2 font-mono text-[14px] font-bold uppercase leading-tight tracking-normal transition-colors duration-200 ${accentText}`}
+                  >
                     {item.label}
                   </span>
-                  <span className={`text-[13px] font-bold leading-tight my-0.5 ${isActive ? 'text-black' : 'text-gray-600'}`}>
-                    {item.sidebarTitle}
-                  </span>
-                  
-                  <div className="flex flex-col gap-1 mt-1.5 items-start">
-                    {item.sidebarTags.map((tag: string) => (
-                      <span
-                        key={tag}
-                        className="text-[11px] text-gray-500 font-mono leading-tight bg-gray-100/50 px-1.5 py-0.5 rounded"
-                      >
+                  <ul className="mt-3 flex flex-col gap-1 pl-4 text-[12px] font-medium leading-tight text-[#15120f]">
+                    {[item.sidebarTitle, ...item.sidebarTags].map((tag: string) => (
+                      <li key={tag} className="list-disc marker:text-[#7E8966] group-hover:marker:text-[#9f8fdb]">
                         {tag}
-                      </span>
+                      </li>
                     ))}
-                  </div>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* 2. Content Area (Right Content) */}
-        <div className="flex-1 w-full relative">
-          
-          {/* 2.1 Display Area */}
-          <div className="h-[496px]">
-             <div className="bg-white rounded-[1.5rem] shadow-sm border border-gray-200 overflow-hidden relative w-full h-full">
-                
-                {strategyData.map((project) => {
-                  const isActive = activeId === project.id;
-                  
-                  return (
-                    <motion.div
-                      key={project.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ 
-                        opacity: isActive ? 1 : 0,
-                        zIndex: isActive ? 10 : 0,
-                        pointerEvents: isActive ? 'auto' : 'none'
-                      }}
-                      transition={{ duration: 0.5, ease: "easeInOut" }}
-                      className="absolute inset-0 w-full h-full grid grid-cols-1 lg:grid-cols-[minmax(0,2.35fr)_minmax(220px,0.8fr)] gap-0 bg-white overflow-y-auto lg:overflow-hidden"
-                    >
-                      {/* Banner & Text Area */}
-                      <div className="flex h-fit flex-col border-b border-gray-100 bg-white lg:h-full lg:border-b-0 lg:border-r">
-                        <div className="mx-auto flex h-full w-full max-w-[92%] flex-col py-5">
-                          <motion.div
-                            animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 8 }}
-                            transition={{ duration: 0.35, delay: 0.05 }}
-                            className="shrink-0"
-                          >
-                            <ScrambleHoverTitle
-                              text={project.fullTitle}
-                              className="text-sm md:text-base font-bold text-text-dark leading-tight whitespace-nowrap"
-                            />
-                          </motion.div>
-
-                          <div className="mt-3 flex shrink-0 justify-center">
-                            <div className="relative aspect-video w-[45%] overflow-hidden rounded-lg border border-gray-200 bg-[#f7f6f3]">
-                              <motion.img
-                                animate={{ scale: isActive ? 1 : 1.02 }}
-                                transition={{ duration: 0.7, ease: "easeOut" }}
-                                src={project.banner}
-                                alt={project.fullTitle}
-                                className="h-full w-full object-contain"
-                              />
-                            </div>
-                          </div>
-
-                          <div className="mt-4 grid min-h-0 flex-1 grid-cols-2 gap-3">
-                            {[
-                              { label: 'SKILLS', text: project.skills },
-                              { label: 'PROCESS', text: project.process },
-                              { label: 'OUTPUT', text: project.output }
-                            ].map((block, idx) => {
-                              const Icon = DETAIL_ICONS[idx];
-                              return (
-                                <motion.div
-                                  key={`${project.id}-${block.label}`}
-                                  animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 8 }}
-                                  transition={{ duration: 0.3, delay: 0.14 + idx * 0.04 }}
-                                  className={`flex min-h-[74px] items-start gap-3 rounded-lg border border-gray-200 bg-white/80 p-3 shadow-[0_8px_20px_rgba(0,0,0,0.02)] ${
-                                    block.label === 'SKILLS' ? 'col-span-2' : ''
-                                  }`}
-                                >
-                                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#8e6bbf]/35 bg-[#8e6bbf]/5 text-[#8e6bbf]">
-                                    <Icon size={20} strokeWidth={1.6} />
-                                  </div>
-                                  <div className="min-w-0">
-                                    <div className="text-[13px] font-bold uppercase leading-tight text-text-dark">
-                                      {block.label}
-                                    </div>
-                                    <div className="mt-1 h-px w-7 bg-[#8e6bbf]" />
-                                    {block.label === 'SKILLS' ? (
-                                      <div className="mt-2 flex flex-wrap gap-1">
-                                        {splitDetailTags(block.text).map((tag) => (
-                                          <span
-                                            key={tag}
-                                            className="rounded border border-[#8e6bbf]/20 bg-[#8e6bbf]/5 px-1.5 py-0.5 text-[9px] font-medium leading-tight text-text-dark/70"
-                                          >
-                                            {tag}
-                                          </span>
-                                        ))}
-                                      </div>
-                                    ) : (
-                                      <p className="mt-2 text-[10px] font-medium leading-snug text-text-dark/70">
-                                        {block.text}
-                                      </p>
-                                    )}
-                                  </div>
-                                </motion.div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Infographic Area */}
-                      <div className="bg-white relative flex flex-col items-center justify-center p-1 h-full overflow-hidden">
-                         <div className="absolute top-2 right-2 z-10 font-mono text-[8px] bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded shadow-sm text-gray-600 border border-gray-100">
-                            {(project as any).infographicTag || 'INFOGRAPHIC_9:16'}
-                         </div>
-                         <motion.img 
-                           animate={{ scale: isActive ? 1 : 0.98, opacity: isActive ? 1 : 0 }}
-                           transition={{ duration: 0.5 }}
-                           src={project.infographic} 
-                           alt="Infographic Analysis" 
-                           className="h-[calc(100%-3rem)] w-auto max-w-[90%] object-contain object-center rounded-3xl"
-                         />
-                      </div>
-                    </motion.div>
-                  );
-                })}
-
-             </div>
+                  </ul>
+                </button>
+              );
+            })}
           </div>
 
+          <motion.div
+            key={activeProject.id}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.28, ease: 'easeOut' }}
+          >
+            <ScrambleHoverTitle
+              text={activeProject.fullTitle}
+              className="block max-w-none whitespace-nowrap pt-[15px] text-[24px] font-bold leading-[1.05] text-[#21194d]"
+            />
+            <div className="mt-3 h-1 w-10 rounded-full bg-[#f2b642]" />
+            <p
+              className="mt-3 w-full max-w-[700px] whitespace-nowrap text-[14px] leading-[1.45] text-[#15120f]"
+              style={{ fontFamily: '"Inter Variable", Arial, sans-serif' }}
+            >
+              {focusCopy}
+            </p>
+
+            <div className="mt-[5px] h-[256px] w-full max-w-[700px] overflow-hidden rounded-xl border border-[#2d2d2d]/10 bg-white/70 px-4 py-3 shadow-[0_6px_16px_rgba(52,35,24,0.05)]">
+              {[
+                { label: 'PROCESS', text: activeProject.process },
+                { label: 'OUTPUT', text: activeProject.output },
+                { label: 'SKILLS', text: activeProject.skills },
+              ].map((block, idx) => {
+                const Icon = DETAIL_ICONS[idx];
+                const isSkills = block.label === 'SKILLS';
+                return (
+                  <div
+                    key={`${activeProject.id}-${block.label}`}
+                    className={`grid grid-cols-[58px_92px_minmax(0,1fr)] items-start gap-3 ${
+                      isSkills ? 'min-h-[92px] py-2' : 'py-2.5'
+                    } ${
+                      idx === 0 ? 'pt-0.5' : 'border-t border-dashed border-[#7E8966]/24'
+                    }`}
+                  >
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[#7E8966]/28 bg-[#fcf9f0]/72 text-[#7E8966]">
+                      <Icon size={23} strokeWidth={1.55} />
+                    </div>
+                    <div className="pt-3 text-[15px] font-bold uppercase leading-none text-[#32136f]">
+                      {block.label}
+                    </div>
+                    {isSkills ? (
+                      <div className="grid grid-cols-3 overflow-hidden rounded-lg border border-[#7E8966]/24 bg-[#fcf9f0]/58">
+                        {splitDetailTags(block.text).map((tag, tagIdx) => {
+                          const SkillIcon = SKILL_ICONS[tagIdx % SKILL_ICONS.length];
+                          return (
+                            <span
+                              key={tag}
+                              className="inline-flex min-w-0 items-center justify-center gap-2 border-b border-r border-[#7E8966]/18 px-2.5 py-1.5 text-center text-[11px] font-semibold leading-tight text-[#32136f] last:border-r-0"
+                            >
+                              <SkillIcon size={15} strokeWidth={1.45} className="shrink-0 text-[#7E8966]" />
+                              <span className="min-w-0">{tag}</span>
+                            </span>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <p className="m-0 pt-1.5 text-[13px] font-medium leading-[1.38] text-[#15120f]/82">
+                        {block.text}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
         </div>
+
+        <motion.div
+          key={`${activeProject.id}-visuals`}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+          className="grid w-full gap-2 lg:-mr-[15px] lg:w-[459px] lg:justify-self-end"
+        >
+          <div className="relative aspect-[1672/941] overflow-hidden rounded-xl border border-[#2d2d2d]/10 bg-white shadow-[0_8px_18px_rgba(52,35,24,0.08)]">
+            <img
+              src={activeProject.banner}
+              alt={activeProject.fullTitle}
+              className="h-full w-full object-cover"
+            />
+          </div>
+
+          <div className="relative aspect-[1672/941] overflow-hidden rounded-xl border border-[#2d2d2d]/10 bg-white shadow-[0_8px_18px_rgba(52,35,24,0.08)]">
+            <div className="absolute right-3 top-2 z-10 rounded-full bg-white/90 px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-[#32136f]/68 shadow-sm">
+              {(activeProject as any).infographicTag || 'Infographic'}
+            </div>
+            <button
+              type="button"
+              aria-label="Enlarge infographic"
+              title="Enlarge infographic"
+              onClick={() =>
+                setExpandedImage({
+                  src: activeProject.infographic,
+                  alt: `${activeProject.fullTitle} infographic`,
+                })
+              }
+              className="absolute left-2 top-2 z-20 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#32136f] shadow-sm transition-transform duration-200 hover:scale-105 hover:bg-white"
+            >
+              <Maximize2 size={15} strokeWidth={1.8} />
+            </button>
+            <img
+              src={activeProject.infographic}
+              alt={`${activeProject.fullTitle} infographic`}
+              onClick={() =>
+                setExpandedImage({
+                  src: activeProject.infographic,
+                  alt: `${activeProject.fullTitle} infographic`,
+                })
+              }
+              className="h-full w-full cursor-zoom-in object-cover"
+            />
+          </div>
+        </motion.div>
       </div>
+
+      {expandedImage && (
+        <div
+          className="fixed inset-0 z-[10020] flex items-center justify-center bg-[#15120f]/72 p-6 backdrop-blur-sm"
+          onClick={() => setExpandedImage(null)}
+        >
+          <button
+            type="button"
+            aria-label="Close enlarged infographic"
+            onClick={() => setExpandedImage(null)}
+            className="absolute right-6 top-6 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/92 text-[#32136f] shadow-md transition-transform duration-200 hover:scale-105"
+          >
+            <X size={18} strokeWidth={1.8} />
+          </button>
+          <img
+            src={expandedImage.src}
+            alt={expandedImage.alt}
+            className="max-h-[86vh] max-w-[86vw] rounded-xl object-contain shadow-[0_24px_70px_rgba(0,0,0,0.36)]"
+            onClick={(event) => event.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 };

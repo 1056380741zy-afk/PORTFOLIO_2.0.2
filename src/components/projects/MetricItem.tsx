@@ -29,10 +29,10 @@ export const MetricItem: React.FC<MetricItemProps> = ({
         : 'relative group/tooltip'
     }`}>
       <div className="flex items-center gap-1.5">
-        <div className="text-xl sm:text-2xl font-black text-accent-purple">{value}</div>
+        <div className="text-xl sm:text-2xl font-black text-[#9f8fdb]">{value}</div>
         {tooltip && (
           <div className="relative cursor-help">
-            <Info size={14} className="text-gray-400/60 hover:text-accent-purple transition-colors" />
+            <Info size={14} className="text-gray-400/60 hover:text-[#9f8fdb] transition-colors" />
             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2.5 bg-text-dark text-white text-[10px] leading-relaxed rounded-lg shadow-xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-200 z-50 text-center font-medium pointer-events-none">
               {tooltip}
               <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-text-dark"></div>

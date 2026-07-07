@@ -27,14 +27,14 @@ export const EXHIBITIONS = [
 // Single Source of Truth for Colors
 export const THEME = {
   colors: {
-    primaryPurple: '#8e6bbf', // Used for: Exhibitors, Direct Buyers, Call Center, TikTok
+    primaryPurple: '#9f8fdb', // Used for: Exhibitors, Direct Buyers, Call Center, TikTok
     primaryOrange: '#f5b002', // Used for: Overseas Visitors, Growth, MENA Share, Website, WhatsApp, EDM
     textMain: '#2d2d2d',
     bgSurface: '#FFFFFF',
     grid: '#e5e7eb',
     muted: '#9ca3af',
     // Tints for backgrounds
-    purpleBg: 'rgba(142, 107, 191, 0.1)',
+    purpleBg: 'rgba(159, 143, 219, 0.1)',
     orangeBg: 'rgba(245, 176, 2, 0.1)',
   }
 };

@@ -262,7 +262,7 @@ export const toSvgScatter = (coordinates: Map<string, ParsedCoordinate>, options
   const labelPoints = options.labelPoints ?? true;
   const background = options.background ?? '#f7f6f3';
   const axisColor = options.axisColor ?? 'rgba(45,45,45,0.22)';
-  const pointColor = options.pointColor ?? '#8E6BBF';
+  const pointColor = options.pointColor ?? '#9f8fdb';
   const labelColor = options.labelColor ?? 'rgba(45,45,45,0.75)';
 
   const entries = Array.from(coordinates.entries());

@@ -92,7 +92,7 @@ export const nodeDetailsDataEn =
         school: "University of Birmingham",
         subSchool: "Dubai Campus",
         degree: "MSc International Business",
-        period: "Oct 2024 – Nov 2025",
+        period: "Sep 2024 – Jan 2026",
         focus: "Market strategy, Web3 ecosystems, MENA institutional context",
         honor: "Full Scholarship Recipient"
       }
@@ -108,7 +108,7 @@ export const nodeDetailsDataEn =
       },
       {
         title: "Premium Reception & Cross-Cultural Interpreting",
-        desc: "Provided on-site EN/ZH/AR interpreting and guest guidance for the Consulate General of China in Dubai and the AIB-MENA Conference.",
+        desc: "Provided on-site EN/ZH/AR interpreting and guest guidance for the Consulate General of China in Dubai and the AIB-MENA Conference, helping reduce cultural and communication barriers.",
         statsType: "tags",
         tags: ["Diplomatic Reception", "Academic Summit Coordination"]
       },
@@ -145,7 +145,7 @@ export const nodeDetailsDataEn =
       },
       {
         title: "Insights into Cross-Border Informal Business Communication",
-        desc: "Through academic and field immersion, preemptively experienced and profoundly understood the unique \"network-based\" decision-making mechanisms and negotiation rhythms of the MENA market, building a solid localization foundation for complex business implementations."
+        desc: "Through academic and field immersion, deepened her understanding of Middle Eastern and North African markets."
       }
     ]
   }
@@ -202,7 +202,7 @@ export const nodeDetailsDataCn =
         school: "伯明翰大学",
         subSchool: "(QS100) 迪拜校区",
         degree: "国际商务 (硕士)",
-        period: "2024.09 – 2025.11",
+        period: "2024.09 – 2026.01",
         focus: "市场战略、Web3 生态、中东非体制环境",
         honor: "全额奖学金"
       }
@@ -218,7 +218,7 @@ export const nodeDetailsDataCn =
       },
       {
         title: "跨文化多语种高端接待",
-        desc: "为中国驻迪拜总领馆“邂逅花间”宋代雅集活动及 AIB-MENA 国际峰会提供现场翻译与嘉宾接待，消弭文化与沟通壁垒。",
+        desc: "为中国驻迪拜总领馆“邂逅花间”宋代雅集活动及 AIB-MENA 国际峰会提供现场翻译与嘉宾接待，减少文化与沟通壁垒。",
         statsType: "tags",
         tags: ["中 / 英 / 阿 多语种", "外事活动接待", "学术峰会协调"]
       },
@@ -257,7 +257,7 @@ export const nodeDetailsDataCn =
       },
       {
         title: "跨国非正式商业沟通洞察",
-        desc: "通过实地生活与学术交流，前置体验并深刻理解了中东及北非市场特殊的“基于人际网络”的决策机制与谈判节奏，为后续复杂的商业落地夯实了本地化认知基础。"
+        desc: "通过实地生活与学术交流，深化了对中东及北非市场的认识。"
       }
     ]
   }

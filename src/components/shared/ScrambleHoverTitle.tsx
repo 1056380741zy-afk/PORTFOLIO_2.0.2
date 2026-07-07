@@ -49,7 +49,7 @@ class TextScramble {
           char = this.randomChar();
           this.queue[i].char = char;
         }
-        output += `<span class="text-[#8e6bbf] opacity-80">${char}</span>`;
+        output += `<span class="text-[#9f8fdb] opacity-80">${char}</span>`;
       } else {
         output += from;
       }

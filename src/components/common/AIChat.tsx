@@ -139,14 +139,14 @@ export function AIChat() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 w-14 h-14 rounded-full bg-[#8e6bbf] shadow-lg shadow-[#8e6bbf]/30 transition-all duration-300 hover:scale-110 hover:bg-[#7e4ba6] z-[9998] flex items-center justify-center overflow-hidden ${isOpen ? 'scale-0 opacity-0 pointer-events-none' : 'scale-100 opacity-100'}`}
+        className={`fixed bottom-6 right-6 w-14 h-14 rounded-full bg-[#9f8fdb] shadow-lg shadow-[#9f8fdb]/30 transition-all duration-300 hover:scale-110 hover:bg-[#9f8fdb] z-[9998] flex items-center justify-center overflow-hidden ${isOpen ? 'scale-0 opacity-0 pointer-events-none' : 'scale-100 opacity-100'}`}
       >
         <SuhaBot size={40} showBackground={false} />
       </button>
 
       <div className={`ai-chat-scrollbarless fixed bottom-6 right-6 w-[90vw] max-w-[400px] h-[600px] max-h-[80vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 z-[9999] origin-bottom-right ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}>
         
-        <div className="px-5 py-4 bg-[#8e6bbf] text-white flex justify-between items-center">
+        <div className="px-5 py-4 bg-[#9f8fdb] text-white flex justify-between items-center">
           <div className="flex items-center gap-2.5">
             <Bot className="w-5 h-5" />
             <h3 className="font-semibold text-[15px]">{currentT.title}</h3>
@@ -163,7 +163,7 @@ export function AIChat() {
           
           {!hasStarted ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center px-8 gap-4 pb-10">
-              <div className="w-12 h-12 rounded-full bg-[#8e6bbf]/10 flex items-center justify-center text-[#8e6bbf] mb-2">
+              <div className="w-12 h-12 rounded-full bg-[#9f8fdb]/10 flex items-center justify-center text-[#9f8fdb] mb-2">
                 <Sparkles className="w-6 h-6" />
               </div>
               <p className="text-[#666666] text-[15px] leading-relaxed">
@@ -184,9 +184,9 @@ export function AIChat() {
                           <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-sm p-3.5 text-[14px] text-gray-700 whitespace-pre-wrap leading-relaxed shadow-sm">
                             {msg.content || (
                               <div className="flex items-center gap-1 h-5">
-                                <span className="w-1.5 h-1.5 bg-[#8e6bbf]/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                                <span className="w-1.5 h-1.5 bg-[#8e6bbf]/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                                <span className="w-1.5 h-1.5 bg-[#8e6bbf]/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                                <span className="w-1.5 h-1.5 bg-[#9f8fdb]/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                                <span className="w-1.5 h-1.5 bg-[#9f8fdb]/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                                <span className="w-1.5 h-1.5 bg-[#9f8fdb]/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
                               </div>
                             )}
                           </div>
@@ -197,7 +197,7 @@ export function AIChat() {
 
                   {msg.role === 'user' && (
                     <div className="flex items-start gap-2.5 max-w-[85%] flex-row-reverse">
-                      <div className="bg-[#8e6bbf] text-white rounded-2xl rounded-tr-sm p-3.5 text-[14px] whitespace-pre-wrap leading-relaxed shadow-sm">
+                      <div className="bg-[#9f8fdb] text-white rounded-2xl rounded-tr-sm p-3.5 text-[14px] whitespace-pre-wrap leading-relaxed shadow-sm">
                         {msg.content}
                       </div>
                     </div>
@@ -223,7 +223,7 @@ export function AIChat() {
               placeholder={currentT.placeholder}
               disabled={isLoading}
               rows={1}
-              className="w-full bg-white border border-gray-200 rounded-xl py-3.5 pl-4 pr-12 text-[14px] text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#8e6bbf] focus:ring-1 focus:ring-[#8e6bbf] transition-all disabled:opacity-50 resize-none min-h-[55px] max-h-[100px] overflow-y-auto"
+              className="w-full bg-white border border-gray-200 rounded-xl py-3.5 pl-4 pr-12 text-[14px] text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#9f8fdb] focus:ring-1 focus:ring-[#9f8fdb] transition-all disabled:opacity-50 resize-none min-h-[55px] max-h-[100px] overflow-y-auto"
               style={{
                 height: `min(100px, max(55px, ${Math.min(100, 38 + ((input.match(/\n/g)?.length ?? 0) + 1) * 22)}px))`,
                 lineHeight: '1.5',
@@ -233,7 +233,7 @@ export function AIChat() {
               type="button"
               onClick={() => handleSubmit()}
               disabled={!input.trim() || isLoading}
-              className="absolute right-2 bottom-2.5 w-9 h-9 rounded-lg bg-[#b498dc] text-white hover:bg-[#8e6bbf] disabled:opacity-50 disabled:hover:bg-[#b498dc] transition-colors flex items-center justify-center"
+              className="absolute right-2 bottom-2.5 w-9 h-9 rounded-lg bg-[#b498dc] text-white hover:bg-[#9f8fdb] disabled:opacity-50 disabled:hover:bg-[#b498dc] transition-colors flex items-center justify-center"
             >
               <Send className="w-4 h-4" />
             </button>
@@ -248,7 +248,7 @@ export function AIChat() {
                   : "Please do a JD match analysis. Here is the Job Description:\n\n[Paste JD here...]";
                 setInput(jdPrompt);
               }}
-              className="text-[10px] text-[#8e6bbf] font-bold tracking-wider cursor-pointer hover:opacity-80 transition-opacity"
+              className="text-[10px] text-[#9f8fdb] font-bold tracking-wider cursor-pointer hover:opacity-80 transition-opacity"
             >
               {currentT.jdMatch}
             </span>
