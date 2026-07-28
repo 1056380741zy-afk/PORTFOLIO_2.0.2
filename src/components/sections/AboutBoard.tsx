@@ -5,7 +5,7 @@ import { Blueprint, LanguageProficiency, Toolbox, StickyNote } from '../about/se
 import { BoardBackground } from './about-board/BoardBackground';
 import { BoardControls } from './about-board/BoardControls';
 import { DraggableCard } from './about-board/DraggableCard';
-import type { CardAdjustOffset, CardControl, CardId, StampControl } from './about-board/types';
+import type { CardAdjustOffset, CardControl, CardId } from './about-board/types';
 
 const CARD_CONTROLS: CardControl[] = [
   { id: 'postcardBack', label: 'Postcard A' },
@@ -16,14 +16,14 @@ const CARD_CONTROLS: CardControl[] = [
   { id: 'sticky', label: 'Sticky' },
 ];
 
-const CARD_OFFSET_STORAGE_KEY = 'aboutBoardCardOffsets_v16';
+const CARD_OFFSET_STORAGE_KEY = 'aboutBoardCardOffsets_v17';
 
 const DEFAULT_CARD_OFFSETS: Record<CardId, CardAdjustOffset> = {
-  postcardBack: { x: 121, y: 95, scale: 0.83 },
+  postcardBack: { x: 108, y: 78, scale: 0.83 },
   postcardFront: { x: 10, y: 0, scale: 1 },
-  blueprint: { x: -25, y: 12, scale: 0.9 },
-  language: { x: 85, y: 140, scale: 0.9 },
-  toolbox: { x: -51, y: -19, scale: 0.88 },
+  blueprint: { x: -14, y: 18, scale: 0.9 },
+  language: { x: 56, y: 122, scale: 0.88 },
+  toolbox: { x: -34, y: -4, scale: 0.84 },
   sticky: { x: 20, y: -315, scale: 1 },
 };
 
@@ -71,7 +71,7 @@ const SpinePunchHoles: React.FC = () => {
 
   return (
     <div
-      className="absolute top-0 bottom-0 z-[220] hidden pointer-events-none lg:block"
+      className="absolute top-0 bottom-0 z-[220] pointer-events-none"
       style={{ top: '7.5px', bottom: '7.5px', left: '-9px', width: `${stripWidth}px` }}
       aria-hidden="true"
     >
@@ -84,7 +84,7 @@ const SpinePunchHoles: React.FC = () => {
           height: '100%',
         }}
       >
-        <path fill="#fcf9f0" d={`M 0 0 H ${stripWidth} V ${svgHeight} H 0 Z`} />
+        <path fill="rgba(252, 249, 240, 0.97)" d={`M 0 0 H ${stripWidth} V ${svgHeight} H 0 Z`} />
         {holes.map((hole) => (
           <rect
             key={hole.top}
@@ -106,14 +106,12 @@ const SpinePunchHoles: React.FC = () => {
 };
 
 type AboutBoardProps = {
-  stampControl?: StampControl;
   cardDragConstraintsRef?: React.RefObject<HTMLDivElement>;
   releaseCardFrame?: boolean;
   layout?: 'default' | 'archive';
 };
 
 export const AboutBoard: React.FC<AboutBoardProps> = ({
-  stampControl,
   cardDragConstraintsRef,
   releaseCardFrame = false,
   layout = 'default',
@@ -122,7 +120,6 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
   const [activeId, setActiveId] = useState<CardId>('toolbox');
   const constraintsRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
   const [cardMenuOpen, setCardMenuOpen] = useState(false);
   const defaultCardOffsets = layout === 'archive' ? ARCHIVE_CARD_OFFSETS : DEFAULT_CARD_OFFSETS;
   const cardOffsetStorageKey = layout === 'archive' ? `${CARD_OFFSET_STORAGE_KEY}_archive_v2` : CARD_OFFSET_STORAGE_KEY;
@@ -132,10 +129,10 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
   const isArchiveLayout = layout === 'archive';
   const rootStyle = isArchiveLayout
     ? { boxSizing: 'border-box' as const, height: '100%', width: '100%' }
-    : { boxSizing: 'border-box' as const, top: '-5px', height: 'calc(100% + 15px)', width: 'calc(100% - 5px)' };
+    : { boxSizing: 'border-box' as const, top: '-5px', height: 'calc(100% + 15px)', width: 'calc(100% - 5px)', marginRight: '-70px' };
   const panelStyle = isArchiveLayout
     ? { position: 'absolute' as const, inset: 0 }
-    : { position: 'absolute' as const, top: '8px', right: 0, bottom: '5px', left: '27px' };
+    : { position: 'absolute' as const, top: '8px', right: 0, bottom: '5px', left: '27px', marginRight: '35px', marginLeft: '10px' };
 
   const toggleCardVisibility = (id: CardId) => {
     setHiddenCards((current) => {
@@ -176,54 +173,21 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
     localStorage.setItem(cardOffsetStorageKey, JSON.stringify(cardOffsets));
   }, [cardOffsetStorageKey, cardOffsets]);
 
-  React.useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  if (isMobile) {
-    return (
-      <div className="w-full h-full bg-[#f7f6f3] px-6 py-10 flex flex-col gap-8 overflow-y-auto">
-        <h1 className="text-3xl font-bold text-text-dark uppercase tracking-tight mb-4 border-b border-[#2d2d2d]/10 pb-4">
-          About Me
-        </h1>
-        <div className="flex flex-col gap-8 items-center pb-10">
-          <div className="w-full max-w-[572px] transform scale-[0.92] origin-top md:scale-100">
-            <Postcard />
-          </div>
-          <div className="w-full max-w-[450px] transform scale-[0.9] origin-top md:scale-100">
-            <Blueprint />
-          </div>
-          <div className="w-full max-w-[360px] transform scale-[0.95] origin-top md:scale-100">
-            <LanguageProficiency />
-          </div>
-          <div className="w-full max-w-[380px] transform scale-[0.9] origin-top md:scale-100">
-            <Toolbox />
-          </div>
-          <StickyNote />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div 
       ref={constraintsRef}
-      className="relative h-full min-h-[400px] lg:min-h-0"
+      className="relative h-full min-h-0"
       style={rootStyle}
     >
       <BoardControls
         cardControls={CARD_CONTROLS}
         cardMenuOpen={cardMenuOpen}
         hiddenCards={hiddenCards}
-        stampControl={stampControl}
         onToggleCardMenu={() => setCardMenuOpen((open) => !open)}
         onToggleCardVisibility={toggleCardVisibility}
       />
 
-      {!isArchiveLayout && <SpinePunchHoles />}
+      {!isArchiveLayout && !releaseCardFrame && <SpinePunchHoles />}
 
       <div
         ref={panelRef}
@@ -231,6 +195,13 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
         style={panelStyle}
       >
       <BoardBackground layout={layout} />
+
+      {!isArchiveLayout && releaseCardFrame && (
+        <div className="home-board-drag-hint" aria-label={t.homePage.experience}>
+          <span>Click and drag cards to explore</span>
+          <span>点击并拖动卡片以探索</span>
+        </div>
+      )}
 
       {!hiddenCards.has('sticky') && (
       <div
@@ -253,7 +224,7 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
         setActiveId={setActiveId}
         constraintsRef={dragConstraintsRef}
         className={isArchiveLayout ? 'archive-card-postcard' : ''}
-        visualScale={isArchiveLayout ? 0.82 : 0.662}
+        visualScale={isArchiveLayout ? 0.82 : 0.72975}
         adjustOffset={cardOffsets.postcardBack}
         onAdjustOffsetChange={updateCardOffsetSnapshot}
       >
@@ -318,7 +289,7 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
       )}
 
       {/* Page Hint */}
-      <div className="absolute bottom-8 left-1/2 z-30 -translate-x-1/2 text-gray-400 font-mono text-[10px] uppercase tracking-[0.3em] pointer-events-none opacity-50">
+      <div className="pointer-events-none absolute inset-x-0 bottom-8 z-30 text-center font-mono text-[10px] uppercase tracking-[0.3em] text-gray-400 opacity-50">
         {t.aboutBoard.hint}
       </div>
       </div>

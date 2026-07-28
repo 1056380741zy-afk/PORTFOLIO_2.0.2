@@ -1,242 +1,286 @@
 import React, { useState } from 'react';
 import {
   ArrowRight,
-  BadgeCheck,
   BarChart3,
   ClipboardList,
   Lightbulb,
-  Maximize2,
   Network,
   Search,
   Target,
   UserCheck,
   Users,
-  X,
 } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { ScrambleHoverTitle } from './ScrambleHoverTitle';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { EvidenceFrame, FieldNote } from './ArchivePrimitives';
+import { ScrambleHoverTitle } from './ScrambleHoverTitle';
 
-const DETAIL_ICONS = [Users, Target, BadgeCheck];
+const DETAIL_ICONS = [Users, Target];
 const SKILL_ICONS = [Network, ClipboardList, Search, Lightbulb, BarChart3, UserCheck];
 
-const splitDetailTags = (text: string) =>
-  text
-    .split(/[,，、｜|]/)
-    .map((tag) => tag.trim().replace(/[.。]$/, ''))
-    .filter(Boolean);
+const stripTerminalPunctuation = (text: string) => text.replace(/[。？?]+$/u, '');
 
 export const Web3Strategy: React.FC = () => {
   const { t, language } = useLanguage();
-  // Ensure we have data even if context update is pending or type mismatch
   const strategyData = t.projects.web3Strategy || [];
   const [activeId, setActiveId] = useState(strategyData[0]?.id || 'uae');
-  const [expandedImage, setExpandedImage] = useState<null | { src: string; alt: string }>(null);
 
   if (!strategyData.length) return null;
 
   const activeProject = strategyData.find((item) => item.id === activeId) || strategyData[0];
+  const activeIndex = Math.max(0, strategyData.findIndex((item) => item.id === activeProject.id));
   const isCn = language === 'cn';
-  let focusCopy = isCn
-    ? '从监管、平台能力和区域机会判断交易所扩张路径。'
-    : 'Regulatory, platform and regional signals for exchange expansion strategy.';
-
-  if (activeProject.id === 'uae') {
-    focusCopy = isCn
-      ? '制度、文化与平台因素如何影响阿联酋 Web3 女性参与。'
-      : "Institutional, cultural and platform factors shaping women's participation in UAE Web3.";
-  } else if (activeProject.id === 'sandbox') {
-    focusCopy = isCn
-      ? '围绕 MENA 市场进入、社交平台协同与低风险联盟路线展开。'
-      : 'MENA market entry, social platform synergy and a lower-risk alliance route.';
-  }
+  const englishCaseGuideLabels: Record<string, string> = {
+    uae: 'Independent Research Project',
+    sandbox: 'Team Leadership',
+    binance: 'Team Collaboration',
+  };
+  const contributionTags: Record<string, string[]> = isCn
+    ? {
+        uae: ['研究框架设计', '问卷与访谈规划', '一手资料研究', '洞察提炼', '市场洞察', '独立研究推进'],
+        sandbox: ['中东市场研究', '合作匹配评估', '本地用户分析', '风险梳理', '联盟方案设计', '领导小组推进'],
+        binance: ['区域市场研究', 'PESTEL 分析', 'SWOT 分析', '监管比较', '合规映射', '小组团队协作'],
+      }
+    : {
+        uae: ['Research Framework', 'Survey & Interview Planning', 'Primary Research', 'Insight Synthesis', 'Market Insight', 'Independent Research'],
+        sandbox: ['MENA Market Research', 'Partnership Fit', 'Local User Analysis', 'Risk Mapping', 'Alliance Design', 'Team Leadership'],
+        binance: ['Regional Research', 'PESTEL Analysis', 'SWOT Analysis', 'Regulatory Comparison', 'Compliance Mapping', 'Team Collaboration'],
+      };
+  const detailBlocks = [
+    {
+      label: isCn ? '背景与目标' : 'CONTEXT & OBJECTIVE',
+      text: activeProject.focus,
+      Icon: DETAIL_ICONS[0],
+      kind: 'standard',
+    },
+    {
+      label: isCn ? '研究与分析路径' : 'APPROACH',
+      text: activeProject.method,
+      Icon: Search,
+      kind: 'standard',
+    },
+    {
+      label: isCn ? '我的贡献' : 'MY CONTRIBUTION',
+      text: activeProject.role,
+      Icon: UserCheck,
+      kind: 'contribution',
+    },
+    {
+      label: isCn ? '成果与交付' : 'OUTCOME & DELIVERABLE',
+      text: activeProject.output,
+      Icon: DETAIL_ICONS[1],
+      kind: 'standard',
+    },
+  ];
+  const contributionItems = contributionTags[activeProject.id] || contributionTags.uae;
+  const visualPanels = [
+    {
+      label: 'Banner',
+      src: activeProject.banner,
+      alt: activeProject.fullTitle,
+    },
+    {
+      label: (activeProject as any).infographicTag || 'Infographic',
+      src: activeProject.infographic,
+      alt: `${activeProject.fullTitle} infographic`,
+    },
+  ];
 
   return (
-    <div className="mb-0 w-full">
-      <div className="grid w-full grid-cols-1 gap-3 lg:min-h-[520px] lg:grid-cols-[730px_459px]">
-        <div className="flex min-w-0 max-w-[730px] flex-col gap-3">
-          <div className="grid w-full max-w-[700px] grid-cols-1 gap-3 md:grid-cols-[repeat(3,220px)] md:justify-between">
-            {strategyData.map((item) => {
-              const isActive = activeId === item.id;
-              const accentText = isActive ? 'text-[#9f8fdb]' : 'text-[#7E8966] group-hover:text-[#9f8fdb]';
-              return (
-                <button
-                  key={item.id}
-                  id={`card${item.num}`}
-                  onClick={() => setActiveId(item.id)}
-                  className={`group relative flex min-h-[132px] flex-col items-start overflow-visible rounded-xl border bg-white/[0.76] px-4 py-4 text-left shadow-[0_8px_18px_rgba(52,35,24,0.08)] transition-all duration-300 before:absolute before:left-5 before:right-5 before:top-0 before:h-2 before:-translate-y-[3px] before:rounded-t-md before:content-[''] hover:border-[#9f8fdb]/42 hover:bg-white hover:before:bg-[#9f8fdb] ${
-                    isActive
-                      ? 'border-[#9f8fdb]/40 before:bg-[#9f8fdb] shadow-[0_10px_22px_rgba(73,48,34,0.12),0_3px_0_#32136f]'
-                      : 'border-[#7E8966]/24 before:bg-[#7E8966]'
-                  }`}
-                >
-                  <div className="flex w-full items-start justify-between gap-3">
-                    <span
-                      className={`font-serif text-[30px] font-semibold leading-none transition-colors duration-200 ${accentText}`}
-                    >
-                      {item.num}
-                    </span>
-                    <ArrowRight
-                      size={20}
-                      strokeWidth={1.5}
-                      className="mt-1 shrink-0 text-[#7E8966] transition-all duration-200 group-hover:translate-x-1 group-hover:text-[#9f8fdb]"
-                    />
-                  </div>
+    <div className="web3-strategy-page relative h-full min-h-0 w-full overflow-hidden">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.18]"
+        style={{
+          backgroundImage:
+            'radial-gradient(circle at 1px 1px, rgba(126,137,102,0.14) 1px, transparent 0), linear-gradient(rgba(159,143,219,0.08) 1px, transparent 1px)',
+          backgroundSize: '18px 18px, 100% 42px',
+        }}
+      />
 
-                  <span
-                    className={`mt-2 font-mono text-[14px] font-bold uppercase leading-tight tracking-normal transition-colors duration-200 ${accentText}`}
-                  >
-                    {item.label}
-                  </span>
-                  <ul className="mt-3 flex flex-col gap-1 pl-4 text-[12px] font-medium leading-tight text-[#15120f]">
-                    {[item.sidebarTitle, ...item.sidebarTags].map((tag: string) => (
-                      <li key={tag} className="list-disc marker:text-[#7E8966] group-hover:marker:text-[#9f8fdb]">
-                        {tag}
-                      </li>
-                    ))}
-                  </ul>
-                </button>
-              );
-            })}
-          </div>
+      <div className="web3-layout-grid relative z-10 -mt-[10px] grid h-full min-h-0 gap-3 overflow-hidden pt-[5px]">
+        <section
+          className="web3-research-dossier relative grid h-full min-h-0 grid-rows-[205px_minmax(0,1fr)] content-stretch gap-2.5 overflow-visible"
+        >
+          <div className="project-file-card relative z-10 h-full rounded-[8px] border-2 border-[#7e8966]/42 bg-[#7e8966]/8 p-3.5">
+            <div className="flex items-center justify-between gap-2">
+              <span className="font-mono text-[12px] font-bold uppercase text-[#5f6849]">
+                Case guide
+              </span>
+              <span className="h-1.5 w-16 rounded-full bg-[#7e8966]" />
+            </div>
 
-          <motion.div
-            key={activeProject.id}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.28, ease: 'easeOut' }}
-          >
-            <ScrambleHoverTitle
-              text={activeProject.fullTitle}
-              className="block max-w-none whitespace-nowrap pt-[15px] text-[24px] font-bold leading-[1.05] text-[#21194d]"
-            />
-            <div className="mt-3 h-1 w-10 rounded-full bg-[#f2b642]" />
-            <p
-              className="mt-3 w-full max-w-[700px] whitespace-nowrap text-[14px] leading-[1.45] text-[#15120f]"
-              style={{ fontFamily: '"Inter Variable", Arial, sans-serif' }}
-            >
-              {focusCopy}
-            </p>
+            <div className="mt-[5px] grid h-[151px] grid-cols-3 gap-2">
+              {strategyData.map((item, itemIdx) => {
+                const isActive = activeProject.id === item.id;
 
-            <div className="mt-[5px] h-[256px] w-full max-w-[700px] overflow-hidden rounded-xl border border-[#2d2d2d]/10 bg-white/70 px-4 py-3 shadow-[0_6px_16px_rgba(52,35,24,0.05)]">
-              {[
-                { label: 'PROCESS', text: activeProject.process },
-                { label: 'OUTPUT', text: activeProject.output },
-                { label: 'SKILLS', text: activeProject.skills },
-              ].map((block, idx) => {
-                const Icon = DETAIL_ICONS[idx];
-                const isSkills = block.label === 'SKILLS';
                 return (
-                  <div
-                    key={`${activeProject.id}-${block.label}`}
-                    className={`grid grid-cols-[58px_92px_minmax(0,1fr)] items-start gap-3 ${
-                      isSkills ? 'min-h-[92px] py-2' : 'py-2.5'
-                    } ${
-                      idx === 0 ? 'pt-0.5' : 'border-t border-dashed border-[#7E8966]/24'
-                    }`}
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setActiveId(item.id)}
+                    className={`web3-case-guide-item group relative flex h-full flex-col overflow-hidden rounded-[8px] border border-transparent p-2.5 text-left${isActive ? ' is-active' : ''}`}
                   >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full border border-[#7E8966]/28 bg-[#fcf9f0]/72 text-[#7E8966]">
-                      <Icon size={23} strokeWidth={1.55} />
-                    </div>
-                    <div className="pt-3 text-[15px] font-bold uppercase leading-none text-[#32136f]">
-                      {block.label}
-                    </div>
-                    {isSkills ? (
-                      <div className="grid grid-cols-3 overflow-hidden rounded-lg border border-[#7E8966]/24 bg-[#fcf9f0]/58">
-                        {splitDetailTags(block.text).map((tag, tagIdx) => {
-                          const SkillIcon = SKILL_ICONS[tagIdx % SKILL_ICONS.length];
-                          return (
-                            <span
-                              key={tag}
-                              className="inline-flex min-w-0 items-center justify-center gap-2 border-b border-r border-[#7E8966]/18 px-2.5 py-1.5 text-center text-[11px] font-semibold leading-tight text-[#32136f] last:border-r-0"
-                            >
-                              <SkillIcon size={15} strokeWidth={1.45} className="shrink-0 text-[#7E8966]" />
-                              <span className="min-w-0">{tag}</span>
-                            </span>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      <p className="m-0 pt-1.5 text-[13px] font-medium leading-[1.38] text-[#15120f]/82">
-                        {block.text}
-                      </p>
+                    {isActive && (
+                      <motion.span
+                        layoutId="web3-case-active-surface"
+                        className="absolute inset-0 rounded-[8px] bg-[#7e8966]/10"
+                        transition={{ type: 'spring', stiffness: 150, damping: 23, mass: 0.85 }}
+                      />
                     )}
-                  </div>
+                    <span className="relative z-10 flex items-center justify-between gap-2">
+                      <span
+                        className={`web3-case-guide-index flex h-7 w-7 items-center justify-center rounded-full font-mono text-[11px] font-bold ${
+                          isActive ? 'bg-[#7e8966] text-white' : 'bg-[#7e8966]/12 text-[#7e8966]'
+                        }`}
+                      >
+                        0{itemIdx + 1}
+                      </span>
+                      <ArrowRight
+                        size={14}
+                        strokeWidth={1.5}
+                        className={`web3-case-guide-arrow ${
+                          isActive ? 'text-[#7e8966]' : 'text-[#7e8966]/52'
+                        }`}
+                      />
+                    </span>
+                    <span className="web3-case-title relative z-10 mt-1.5 block text-[15px] font-bold leading-[1.14] text-[#25211d]">
+                      {item.sidebarTitle}
+                    </span>
+                    <span className="relative z-10 mt-auto flex flex-col items-start gap-1 pt-1.5">
+                      {item.sidebarTags.map((tag: string, tagIndex: number) => (
+                        <span
+                          key={tag}
+                          className={`web3-project-pill${tagIndex === 0 ? ' web3-project-pill-primary' : ''}`}
+                        >
+                          {tagIndex === 0
+                            ? (isCn
+                                ? item.projectTag || item.label
+                                : englishCaseGuideLabels[item.id] || item.projectTag || item.label)
+                            : tag}
+                        </span>
+                      ))}
+                    </span>
+                  </button>
                 );
               })}
             </div>
-          </motion.div>
-        </div>
-
-        <motion.div
-          key={`${activeProject.id}-visuals`}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="grid w-full gap-2 lg:-mr-[15px] lg:w-[459px] lg:justify-self-end"
-        >
-          <div className="relative aspect-[1672/941] overflow-hidden rounded-xl border border-[#2d2d2d]/10 bg-white shadow-[0_8px_18px_rgba(52,35,24,0.08)]">
-            <img
-              src={activeProject.banner}
-              alt={activeProject.fullTitle}
-              className="h-full w-full object-cover"
-            />
           </div>
 
-          <div className="relative aspect-[1672/941] overflow-hidden rounded-xl border border-[#2d2d2d]/10 bg-white shadow-[0_8px_18px_rgba(52,35,24,0.08)]">
-            <div className="absolute right-3 top-2 z-10 rounded-full bg-white/90 px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-[#32136f]/68 shadow-sm">
-              {(activeProject as any).infographicTag || 'Infographic'}
-            </div>
-            <button
-              type="button"
-              aria-label="Enlarge infographic"
-              title="Enlarge infographic"
-              onClick={() =>
-                setExpandedImage({
-                  src: activeProject.infographic,
-                  alt: `${activeProject.fullTitle} infographic`,
-                })
-              }
-              className="absolute left-2 top-2 z-20 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#32136f] shadow-sm transition-transform duration-200 hover:scale-105 hover:bg-white"
-            >
-              <Maximize2 size={15} strokeWidth={1.8} />
-            </button>
-            <img
-              src={activeProject.infographic}
-              alt={`${activeProject.fullTitle} infographic`}
-              onClick={() =>
-                setExpandedImage({
-                  src: activeProject.infographic,
-                  alt: `${activeProject.fullTitle} infographic`,
-                })
-              }
-              className="h-full w-full cursor-zoom-in object-cover"
-            />
-          </div>
-        </motion.div>
-      </div>
-
-      {expandedImage && (
-        <div
-          className="fixed inset-0 z-[10020] flex items-center justify-center bg-[#15120f]/72 p-6 backdrop-blur-sm"
-          onClick={() => setExpandedImage(null)}
-        >
-          <button
-            type="button"
-            aria-label="Close enlarged infographic"
-            onClick={() => setExpandedImage(null)}
-            className="absolute right-6 top-6 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/92 text-[#32136f] shadow-md transition-transform duration-200 hover:scale-105"
+          <div className="web3-project-record relative z-10 mt-0 flex h-full max-h-full min-h-0 flex-col overflow-hidden rounded-[8px] border border-[#7e8966]/20 bg-[#fffdf7]/[0.9]">
+          <AnimatePresence initial={false} mode="popLayout">
+          <motion.div
+            key={`${activeProject.id}-record`}
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -3 }}
+            transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+            className="web3-project-record-body flex h-full min-h-0 flex-col"
           >
-            <X size={18} strokeWidth={1.8} />
-          </button>
-          <img
-            src={expandedImage.src}
-            alt={expandedImage.alt}
-            className="max-h-[86vh] max-w-[86vw] rounded-xl object-contain shadow-[0_24px_70px_rgba(0,0,0,0.36)]"
-            onClick={(event) => event.stopPropagation()}
-          />
-        </div>
-      )}
+          <div className="web3-project-record-header border-b border-[#7e8966]/14 px-6 pb-3 pt-[15px]">
+            <div>
+              <p className="font-mono text-[9px] font-bold uppercase text-[#7e8966]/68">
+                0{activeIndex + 1} / 03
+              </p>
+              <span aria-hidden="true" className="mt-1 block h-[12px]" />
+            </div>
+
+            <ScrambleHoverTitle
+              as="h2"
+              text={activeProject.fullTitle}
+              className="web3-record-title mt-3 block text-[23px] font-bold leading-[1.02] text-[#25211d]"
+            />
+            <p className="web3-record-description mt-1.5 max-w-[92%] text-[12px] font-medium leading-[1.28] text-[#443d35]/72">
+              {(activeProject as any).description}
+            </p>
+
+          </div>
+
+          <div className="web3-project-details relative z-10 grid min-h-0 flex-1 py-3">
+            <div className="web3-detail-grid grid h-full min-h-0 content-center gap-y-2.5">
+              {detailBlocks.map(({ label, text, Icon, kind }, blockIdx) => (
+                <FieldNote
+                  key={`${activeProject.id}-${label}`}
+                  tone={kind === 'contribution' ? 'contribution' : blockIdx === 3 ? 'result' : 'standard'}
+                  className={`information-hover-card web3-information-card overflow-visible rounded-[8px] border border-[#7e8966]/12 bg-[#fffdf7]/25 p-3.5 ${
+                    blockIdx < 2 ? 'h-[150px]' : 'h-[145px]'
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[8px] bg-[#7e8966]/12 text-[#7e8966]">
+                      <Icon size={15} strokeWidth={1.55} />
+                    </span>
+                    <h3 className="information-card-title web3-field-title font-mono text-[14px] font-bold uppercase tracking-[0.02em] text-[#5f6849]">
+                      {label}
+                    </h3>
+                  </div>
+                  {kind === 'contribution' ? (
+                    <div className="web3-contribution-grid mt-2.5 grid grid-cols-3 overflow-hidden rounded-[8px] border border-[#9f8fdb]/18 bg-[#fffdf7]/45">
+                      {contributionItems.map((tag, tagIdx) => {
+                        const SkillIcon = SKILL_ICONS[tagIdx % SKILL_ICONS.length];
+                        return (
+                          <span
+                            key={tag}
+                            className="web3-contribution-tag inline-flex min-h-[39px] min-w-0 items-center justify-center gap-1.5 px-2 py-1 text-center text-[11px] font-semibold leading-[1.12] text-[rgb(40,35,31)]"
+                          >
+                            <SkillIcon
+                              size={11}
+                              strokeWidth={1.45}
+                              className="shrink-0 text-[#7e8966]"
+                            />
+                            <span className="min-w-0">{tag}</span>
+                          </span>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="web3-field-copy mt-2.5 text-[15px] font-medium leading-[1.3] text-[#2f2922]/82">
+                      {stripTerminalPunctuation(text)}
+                    </p>
+                  )}
+                </FieldNote>
+              ))}
+            </div>
+          </div>
+          </motion.div>
+          </AnimatePresence>
+          </div>
+        </section>
+
+        <aside
+          className="web3-evidence-rail grid h-full min-h-0 grid-rows-2 gap-3 overflow-hidden justify-self-end self-stretch"
+        >
+          {visualPanels.map((panel, panelIndex) => (
+            <EvidenceFrame
+              key={panel.label}
+              className="web3-evidence-panel group relative h-full min-h-0 w-full overflow-hidden"
+              caption={panel.label}
+              source={activeProject.fullTitle}
+              mediaType={panel.label === 'Banner' ? 'POSTER' : 'INFOGRAPHIC'}
+              showCaption={false}
+              expandSrc={panelIndex === 1 ? panel.src : undefined}
+              expandAlt={panelIndex === 1 ? panel.alt : undefined}
+            >
+              <AnimatePresence initial={false} mode="popLayout">
+                <motion.img
+                  key={`${activeProject.id}-${panel.label}`}
+                  src={panel.src}
+                  alt={panel.alt}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                  loading="eager"
+                  decoding="async"
+                  className="block h-full w-full rounded-[8px] object-contain"
+                />
+              </AnimatePresence>
+              <span className="web3-evidence-tag">
+                {panelIndex === 1 ? panel.label : 'POSTER'}
+              </span>
+            </EvidenceFrame>
+          ))}
+        </aside>
+      </div>
     </div>
   );
 };

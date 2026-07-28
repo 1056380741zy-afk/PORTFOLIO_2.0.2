@@ -1,116 +1,71 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { AboutBoard } from '../components/sections/AboutBoard';
-import { StampCluster } from '../components/home/stamps/StampCluster';
 import { useLanguage } from '../contexts/LanguageContext';
 
-type HomeProps = {
-  globalCardDrag?: boolean;
-};
-
-export const Home: React.FC<HomeProps> = ({ globalCardDrag = false }) => {
-  const { t } = useLanguage();
-  const pageRef = useRef<HTMLDivElement>(null);
-  const [isStampEditMode, setIsStampEditMode] = useState(false);
-  const [isStampVisible, setIsStampVisible] = useState(false);
+export const Home: React.FC = () => {
+  const { t, language } = useLanguage();
   const year = new Date().getFullYear();
-  const pageBackgroundColor = globalCardDrag ? 'rgba(252, 249, 240, 0.3)' : '#fcf9f0';
+  const pageBackgroundColor = 'var(--portfolio-paper)';
 
   return (
     <main
-      className="relative overflow-hidden min-h-[600px] lg:h-full lg:min-h-0"
+      className="home-page-shell relative h-full min-h-0 overflow-hidden"
       style={{
         width: '100%',
-        borderRadius: '28px',
+        borderRadius: '8px',
         boxSizing: 'content-box',
       }}
     >
       <div
-        ref={pageRef}
-        className={`min-h-full lg:h-full w-full ${globalCardDrag ? 'block' : 'flex flex-col lg:flex-row'} relative`}
+        className="home-document-grid relative grid h-full w-full grid-cols-[25%_75%]"
         style={{
           padding: 0,
           margin: 0,
-          borderRadius: '28px',
+          borderRadius: '8px',
           backgroundColor: pageBackgroundColor,
           backgroundRepeat: 'no-repeat',
           backgroundSize: '100% auto',
           backgroundPosition: 'center',
         }}
       >
-        {isStampVisible && (
-          <div
-            className="hidden lg:block absolute top-[clamp(92px,14vh,132px)] z-[230] pointer-events-none"
-            style={{ left: '38%' }}
-          >
-            <div className="relative" style={{ transform: 'translateX(calc(-50% - 80px)) scale(0.85)', transformOrigin: 'center top' }}>
-              <StampCluster isEditMode={isStampEditMode} setIsEditMode={setIsStampEditMode} />
-            </div>
-          </div>
-        )}
-
         <div
-          className={
-            globalCardDrag
-              ? 'absolute left-[42px] top-[52px] z-[80] w-[270px] flex flex-col px-0 py-0'
-              : 'relative z-20 w-full lg:w-[320px] lg:h-full shrink-0 flex flex-col px-[50px] py-5'
-          }
-          style={globalCardDrag ? undefined : { backgroundColor: pageBackgroundColor, boxShadow: '3px 0 10px rgba(90, 70, 45, 0.12)' }}
+          className="home-cover-panel relative z-20 flex h-full w-full min-w-0 flex-col px-[70px] py-[30px]"
+          style={{ backgroundColor: pageBackgroundColor, boxShadow: '3px 0 10px rgba(90, 70, 45, 0.12)' }}
         >
           <div className="max-w-[520px] my-auto mx-[-6px]">
-            <div className="space-y-[clamp(2rem,5vh,3rem)]">
+            <div className="home-greeting-stack space-y-[37px]">
               <div className="inline-flex w-full flex-col items-end text-right">
-                <div dir="rtl" className="w-full text-[34px] leading-[1.1] text-text-dark font-makina text-right">
+                <div dir="rtl" className="home-arabic-greeting w-full text-[34px] leading-[1.1] text-text-dark font-makina text-right">
                   {t.homePage.greetingArabic}
                 </div>
               </div>
-              <div className="text-[13px] leading-[1.1] text-text-dark font-mono font-bold tracking-tight">
-                Hi, I’m Suha.
+              <div className="home-hi-line text-[13px] leading-[1.1] text-text-dark font-mono font-bold tracking-tight">
+                {t.homePage.greetingEnglish}
               </div>
             </div>
 
-            <div className="mt-[clamp(2rem,5vh,2.5rem)] space-y-[clamp(1.125rem,3vh,1.5rem)] text-[13px] leading-relaxed text-text-dark/80 font-mono">
-              <p>{t.homePage.intro}</p>
-              <p className="text-[11px] leading-relaxed text-text-dark/55">{t.homePage.experience}</p>
+            <div className="home-intro-copy mt-[37px] space-y-[22px] text-[13px] leading-relaxed text-text-dark/80 font-mono">
+              <p className={`home-intro-main ${language === 'cn' ? 'whitespace-pre-line' : ''}`}>{t.homePage.intro}</p>
+              <p className="home-intro-hint text-[11px] leading-relaxed text-text-dark/55">{t.homePage.experience}</p>
             </div>
           </div>
 
-          <div className={`${globalCardDrag ? 'mt-10' : 'mt-8 border-t border-[#2d2d2d]/10 pt-5'} text-[10px] leading-none text-text-dark/65 font-mono`}>
+          <div className="home-footer-note mt-8 border-t border-[#2d2d2d]/10 pt-5 text-[10px] leading-none text-text-dark/65 font-mono">
             © {year} Yan Zhu. {t.footer.rights}
           </div>
         </div>
 
         <div
-          className={
-            globalCardDrag
-              ? 'absolute inset-0 z-30 overflow-visible rounded-[28px]'
-              : 'w-full lg:flex-1 shrink-0 relative z-10 overflow-visible min-h-[400px] lg:min-h-0 lg:h-full rounded-[28px]'
-          }
-          style={
-            globalCardDrag
-              ? { backgroundColor: pageBackgroundColor }
-              : {
-                  margin: '10px 0',
-                  padding: '15px',
-                  width: 'calc(100% - 320px)',
-                  height: 'calc(100% - 15px)',
-                  backgroundColor: pageBackgroundColor,
-                }
-          }
+          className="home-profile-board relative z-10 h-full min-h-0 w-full min-w-0 overflow-hidden rounded-[8px]"
+          style={{
+            margin: '0 0 0 -25px',
+            padding: 0,
+            width: 'calc(100% + 25px)',
+            height: '100%',
+            backgroundColor: pageBackgroundColor,
+          }}
         >
-          <div
-            className="w-full h-full overflow-visible rounded-[28px] flex items-center justify-center"
-            style={{ backgroundColor: pageBackgroundColor }}
-          >
-            <AboutBoard
-              cardDragConstraintsRef={globalCardDrag ? pageRef : undefined}
-              releaseCardFrame={globalCardDrag}
-              layout={globalCardDrag ? 'archive' : 'default'}
-              stampControl={{
-                isActive: isStampVisible,
-                onToggle: () => setIsStampVisible((visible) => !visible),
-              }}
-            />
-          </div>
+          <AboutBoard releaseCardFrame />
         </div>
       </div>
     </main>

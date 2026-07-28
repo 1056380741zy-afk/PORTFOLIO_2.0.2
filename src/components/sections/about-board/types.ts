@@ -18,8 +18,3 @@ export type CardAdjustControl = {
   onChange: (id: CardId, axis: keyof CardAdjustOffset, value: number) => void;
   onReset: () => void;
 };
-
-export type StampControl = {
-  isActive: boolean;
-  onToggle: () => void;
-};

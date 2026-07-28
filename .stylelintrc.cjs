@@ -14,5 +14,8 @@ module.exports = {
     'comment-empty-line-before': null,
     'declaration-block-single-line-max-declarations': null,
     'selector-pseudo-element-no-unknown': null,
+    // The portfolio intentionally layers page-scoped material passes after shared primitives.
+    'no-descending-specificity': null,
+    'no-duplicate-selectors': null,
   },
 };

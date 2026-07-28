@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   ArrowLeft,
   ArrowRight,
-  Database,
-  Globe2,
-  Megaphone,
-  Network,
-  Sparkles,
+  CalendarDays,
+  ChartNoAxesColumnIncreasing,
+  FolderKanban,
+  Languages,
+  Share2,
+  Trophy,
 } from 'lucide-react';
-import { B2BContent } from '../components/projects/sections/B2BContent';
-import { Web3Strategy } from '../components/shared/Web3Strategy';
 import { useLanguage } from '../contexts/LanguageContext';
+
+const B2BContent = lazy(() => import('../components/projects/sections/B2BContent').then((module) => ({
+  default: module.B2BContent,
+})));
+const Web3Strategy = lazy(() => import('../components/shared/Web3Strategy').then((module) => ({
+  default: module.Web3Strategy,
+})));
 
 type PreviewDetail = 'web3' | 'exhibition' | 'activation';
 type LanguageCode = 'en' | 'cn';
@@ -21,12 +27,12 @@ type LocalizedList = Record<LanguageCode, string[]>;
 const detailContent: Record<PreviewDetail, Record<'en' | 'cn', { title: string; kicker: string }>> = {
   web3: {
     en: {
-      title: 'Web3 Market Strategy & Growth',
-      kicker: 'STRATEGY · WEB3',
+      title: 'MENA Web3 Research & Strategy',
+      kicker: 'RESEARCH · STRATEGY · MENA',
     },
     cn: {
-      title: 'Web3 市场战略与增长',
-      kicker: '策略 · WEB3',
+      title: '中东 Web3 研究与战略',
+      kicker: '研究 · 战略 · 中东市场',
     },
   },
   exhibition: {
@@ -41,12 +47,12 @@ const detailContent: Record<PreviewDetail, Record<'en' | 'cn', { title: string; 
   },
   activation: {
     en: {
-      title: 'Regional Market Activation',
-      kicker: 'GLOBAL B2B MARKETING CAMPAIGNS · REGIONAL MARKET ACTIVATION',
+      title: 'Selected International Event Operations',
+      kicker: 'MULTILINGUAL COORDINATION · ON-SITE DELIVERY',
     },
     cn: {
-      title: '区域市场激活',
-      kicker: '全球 B2B 营销活动 · 区域市场激活',
+      title: '国际运营活动',
+      kicker: '多语言协调 · 现场执行',
     },
   },
 };
@@ -56,135 +62,225 @@ const isPreviewDetail = (value: string | undefined): value is PreviewDetail =>
 
 const projects = [
   {
-    id: 'web3',
+    id: 'campaigns',
     number: '01',
+    meta: {
+      en: 'Featured Project / B2B / Marketing',
+      cn: '代表项目 / B2B / 市场营销',
+    } satisfies LocalizedString,
+    title: {
+      en: 'International Exhibition Marketing',
+      cn: '国际展会营销与运营',
+    } satisfies LocalizedString,
+    tags: {
+      en: ['B2B Campaigns', 'Channel Strategy', 'eDM Campaigns', 'MENA'],
+      cn: ['B2B营销', '渠道策略', '电子邮件营销', '中东市场'],
+    } satisfies LocalizedList,
+    description: {
+      en: 'An international B2B exhibition project combining channel strategy, multilingual digital campaigns, partner coordination and buyer-facing operations.',
+      cn: '结合渠道策略、多语言数字营销、合作方协同及海外买家支持的国际B2B展会项目。',
+    } satisfies LocalizedString,
+    visual: '/projects/generated/project-preview-card01-field-archive.png',
+    visualPlaceholder: '880 × 960 PX',
+    target: '/projects/preview/exhibition',
+    metrics: [
+      { label: { en: 'DIRECT RESULT · CTR', cn: '直接结果 · 点击率' }, value: { en: '8.50%', cn: '8.50%' }, icon: Trophy },
+      { label: { en: 'DIRECT RESULT · REGISTRATION', cn: '直接结果 · 点击后预登记率' }, value: { en: '26.07%', cn: '26.07%' }, icon: Share2 },
+    ],
+  },
+  {
+    id: 'activation',
+    number: '02',
+    meta: {
+      en: 'Operations / Events / Dubai',
+      cn: '项目运营 / 国际活动 / 迪拜',
+    } satisfies LocalizedString,
+    title: {
+      en: 'International Event Operations',
+      cn: '国际活动运营',
+    } satisfies LocalizedString,
+    tags: {
+      en: ['On-site Coordination', 'Multilingual Support', 'VIP Reception'],
+      cn: ['现场协调', '多语言支持', 'VIP接待'],
+    } satisfies LocalizedList,
+    description: {
+      en: 'Selected academic, government and technology events in Dubai, demonstrating multilingual communication, on-site coordination and rapid issue response.',
+      cn: '迪拜学术、政府与科技活动，展示多语言沟通、现场协调及突发问题响应能力。',
+    } satisfies LocalizedString,
+    visual: '/projects/generated/project-preview-card02-field-archive.png',
+    visualPlaceholder: '880 × 960 PX',
+    target: '/projects/preview/activation',
+    metrics: [
+      { label: { en: 'EVENTS', cn: '代表活动' }, value: { en: '4 Selected', cn: '4个' }, icon: CalendarDays },
+      { label: { en: 'LANGUAGES', cn: '语言' }, value: { en: 'ZH + EN + AR', cn: '中 + 英 + 阿' }, icon: Languages },
+    ],
+  },
+  {
+    id: 'web3',
+    number: '03',
     meta: {
       en: 'Research / Strategy / Web3',
       cn: '研究 / 战略 / Web3',
     } satisfies LocalizedString,
     title: {
-      en: 'Web3 Market Strategy & Growth',
-      cn: 'Web3 市场战略与增长',
+      en: 'MENA Web3 Research & Strategy',
+      cn: '中东Web3研究与战略',
     } satisfies LocalizedString,
     tags: {
-      en: ['UAE Web3', 'Gender Insight', 'Alliance Strategy', 'Compliance'],
-      cn: ['阿联酋Web3', '女性洞察', '联盟战略', '合规分析'],
+      en: ['Market Research', 'Partnership Strategy', 'Compliance Analysis'],
+      cn: ['市场研究', '合作战略', '合规分析'],
     } satisfies LocalizedList,
     description: {
-      en: 'Research and strategy work focused on UAE Web3 growth, covering women’s participation, partnership design, and exchange expansion analysis.',
-      cn: '聚焦阿联酋 Web3 增长的研究与战略项目，涵盖女性参与、平台合作设计与交易所扩张分析。',
+      en: 'Three research and strategy projects exploring participation, platform partnerships and exchange expansion in the UAE and wider MENA Web3 ecosystem.',
+      cn: '围绕阿联酋及中东Web3生态中的用户参与、平台合作及交易所扩张展开的三个研究与战略项目。',
     } satisfies LocalizedString,
-    visualImage: '/projects/card01.png',
+    visual: '/projects/generated/project-preview-card03-field-archive.png',
+    visualPlaceholder: '880 × 960 PX',
     target: '/projects/preview/web3',
     metrics: [
-      { label: 'SUB-CASES', value: '3' },
-      { label: 'METHODS', value: 'Survey + Strategy' },
-    ],
-  },
-  {
-    id: 'campaigns',
-    number: '02',
-    meta: {
-      en: 'Campaigns / B2B / Marketing',
-      cn: '营销活动 / B2B / 市场传播',
-    } satisfies LocalizedString,
-    title: {
-      en: 'International Exhibition Campaigns',
-      cn: '国际展会营销项目',
-    } satisfies LocalizedString,
-    tags: {
-      en: ['eDM Optimization', 'Localization', 'Performance', 'MENA'],
-      cn: ['eDM优化', '本地化', '效果分析', 'MENA'],
-    } satisfies LocalizedList,
-    description: {
-      en: 'B2B exhibition campaign work covering eDM optimization, Arabic localization, and performance analysis across channels and markets.',
-      cn: '围绕 B2B 展会营销展开，包含 eDM 优化、阿语本地化以及跨渠道效果分析。',
-    } satisfies LocalizedString,
-    visualImage: '/projects/card02.png',
-    target: '/projects/preview/exhibition',
-    metrics: [
-      { label: 'HIGHLIGHT', value: '128% YoY' },
-      { label: 'CHANNELS', value: 'eDM + Social + Web' },
-    ],
-  },
-  {
-    id: 'activation',
-    number: '03',
-    meta: {
-      en: 'Activation / Localization / Operations',
-      cn: '市场激活 / 本地化 / 运营执行',
-    } satisfies LocalizedString,
-    title: {
-      en: 'Regional Market Activation',
-      cn: '区域市场激活与现场支持',
-    } satisfies LocalizedString,
-    tags: {
-      en: ['On-site Coordination', 'Language Support', 'Event Support'],
-      cn: ['现场协调', '语言支持', '活动支持'],
-    } satisfies LocalizedList,
-    description: {
-      en: 'Regional activation work across MENA-related events, combining multilingual support, on-site coordination, and business-facing event execution.',
-      cn: '围绕 MENA 相关活动的区域激活项目，结合多语言支持、现场协调与面向业务的活动执行。',
-    } satisfies LocalizedString,
-    visualImage: '/projects/card03.png',
-    target: '/projects/preview/activation',
-    metrics: [
-      { label: 'EVENT CASES', value: '4' },
-      { label: 'LANGUAGES', value: 'EN + ZH + AR' },
+      { label: { en: 'PROJECTS', cn: '研究项目' }, value: { en: '3 Research', cn: '3个' }, icon: FolderKanban },
+      { label: { en: 'METHODS', cn: '方法' }, value: { en: 'Survey + Interviews + Strategy', cn: '问卷 + 访谈 + 战略' }, icon: ChartNoAxesColumnIncreasing },
     ],
   },
 ];
 
-const capabilityCards = [
-  {
-    number: '01',
-    title: {
-      en: 'CROSS-CULTURAL MARKET INSIGHT',
-      cn: '跨文化市场洞察',
-    } satisfies LocalizedString,
-    description: {
-      en: 'Understanding markets through cultural & user lens.',
-      cn: '通过文化与用户视角理解市场。',
-    } satisfies LocalizedString,
-    Icon: Globe2,
-  },
-  {
-    number: '02',
-    title: {
-      en: 'PARTNERSHIP & ECOSYSTEM STRATEGY',
-      cn: '伙伴关系与生态策略',
-    } satisfies LocalizedString,
-    description: {
-      en: 'Building partnerships that create long-term value.',
-      cn: '建立能够创造长期价值的合作关系。',
-    } satisfies LocalizedString,
-    Icon: Network,
-  },
-  {
-    number: '03',
-    title: {
-      en: 'CAMPAIGN EXECUTION',
-      cn: '营销活动执行',
-    } satisfies LocalizedString,
-    description: {
-      en: 'From planning to delivery, driving engagement & growth.',
-      cn: '从规划到交付，推动参与和增长。',
-    } satisfies LocalizedString,
-    Icon: Megaphone,
-  },
-  {
-    number: '04',
-    title: {
-      en: 'LOCALIZATION WITH BUSINESS IMPACT',
-      cn: '本地化与商业影响',
-    } satisfies LocalizedString,
-    description: {
-      en: 'Adapting strategy and content to deliver measurable impact.',
-      cn: '调整策略与内容，交付可衡量影响。',
-    } satisfies LocalizedString,
-    Icon: Database,
-  },
-];
+type ProjectArchiveVisualProps = {
+  projectId: string;
+  number: string;
+};
+
+const ProjectRegistryHeader: React.FC = () => (
+  <div className="project-preview-registry" aria-hidden="true">
+    <div className="project-preview-registry-cross project-preview-registry-cross-a" />
+    <div className="project-preview-registry-route">
+      <div className="project-preview-registry-node">
+        <strong>01</strong>
+        <span>CAMPAIGN</span>
+        <small>CN - MENA</small>
+      </div>
+      <div className="project-preview-registry-node">
+        <strong>02</strong>
+        <span>OPERATIONS</span>
+        <small>DUBAI</small>
+      </div>
+      <div className="project-preview-registry-node">
+        <strong>03</strong>
+        <span>RESEARCH</span>
+        <small>UAE / WEB3</small>
+      </div>
+    </div>
+    <div className="project-preview-registry-ruler">
+      {Array.from({ length: 13 }, (_, idx) => (
+        <span key={idx}>{idx * 10}</span>
+      ))}
+    </div>
+    <div className="project-preview-registry-stamp">
+      <span>03</span>
+      <small>FILES</small>
+    </div>
+    <div className="project-preview-registry-cross project-preview-registry-cross-b" />
+  </div>
+);
+
+const ProjectArchiveVisual: React.FC<ProjectArchiveVisualProps> = ({ projectId, number }) => {
+  if (projectId === 'campaigns') {
+    return (
+      <div className="project-archive-visual project-archive-visual-campaign">
+        <span className="project-archive-file-label">FILE {number} / MKT</span>
+        <span className="project-archive-ruler" aria-hidden="true" />
+        <span className="project-archive-city" aria-hidden="true" />
+        <div className="project-archive-folder">
+          <div className="project-archive-route-sheet">
+            <strong>ROUTE PLAN</strong>
+            <span>CHINA -&gt; MENA</span>
+            <i className="route-dot route-dot-a" />
+            <i className="route-dot route-dot-b" />
+            <i className="route-dot route-dot-c" />
+          </div>
+          <div className="project-archive-pass">
+            <strong>EXHIBITOR</strong>
+            <span>WATERTECH CHINA 2024</span>
+            <small>SHANGHAI</small>
+          </div>
+          <div className="project-archive-distribution">
+            <strong>EDM DISTRIBUTION</strong>
+            <span><i /> EMAIL 90%</span>
+            <span><i /> WHATSAPP 75%</span>
+            <span><i /> LINKEDIN 60%</span>
+          </div>
+          <em>CAMPAIGN DISPATCH FILE</em>
+        </div>
+        <span className="project-archive-crop project-archive-crop-a" />
+        <span className="project-archive-crop project-archive-crop-b" />
+      </div>
+    );
+  }
+
+  if (projectId === 'activation') {
+    return (
+      <div className="project-archive-visual project-archive-visual-ops">
+        <span className="project-archive-file-label">FILE {number} / OPS</span>
+        <span className="project-archive-punches" aria-hidden="true" />
+        <span className="project-archive-binder" aria-hidden="true" />
+        <div className="project-archive-run-sheet">
+          <strong>EVENT RUN SHEET</strong>
+          {['08:30 Registration Open', '10:00 Opening Session', '13:40 VIP Reception', '18:00 Closing Remarks'].map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+          <div className="project-archive-floorplan" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </div>
+        </div>
+        <div className="project-archive-vip-pass">
+          <small>ALL ACCESS</small>
+          <strong>VIP</strong>
+          <span>PASS</span>
+        </div>
+        <div className="project-archive-checklist">
+          {['Venue Setup', 'Guest Reception', 'Translation'].map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </div>
+        <span className="project-archive-stamp">ON SITE</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="project-archive-visual project-archive-visual-research">
+      <span className="project-archive-file-label">FILE {number} / R&D</span>
+      <span className="project-archive-target" aria-hidden="true" />
+      <pre className="project-archive-ascii" aria-hidden="true">{'++..::\n+..::::\n..::==\n.::===\n..::::'}</pre>
+      <div className="project-archive-research-sheet project-archive-research-main">
+        <strong>RESEARCH OVERVIEW</strong>
+        <span>MENA WEB3 ECOSYSTEM</span>
+        <div className="project-archive-donut" aria-hidden="true" />
+        <div className="project-archive-mini-bars" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <i />
+        </div>
+      </div>
+      <div className="project-archive-research-sheet project-archive-compliance">
+        <strong>COMPLIANCE CHECK</strong>
+        {['KYC / AML', 'Data Security', 'License Clarity'].map((item) => (
+          <span key={item}>{item}</span>
+        ))}
+      </div>
+      <div className="project-archive-network" aria-hidden="true">
+        <i />
+        <i />
+        <i />
+        <i />
+        <i />
+      </div>
+      <span className="project-archive-verified">VERIFIED</span>
+    </div>
+  );
+};
 
 export const ProjectPreview: React.FC = () => {
   const { detail } = useParams<{ detail?: string }>();
@@ -194,9 +290,10 @@ export const ProjectPreview: React.FC = () => {
     const activeDetail = detailContent[detail][language];
 
     return (
-      <main className="project-preview-page project-preview-detail-page custom-scrollbar">
+      <main className={`project-preview-page project-preview-detail-page project-preview-detail-page-${detail} custom-scrollbar`}>
         <section className="project-preview-detail-shell" aria-label={activeDetail.title}>
           <div className="project-preview-detail-toolbar">
+            <span className="project-preview-detail-ruler" aria-hidden="true" />
             <Link to="/projects/preview" className="project-preview-detail-back">
               <ArrowLeft size={16} strokeWidth={1.5} />
               <span>PROJECT PREVIEW</span>
@@ -210,11 +307,13 @@ export const ProjectPreview: React.FC = () => {
           </div>
 
           <div className="project-preview-detail-content">
-            {detail === 'web3' ? (
-              <Web3Strategy />
-            ) : (
-              <B2BContent initialSection={detail === 'activation' ? 'activation' : 'exhibition'} />
-            )}
+            <Suspense fallback={<div className="project-preview-detail-loading" aria-hidden="true" />}>
+              {detail === 'web3' ? (
+                <Web3Strategy />
+              ) : (
+                <B2BContent initialSection={detail === 'activation' ? 'activation' : 'exhibition'} />
+              )}
+            </Suspense>
           </div>
         </section>
       </main>
@@ -227,61 +326,92 @@ export const ProjectPreview: React.FC = () => {
         <div className="project-preview-grain" aria-hidden="true" />
         <div className="project-preview-dots project-preview-dots-a" aria-hidden="true" />
         <div className="project-preview-dots project-preview-dots-b" aria-hidden="true" />
+        <div className="project-preview-dots project-preview-dots-c" aria-hidden="true" />
+        <img
+          src="/decorations/topographic-contours.webp"
+          alt=""
+          width={1692}
+          height={930}
+          className="project-preview-contours"
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
 
         <div className="project-preview-content">
           <header className="project-preview-header">
             <div className="project-preview-title-block">
-              <h1>PROJECT PREVIEW</h1>
+              <h1>SELECTED PROJECTS</h1>
               <p className="project-preview-kicker">STRATEGY IN ACTION</p>
               <p className="project-preview-intro">
                 {language === 'cn'
-                  ? '近期项目展示战略、伙伴关系与创意如何协同，推动可衡量的影响。'
-                  : 'Recent projects where strategy, partnerships, and creativity come together to drive measurable impact.'}
+                  ? '覆盖中国与中东市场的营销、项目运营与市场研究实践。'
+                  : 'Marketing, operations and market research across China and MENA.'}
               </p>
+              <p className="project-preview-register-line">PROJECT REGISTER / 03 ACTIVE FILES / 2023-2026</p>
             </div>
 
-            <div className="project-preview-featured">
-              <Sparkles size={15} strokeWidth={1.6} />
-              <span>FEATURED WORK</span>
-            </div>
+            <ProjectRegistryHeader />
           </header>
 
           <div className="project-preview-card-grid">
-            {projects.map((project) => {
+            {projects.map((project, projectIdx) => {
               const projectTitle = project.title[language];
               const projectTags = project.tags[language];
+              const isFeaturedProject = projectIdx === 0;
 
               return (
                 <Link
                   key={project.id}
                   to={project.target}
-                  className="project-preview-card"
+                  className={`project-preview-card ${
+                    isFeaturedProject ? 'project-preview-card-featured' : 'project-preview-card-compact'
+                  }`}
                   aria-label={`Open ${projectTitle}`}
                 >
                   <div className="project-preview-card-body">
                     <div className="project-preview-card-copy">
-                      <p className="project-preview-card-number">{project.number}</p>
-                      <p className="project-preview-card-meta">{project.meta[language]}</p>
-                      <h2>{projectTitle}</h2>
+                      <div className="project-preview-card-heading">
+                        <p className="project-preview-card-number">{project.number}</p>
+                        <div>
+                          <p className="project-preview-card-meta">
+                            {isFeaturedProject ? `FEATURED / ${project.meta[language]}` : project.meta[language]}
+                          </p>
+                          <h2>{projectTitle}</h2>
+                        </div>
+                      </div>
                       <div className={`project-preview-tags project-preview-tags-${project.id}`}>
                         {projectTags.map((tag) => (
                           <span key={tag}>{tag}</span>
                         ))}
                       </div>
-                      <p className="project-preview-card-description">
-                        {project.description[language]}
-                      </p>
-                      <span className="project-preview-view-button" aria-hidden="true">
-                        <span>VIEW PROJECT</span>
-                        <ArrowRight size={22} strokeWidth={1.4} />
-                      </span>
                     </div>
 
-                    <div
-                      className={`project-preview-visual project-preview-visual-${project.id}`}
-                      aria-label={`${projectTitle} visual`}
-                    >
-                      <img src={project.visualImage} alt="" loading="lazy" />
+                    <div className="project-preview-card-story">
+                      <div
+                        className={`project-preview-visual project-preview-visual-${project.id}`}
+                        aria-label={`${projectTitle} visual`}
+                      >
+                        <img
+                          src={project.visual}
+                          alt=""
+                          width={1536}
+                          height={1024}
+                          draggable={false}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+
+                      <div className="project-preview-card-summary">
+                        <p className="project-preview-card-description">
+                          {project.description[language]}
+                        </p>
+                        <span className="project-preview-view-button" aria-hidden="true">
+                          <span>VIEW PROJECT</span>
+                          <ArrowRight size={22} strokeWidth={1.4} />
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -291,34 +421,25 @@ export const ProjectPreview: React.FC = () => {
                       ['--project-preview-metric-count' as string]: project.metrics.length,
                     } as React.CSSProperties}
                   >
-                    {project.metrics.map((metric) => (
-                      <div key={metric.label}>
-                        <span>{metric.label}</span>
-                        <strong>{metric.value}</strong>
-                      </div>
-                    ))}
+                    {project.metrics.map((metric) => {
+                      const MetricIcon = metric.icon;
+                      const metricLabel = metric.label[language];
+                      const metricValue = metric.value[language];
+
+                      return (
+                        <div key={metricLabel}>
+                          <MetricIcon size={18} strokeWidth={1.35} aria-hidden="true" />
+                          <span>{metricLabel}</span>
+                          <strong>{metricValue}</strong>
+                        </div>
+                      );
+                    })}
                   </div>
                 </Link>
               );
             })}
           </div>
 
-          <section className="project-preview-footer-panel" aria-label="Project Preview Summary">
-            <div className="project-preview-index project-preview-capabilities">
-              <div className="project-preview-capability-grid">
-                {capabilityCards.map(({ number, title, description, Icon }) => (
-                  <article key={number} className="project-preview-capability-card">
-                    <span className="project-preview-capability-number">{number}</span>
-                    <div className="project-preview-capability-copy">
-                      <h3>{title[language]}</h3>
-                      <p>{description[language]}</p>
-                    </div>
-                    <Icon size={30} strokeWidth={1.55} aria-hidden="true" />
-                  </article>
-                ))}
-              </div>
-            </div>
-          </section>
         </div>
       </section>
     </main>

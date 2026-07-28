@@ -1,15 +1,40 @@
-import React, { useEffect, Suspense, lazy } from 'react';
+import React, { useEffect, Suspense, lazy, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { Rotate3D } from 'lucide-react';
 import { Navbar } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { AIChat } from './components/common/AIChat';
-import { LanguageProvider } from './contexts/LanguageContext';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 
 // 路由懒加载
 const Home = lazy(() => import('./pages/Home').then(m => ({ default: m.Home })));
 const Journey = lazy(() => import('./pages/Journey').then(m => ({ default: m.Journey })));
 const ProjectPreview = lazy(() => import('./pages/ProjectPreview').then(m => ({ default: m.ProjectPreview })));
+const DESIGN_CANVAS_WIDTH = 1744;
+const DESIGN_CANVAS_HEIGHT = 840;
+
+const MobileRotateHint: React.FC = () => {
+  const { language } = useLanguage();
+  const isCn = language === 'cn';
+
+  return (
+    <aside className="mobile-rotate-hint" aria-live="polite">
+      <div className="mobile-rotate-hint-card">
+        <div className="mobile-rotate-symbol" aria-hidden="true">
+          <Rotate3D className="mobile-rotate-icon" size={28} strokeWidth={1.7} />
+        </div>
+        <div>
+          <p className="mobile-rotate-hint-title">
+            {isCn ? '请横屏查看' : 'Rotate to landscape'}
+          </p>
+          <p className="mobile-rotate-hint-copy">
+            {isCn ? '横屏可完整显示 PC 版作品集画布。' : 'Landscape shows the full desktop canvas.'}
+          </p>
+        </div>
+      </div>
+    </aside>
+  );
+};
 
 // 加载中占位组件
 const PageLoader = () => (
@@ -21,6 +46,27 @@ const PageLoader = () => (
 const AppContent: React.FC = () => {
   const location = useLocation();
   const shouldShowGlobalFooter = !['/', '/journey'].includes(location.pathname) && !location.pathname.startsWith('/projects');
+  const [canvasScale, setCanvasScale] = useState(1);
+
+  useEffect(() => {
+    const updateCanvasScale = () => {
+      const availableWidth = document.documentElement.clientWidth || window.innerWidth;
+
+      setCanvasScale(Math.min(
+        1,
+        availableWidth / DESIGN_CANVAS_WIDTH,
+      ));
+    };
+
+    updateCanvasScale();
+    window.addEventListener('resize', updateCanvasScale);
+    window.visualViewport?.addEventListener('resize', updateCanvasScale);
+
+    return () => {
+      window.removeEventListener('resize', updateCanvasScale);
+      window.visualViewport?.removeEventListener('resize', updateCanvasScale);
+    };
+  }, []);
 
   // 页面切换时滚动到顶部
   useEffect(() => {
@@ -31,57 +77,75 @@ const AppContent: React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <div className="h-dvh bg-[#faf4eb] pl-[clamp(1rem,4vw,3rem)] pr-[calc(clamp(2.5rem,8vw,6rem)-5px)] py-[clamp(1rem,3vw,2.5rem)] flex items-stretch font-sans overflow-hidden">
-      <div className="relative flex-1 flex flex-col min-h-0 rounded-[28px]">
+    <div
+      className="portfolio-stage font-sans"
+      style={{
+        '--portfolio-frame-height': `${DESIGN_CANVAS_HEIGHT * canvasScale}px`,
+      } as React.CSSProperties}
+    >
+      <div
+        className="portfolio-stage-frame"
+        style={{
+          width: DESIGN_CANVAS_WIDTH * canvasScale,
+          height: DESIGN_CANVAS_HEIGHT * canvasScale,
+        }}
+      >
         <div
-          className="relative flex-1 bg-[#f9f4e8] rounded-[28px] flex flex-col min-h-0"
+          className="portfolio-design-canvas pl-12 pr-[91px] py-10 flex items-stretch overflow-hidden"
           style={{
-            boxShadow:
-              '0 18px 36px rgba(90, 70, 45, 0.18), inset 0 0 0 1px rgba(241, 228, 212, 0.82), inset 0 1px 0 rgba(255,255,255,0.42)',
+            width: DESIGN_CANVAS_WIDTH,
+            height: DESIGN_CANVAS_HEIGHT,
+            transform: `scale(${canvasScale})`,
+            transformOrigin: 'top left',
           }}
         >
-          <header className="relative z-50 shrink-0">
-            <Navbar />
-          </header>
-          
-          <main className="flex-1 min-h-0 relative overflow-hidden rounded-[28px]">
+          <div className="relative flex-1 flex flex-col min-h-0 rounded-[28px]">
             <div
-              id="main-scroll-container"
-              className="h-full overflow-x-hidden overflow-y-auto relative custom-scrollbar scroll-smooth rounded-[28px]"
+              className="portfolio-main-board relative flex-1 flex flex-col min-h-0 rounded-[28px]"
+              style={{
+                boxShadow:
+                  '0 18px 36px rgba(90, 70, 45, 0.18), inset 0 0 0 1px rgba(241, 228, 212, 0.82), inset 0 1px 0 rgba(255,255,255,0.42)',
+              }}
             >
-              <Suspense fallback={<PageLoader />}>
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    key={location.pathname}
-                    className="h-full"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.22, ease: 'easeInOut' }}
-                  >
-                    <Routes location={location}>
-                      <Route path="/" element={<Home />} />
-                      <Route path="/home-2" element={<Navigate to="/" replace />} />
-                      <Route path="/journey" element={<Journey />} />
-                      <Route path="/projects/preview" element={<ProjectPreview />} />
-                      <Route path="/projects/preview/:detail" element={<ProjectPreview />} />
-                      <Route path="/projects" element={<Navigate to="/projects/preview" replace />} />
-                      <Route path="/about" element={<Navigate to="/" replace />} />
-                    </Routes>
-                  </motion.div>
-                </AnimatePresence>
-              </Suspense>
-            </div>
-          </main>
+              <header className="relative z-50 shrink-0">
+                <Navbar />
+              </header>
 
-          {shouldShowGlobalFooter && (
-            <footer className="relative z-40 shrink-0">
-              <Footer />
-            </footer>
-          )}
+              <main className="flex-1 min-h-0 relative overflow-hidden rounded-[28px]">
+                <div
+                  id="main-scroll-container"
+                  className="h-full overflow-x-hidden overflow-y-auto relative custom-scrollbar scroll-smooth rounded-[28px]"
+                >
+                  <Suspense fallback={<PageLoader />}>
+                      <div
+                        key={location.pathname}
+                        className="route-transition h-full"
+                      >
+                        <Routes location={location}>
+                          <Route path="/" element={<Home />} />
+                          <Route path="/home-2" element={<Navigate to="/" replace />} />
+                          <Route path="/journey" element={<Journey />} />
+                          <Route path="/projects/preview" element={<ProjectPreview />} />
+                          <Route path="/projects/preview/:detail" element={<ProjectPreview />} />
+                          <Route path="/projects" element={<Navigate to="/projects/preview" replace />} />
+                          <Route path="/about" element={<Navigate to="/" replace />} />
+                        </Routes>
+                      </div>
+                  </Suspense>
+                </div>
+              </main>
+
+              {shouldShowGlobalFooter && (
+                <footer className="relative z-40 shrink-0">
+                  <Footer />
+                </footer>
+              )}
+            </div>
+          </div>
+          <AIChat />
         </div>
       </div>
-      <AIChat />
+      <MobileRotateHint />
     </div>
   );
 };

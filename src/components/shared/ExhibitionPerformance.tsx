@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import {
-  BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, ComposedChart, Cell, PieChart, Pie, LabelList
+  BarChart, Bar, Line, XAxis, YAxis, CartesianGrid,
+  Tooltip, ResponsiveContainer, ComposedChart, Cell, PieChart, Pie, LabelList, ReferenceLine
 } from 'recharts';
-import { TrendingUp, Globe, Target, MousePointerClick } from 'lucide-react';
+import { BarChart3, TrendingUp, Globe, Target, MousePointerClick } from 'lucide-react';
 import { motion, useInView, animate, Variants } from 'framer-motion';
 import { Card } from './Card';
 import { THEME } from '../../constants';
@@ -77,6 +77,27 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
+const BuyerQualityTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    const entry = payload[0];
+
+    return (
+      <div className="buyer-quality-tooltip rounded-[8px] border border-[#9f8fdb]/18 bg-[#fffdf7]/95 px-3 py-2 text-xs shadow-[0_10px_22px_rgba(80,62,36,0.12)] backdrop-blur-sm">
+        <div className="mb-1 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#9f8fdb]">
+          Audience Quality
+        </div>
+        <div className="flex items-center gap-2 text-text-dark">
+          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: entry.color || entry.fill }} />
+          <span className="font-medium opacity-80">{entry.name}</span>
+          <span className="ml-auto font-mono font-bold">{entry.value}%</span>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 export const ExhibitionPerformance: React.FC = () => {
   const { t } = useLanguage();
   const ref = useRef(null);
@@ -108,18 +129,18 @@ export const ExhibitionPerformance: React.FC = () => {
       variants={containerVariants}
     >
         {/* Header - Subtitle Style */}
-        <motion.div variants={itemVariants} className="flex items-center gap-3 mb-6">
-           <span className="w-10 h-10 rounded-full flex items-center justify-center border border-[#2d2d2d]/5 shadow-sm text-lg" style={{ backgroundColor: '#f7f6f3', color: THEME.colors.primaryOrange }}>📊</span>
+        <motion.div variants={itemVariants} className="mt-5 mb-5 flex items-center gap-3">
+           <span className="decorative-icon decorative-icon-framed decorative-icon-framed-lg"><BarChart3 /></span>
            <h5 className="font-bold text-text-dark text-xl tracking-wide">{t.exhibitionPerformance.title}</h5>
         </motion.div>
 
         {/* Content Wrapper with Indentation */}
-        <div className="pl-0 md:pl-5 border-l-0 md:border-l-2 md:border-[#2d2d2d]/5 md:ml-5">
+        <div className="pl-5 border-l-2 border-[#2d2d2d]/5 ml-5">
             {/* Grid Layout */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="mt-[30px] grid grid-cols-3 gap-6 pb-[25px] pr-[10px]">
                 
                 {/* Card 1: Scale (Double Axis) */}
-                <Card depth={2} className="!bg-white p-6 shadow-sm col-span-1 lg:col-span-2 transition-shadow duration-300 hover:shadow-[0_14px_30px_rgba(90,70,45,0.12)]">
+                <Card depth={2} className="information-hover-card exhibition-performance-card !rounded-[8px] p-6 col-span-2">
                     <div className="flex justify-between items-start mb-6">
                         <div>
                             <h4 className="font-bold text-text-dark flex items-center gap-2">
@@ -147,6 +168,19 @@ export const ExhibitionPerformance: React.FC = () => {
                                 <YAxis yAxisId="left" hide />
                                 <YAxis yAxisId="right" orientation="right" hide />
                                 <Tooltip content={<CustomTooltip />} />
+                                <ReferenceLine
+                                    x="2024"
+                                    yAxisId="left"
+                                    stroke={THEME.colors.primaryPurple}
+                                    strokeDasharray="3 3"
+                                    label={{
+                                        value: '1st year of changing brand',
+                                        position: 'top',
+                                        fill: '#7e8966',
+                                        fontSize: 10,
+                                        fontWeight: 700,
+                                    }}
+                                />
                                 <Bar yAxisId="left" dataKey="exhibitors" name="Exhibitors" fill={THEME.colors.primaryPurple} barSize={40} radius={[4, 4, 0, 0]} />
                                 <Line yAxisId="right" type="monotone" dataKey="overseas" name="Overseas" stroke={THEME.colors.primaryOrange} strokeWidth={3} dot={{r: 4, fill: THEME.colors.primaryOrange}} />
                             </ComposedChart>
@@ -157,13 +191,16 @@ export const ExhibitionPerformance: React.FC = () => {
                 {/* Card 2: Overseas Growth (Big Stat) - ENHANCED HERO ELEMENT */}
                 <Card 
                     depth={2}
-                    className="!bg-white p-6 flex flex-col justify-center items-center text-center relative overflow-hidden group transition-shadow duration-300 hover:shadow-[0_14px_30px_rgba(90,70,45,0.12)] border border-[#2d2d2d]/5"
+                    className="information-hover-card exhibition-performance-card !rounded-[8px] p-6 flex flex-col justify-center items-center text-center relative overflow-hidden border border-[#2d2d2d]/5"
                 >
-                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <div className="exhibition-performance-decoration absolute top-0 right-0 p-4 opacity-10">
                         <Globe size={120} />
                     </div>
                     <h4 className="font-bold text-text-dark mb-4 text-sm uppercase tracking-wider z-10">{t.exhibitionPerformance.sec2.title}</h4>
-                    <div className="text-5xl font-black mb-2 z-10" style={{ color: THEME.colors.primaryOrange }}>
+                    <div
+                      className="text-5xl font-black mb-2 z-10"
+                      style={{ color: THEME.colors.primaryOrange, fontFamily: '"Inter Variable", Inter, Arial, sans-serif' }}
+                    >
                         <Counter to={128} suffix="%" />
                     </div>
                     {/* Pulsing Badge */}
@@ -181,7 +218,7 @@ export const ExhibitionPerformance: React.FC = () => {
                 </Card>
 
                 {/* Card 3: Buyer Quality (Pie) */}
-                <Card depth={2} className="!bg-white p-6 shadow-sm transition-shadow duration-300 hover:shadow-[0_14px_30px_rgba(90,70,45,0.12)]">
+                <Card depth={2} className="information-hover-card exhibition-performance-card exhibition-performance-bottom-bleed exhibition-buyer-quality-card !rounded-[8px] p-6">
                      <h4 className="font-bold text-text-dark flex items-center gap-2 mb-2">
                         <Target size={18} color={THEME.colors.primaryPurple} />
                         {t.exhibitionPerformance.sec3.title}
@@ -205,18 +242,28 @@ export const ExhibitionPerformance: React.FC = () => {
                                         <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
                                     ))}
                                 </Pie>
-                                <Tooltip content={<CustomTooltip />} />
+                                <Tooltip
+                                  content={<BuyerQualityTooltip />}
+                                  cursor={false}
+                                  position={{ x: 4, y: 84 }}
+                                  wrapperStyle={{ pointerEvents: 'none', zIndex: 80 }}
+                                />
                             </PieChart>
                         </ResponsiveContainer>
                         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                             <span className="text-3xl font-black" style={{ color: THEME.colors.primaryPurple }}>66%</span>
+                             <span
+                               className="text-3xl font-black"
+                               style={{ color: THEME.colors.primaryPurple, fontFamily: '"Inter Variable", Inter, Arial, sans-serif' }}
+                             >
+                               66%
+                             </span>
                              <span className="text-[10px] font-bold text-gray-400 uppercase">Direct Buyers</span>
                         </div>
                      </div>
                 </Card>
 
                 {/* Card 4: MENA Focus (Bar) */}
-                <Card depth={2} className="!bg-white p-6 shadow-sm transition-shadow duration-300 hover:shadow-[0_14px_30px_rgba(90,70,45,0.12)]">
+                <Card depth={2} className="information-hover-card exhibition-performance-card exhibition-performance-bottom-bleed !rounded-[8px] p-6">
                      <h4 className="font-bold text-text-dark flex items-center gap-2 mb-2">
                         <Globe size={18} color={THEME.colors.primaryOrange} />
                         {t.exhibitionPerformance.sec4.title}
@@ -230,8 +277,8 @@ export const ExhibitionPerformance: React.FC = () => {
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={THEME.colors.grid} />
                                 <XAxis dataKey="year" tickLine={false} axisLine={false} tick={{fill: THEME.colors.muted, fontSize: 10}} />
                                 <YAxis tickLine={false} axisLine={false} tick={{fill: THEME.colors.muted, fontSize: 10}} />
-                                <Tooltip content={<CustomTooltip />} />
-                                <Bar dataKey="value" name="MENA Share (%)" fill={THEME.colors.primaryOrange} radius={[4, 4, 0, 0]}>
+                                <Tooltip content={<CustomTooltip />} cursor={false} />
+                                <Bar dataKey="value" name="MENA Share (%)" fill={THEME.colors.primaryOrange} radius={[4, 4, 0, 0]} activeBar={false}>
                                     <LabelList dataKey="value" position="top" fill={THEME.colors.primaryOrange} fontSize={12} formatter={(val: number) => `${val}%`} />
                                 </Bar>
                             </BarChart>
@@ -240,7 +287,7 @@ export const ExhibitionPerformance: React.FC = () => {
                 </Card>
 
                 {/* Card 5: Channel Performance (Horizontal Bar) */}
-                 <Card depth={2} className="!bg-white p-6 shadow-sm col-span-1 lg:col-span-1 transition-shadow duration-300 hover:shadow-[0_14px_30px_rgba(90,70,45,0.12)]">
+                 <Card depth={2} className="information-hover-card exhibition-performance-card exhibition-performance-bottom-bleed !rounded-[8px] p-6 col-span-1">
                      <h4 className="font-bold text-text-dark flex items-center gap-2 mb-2">
                         <MousePointerClick size={18} color={THEME.colors.primaryPurple} />
                         {t.exhibitionPerformance.sec5.title}
@@ -254,8 +301,8 @@ export const ExhibitionPerformance: React.FC = () => {
                                 <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke={THEME.colors.grid} />
                                 <XAxis type="number" hide />
                                 <YAxis dataKey="channel" type="category" width={70} tickLine={false} axisLine={false} tick={{fill: THEME.colors.textMain, fontSize: 11, fontWeight: 500}} />
-                                <Tooltip content={<CustomTooltip />} />
-                                <Bar dataKey="value" name="Conversion Rate" radius={[0, 4, 4, 0]} barSize={20}>
+                                <Tooltip content={<CustomTooltip />} cursor={false} />
+                                <Bar dataKey="value" name="Conversion Rate" radius={[0, 4, 4, 0]} barSize={20} activeBar={false}>
                                     {CHANNEL_DATA.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={entry.color} />
                                     ))}

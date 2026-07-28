@@ -26,14 +26,14 @@ export function AIChat() {
     en: {
       title: "AI Assistant",
       greeting: "Hi! I'm Suha's web assistant. I can help you understand her background, projects, and skills. Feel free to ask me anything!",
-      placeholder: "Ask anything... (Shift + Enter for new line)",
+      placeholder: "Ask about Suha’s experience or projects... (Shift + Enter for new line)",
       poweredBy: "POWERED BY DEEPSEEK",
       jdMatch: "JD MATCH ANALYSIS"
     },
     zh: {
       title: "AI 助手",
       greeting: "你好呀，我是这个网页的助手，帮助您了解网页中关于 Suha 的各个板块和信息。有任何疑问可以直接在对话框中发送。",
-      placeholder: "输入提问内容... (Shift + Enter 换行)",
+      placeholder: "询问Suha的经历或项目... (Shift + Enter 换行)",
       poweredBy: "POWERED BY DEEPSEEK",
       jdMatch: "JD 匹配分析"
     }
@@ -144,7 +144,7 @@ export function AIChat() {
         <SuhaBot size={40} showBackground={false} />
       </button>
 
-      <div className={`ai-chat-scrollbarless fixed bottom-6 right-6 w-[90vw] max-w-[400px] h-[600px] max-h-[80vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 z-[9999] origin-bottom-right ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}>
+      <div className={`ai-chat-scrollbarless fixed bottom-6 right-6 w-[400px] h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 z-[9999] origin-bottom-right ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}>
         
         <div className="px-5 py-4 bg-[#9f8fdb] text-white flex justify-between items-center">
           <div className="flex items-center gap-2.5">

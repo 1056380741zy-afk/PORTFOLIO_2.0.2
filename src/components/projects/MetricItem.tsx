@@ -20,16 +20,15 @@ export const MetricItem: React.FC<MetricItemProps> = ({
   tooltip,
   isInteractive = false
 }) => {
-  const isPositiveDelta = !!delta && (delta.includes('+') || delta.includes('x'));
-
   return (
-    <div className={`flex flex-col items-center p-2 rounded-lg transition-all ${
-      isInteractive 
-        ? 'border-l border-[#2d2d2d]/5 hover:bg-white hover:shadow-[0_0_20px_rgba(105,64,165,0.15)] cursor-pointer' 
-        : 'relative group/tooltip'
-    }`}>
-      <div className="flex items-center gap-1.5">
-        <div className="text-xl sm:text-2xl font-black text-[#9f8fdb]">{value}</div>
+    <div className={`project-metric-card ${isInteractive ? 'project-metric-card-interactive' : 'relative group/tooltip'}`}>
+      <div className="project-metric-card-primary">
+        <div
+          className="project-metric-card-value"
+          style={{ fontFamily: '"Inter Variable", Inter, Arial, sans-serif' }}
+        >
+          {value}
+        </div>
         {tooltip && (
           <div className="relative cursor-help">
             <Info size={14} className="text-gray-400/60 hover:text-[#9f8fdb] transition-colors" />
@@ -40,32 +39,34 @@ export const MetricItem: React.FC<MetricItemProps> = ({
           </div>
         )}
       </div>
-      <div className="text-[10px] font-bold text-gray-400 mt-1 mb-1">{label}</div>
-      <div className="text-[9px] text-gray-400 mb-1">{avg}</div>
+      <div className="project-metric-card-meta">
+        <div className="project-metric-card-label">{label}</div>
+        <div className="project-metric-card-avg">{avg}</div>
       
-      {status && (
-        <div 
-          className="px-1.5 py-0.5 rounded text-[9px] font-bold"
-          style={{ 
-            backgroundColor: 'rgba(245, 176, 2, 0.1)', 
-            color: '#f5b002' 
-          }}
-        >
-          {status}
-        </div>
-      )}
+        {status && (
+          <div 
+            className="project-metric-card-badge"
+            style={{ 
+              backgroundColor: 'rgba(245, 176, 2, 0.1)', 
+              color: '#f5b002' 
+            }}
+          >
+            {status}
+          </div>
+        )}
       
-      {delta && (
-        <div
-          className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${isPositiveDelta ? '' : 'border border-[#2d2d2d]/15 text-gray-500'}`}
-          style={isPositiveDelta ? {
-            backgroundColor: 'rgba(245, 176, 2, 0.1)',
-            color: '#f5b002'
-          } : undefined}
-        >
-          {delta}
-        </div>
-      )}
+        {delta && (
+          <div
+            className="project-metric-card-badge"
+            style={{
+              backgroundColor: 'rgba(245, 176, 2, 0.1)',
+              color: '#f5b002'
+            }}
+          >
+            {delta}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

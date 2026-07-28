@@ -20,7 +20,7 @@ export const Navbar: React.FC = () => {
   return (
     <>
       {/* 桌面端语言切换 */}
-      <div className="hidden lg:block absolute right-7 top-[-24px] z-[100]">
+      <div className="absolute right-7 top-[-24px] z-[100]">
         <button
           onClick={toggleLanguage}
           className="language-tab"
@@ -32,10 +32,7 @@ export const Navbar: React.FC = () => {
       </div>
 
       {/* 桌面端侧边导航 (相对于 card 容器) */}
-      <nav
-        className="hidden lg:flex side-nav-container"
-        aria-label="Primary Desktop"
-      >
+      <nav className="side-nav-container" aria-label="Primary Desktop">
         {navItems.map((item) => {
           const isActive = item.path === '/projects/preview'
             ? location.pathname.startsWith('/projects/preview')
@@ -56,38 +53,6 @@ export const Navbar: React.FC = () => {
         })}
       </nav>
 
-      {/* 移动端顶部导航 (保持现状或微调) */}
-      <nav
-        className="lg:hidden sticky top-0 z-50 w-full bg-[#ece9e0]/80 backdrop-blur-md border-b border-[#2d2d2d]/5 px-3 py-2"
-        aria-label="Primary Mobile"
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex gap-3">
-            {navItems.map((item) => {
-              const isActive = item.path === '/projects/preview'
-                ? location.pathname.startsWith('/projects/preview')
-                : location.pathname === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`text-[10px] font-mono uppercase tracking-widest ${isActive ? 'text-[#9f8fdb] font-bold' : 'text-text-dark/60'}`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </div>
-          <button
-            onClick={toggleLanguage}
-            className="flex h-7 items-center gap-1 rounded-full border border-[#2d2d2d]/10 bg-white/45 px-2 text-[9px] font-mono uppercase tracking-[0.14em] text-text-dark/60"
-            aria-label="Toggle language"
-          >
-            <Globe size={12} />
-            <span>{language === 'en' ? 'CN' : 'EN'}</span>
-          </button>
-        </div>
-      </nav>
     </>
   );
 };

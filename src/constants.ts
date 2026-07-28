@@ -20,7 +20,7 @@ export const EXHIBITIONS = [
   { id: 'e1', image: '/images/aib-mena-Header-Logo.png', fit: 'contain', padding: true },
   { id: 'e2', image: '/images/Consulate%20General%20of%20China%20in%20Dubai.jpg', fit: 'cover' },
   { id: 'e3', image: '/images/Huawei.jpeg', fit: 'contain' },
-  { id: 'e4', image: '/images/Banner%202425.png', fit: 'cover' }
+  { id: 'e4', image: '/images/Banner%202425.jpg', fit: 'cover' }
 ];
 
 // Global Theme Configuration

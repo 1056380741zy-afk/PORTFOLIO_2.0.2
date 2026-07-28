@@ -1,12 +1,11 @@
 import React from 'react';
 import { Eye, EyeOff, Move, RotateCcw, SlidersHorizontal } from 'lucide-react';
-import type { CardAdjustControl, CardControl, CardId, StampControl } from './types';
+import type { CardAdjustControl, CardControl, CardId } from './types';
 
 type BoardControlsProps = {
   cardControls: CardControl[];
   cardMenuOpen: boolean;
   hiddenCards: Set<CardId>;
-  stampControl?: StampControl;
   adjustControl?: CardAdjustControl;
   onToggleCardMenu: () => void;
   onToggleCardVisibility: (id: CardId) => void;
@@ -24,10 +23,10 @@ export const BoardControls: React.FC<BoardControlsProps> = ({
 
   return (
     <div
-      className="fixed z-[10000] hidden items-start gap-1 lg:flex"
+      className="fixed z-[10000] flex items-start gap-1"
       style={{
-        top: 'calc(clamp(1rem, 3vw, 2.5rem) - 24px)',
-        left: 'calc(clamp(1rem, 4vw, 3rem) + 25vw)',
+        top: '16px',
+        left: '485px',
       }}
     >
       <div className="relative">

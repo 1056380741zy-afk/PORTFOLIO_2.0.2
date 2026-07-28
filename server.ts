@@ -63,13 +63,18 @@ app.post(['/api/chat', '/.netlify/functions/chat'], async (req, res) => {
         'Authorization': `Bearer ${apiKey}` 
       },
       body: JSON.stringify({
-        model: 'deepseek-reasoner', // 开启思考模型
+        model: 'deepseek-v4-pro',
         messages: formattedMessages,
+        thinking: { type: 'enabled' },
+        reasoning_effort: 'high',
         stream: true // 开启流式输出
       })
     });
 
-    if (!response.ok || !response.body) throw new Error('No response body from DeepSeek API');
+    if (!response.ok || !response.body) {
+      const errorText = await response.text().catch(() => '');
+      throw new Error(`DeepSeek API ${response.status} ${response.statusText}: ${errorText.slice(0, 500)}`);
+    }
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder('utf-8');

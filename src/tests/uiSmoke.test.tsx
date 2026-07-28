@@ -22,7 +22,6 @@ assert(navbarHtml.includes('HOME / / ABOUT INFO'), 'Navbar should render HOME la
 assert(navbarHtml.includes('side-nav-container'), 'Navbar should include desktop side-nav container');
 
 const homeHtml = render(<Home />);
-assert(homeHtml.includes('Stamp cluster'), 'Home should include the stamp cluster container');
 assert(homeHtml.includes('Download') || homeHtml.includes('CV.pdf'), 'Home should include CV download affordance');
 
 const languageHtml = render(<LanguageProficiency />);

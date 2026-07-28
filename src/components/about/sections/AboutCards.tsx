@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ClipboardCheck, BarChart3, Handshake, Download, Languages } from 'lucide-react';
+import { BarChart3, ClipboardCheck, Download, Handshake, Languages } from 'lucide-react';
 import { useLanguage } from '../../../contexts/LanguageContext';
 
 type ArchiveVariant = {
@@ -8,7 +8,7 @@ type ArchiveVariant = {
 };
 
 export const Blueprint: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const ICONS = [
     <ClipboardCheck size={20} />,
     <BarChart3 size={20} />,
@@ -19,7 +19,7 @@ export const Blueprint: React.FC<ArchiveVariant> = ({ variant = 'default' }) => 
     return (
       <motion.section
         aria-label={t.competencies.title}
-        className="archive-material-card relative w-[min(455px,90vw)] overflow-hidden rounded-[18px] border border-[#c4c2b7]/45 bg-[#fcf9f0]/56 p-5 text-[#2d2d2d] shadow-[0_18px_34px_rgba(90,70,45,0.09)] backdrop-blur-[2px]"
+        className="archive-material-card relative w-[455px] overflow-hidden rounded-[8px] border border-[#c4c2b7]/45 bg-[#fcf9f0]/56 p-5 text-[#2d2d2d] shadow-[0_18px_34px_rgba(90,70,45,0.09)] backdrop-blur-[2px]"
         animate={{ y: [0, -2, 0] }}
         transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut' }}
       >
@@ -63,7 +63,7 @@ export const Blueprint: React.FC<ArchiveVariant> = ({ variant = 'default' }) => 
   return (
     <motion.section
       aria-label={t.competencies.title}
-      className="relative w-[min(384px,90vw)] text-[#fcf9f0]"
+      className="home-core-card relative w-[390px] text-[#fcf9f0]"
       animate={{ y: [0, -1.5, 0] }}
       transition={{ duration: 6.8, repeat: Infinity, ease: 'easeInOut' }}
     >
@@ -71,7 +71,7 @@ export const Blueprint: React.FC<ArchiveVariant> = ({ variant = 'default' }) => 
         className="pointer-events-none absolute -top-2 right-12 z-20 h-7 w-24 rotate-[2deg] border border-[#8b785d]/10 bg-[#d7c7a8]/78 shadow-[0_2px_8px_rgba(65,48,28,0.1)]"
         aria-hidden="true"
       />
-      <div className="relative h-[280px] overflow-hidden rounded-[18px] border-2 border-white/78 bg-[#596149] px-8 py-[35px] shadow-[0_16px_28px_rgba(54,61,42,0.23),0_1px_0_rgba(255,255,255,0.5)_inset]">
+      <div className="relative h-[290px] overflow-hidden rounded-[8px] border-2 border-white/78 bg-[#596149] px-8 py-[27px] shadow-[0_16px_28px_rgba(54,61,42,0.23),0_1px_0_rgba(255,255,255,0.5)_inset]">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.32]"
           style={{
@@ -103,15 +103,22 @@ export const Blueprint: React.FC<ArchiveVariant> = ({ variant = 'default' }) => 
           </div>
         </div>
 
-        <div className="relative z-10 mt-4 grid gap-3">
+        <div className="relative z-10 mt-4 grid grid-rows-[52px_52px_52px] gap-2">
           {t.competencies.items.map((comp, idx) => (
-            <div key={idx} className="group grid grid-cols-[44px_1fr] items-center gap-4">
-              <div className="flex h-9 w-10 items-center justify-center rounded-[4px] border border-white/34 bg-white/[0.03] font-mono text-[16px] font-bold text-[#fcf9f0] transition-colors duration-200 group-hover:border-[#baaef6]/70 group-hover:text-[#baaef6]">
+            <div key={idx} className="group grid grid-cols-[44px_minmax(0,1fr)] items-start gap-4">
+              <div className="mt-1 flex h-9 w-10 items-center justify-center rounded-[8px] border border-white/34 bg-white/[0.03] font-mono text-[16px] font-bold text-[#fcf9f0] transition-colors duration-200 group-hover:border-[#baaef6]/70 group-hover:text-[#baaef6]">
                 {String(idx + 1).padStart(2, '0')}
               </div>
-              <h3 className="font-mono text-[14px] font-bold uppercase leading-snug tracking-[0.06em] text-[#fcf9f0]">
-                {comp.title}
-              </h3>
+              <div className="min-w-0">
+                <h3 className={`${language === 'cn' ? 'whitespace-nowrap' : 'max-w-[390px] whitespace-normal'} font-mono text-[14px] font-bold uppercase leading-[1.35] tracking-[0.045em] text-[#fcf9f0]`}>
+                  {comp.title}
+                </h3>
+                {language === 'cn' && (
+                  <p className="mt-1 whitespace-nowrap font-mono text-[10px] leading-[1.35] tracking-[0.025em] text-[#fcf9f0]/62">
+                    {comp.list.join(' · ')}
+                  </p>
+                )}
+              </div>
             </div>
           ))}
         </div>
@@ -130,25 +137,25 @@ export const LanguageProficiency: React.FC<ArchiveVariant> = ({ variant = 'defau
   const isCn = language === 'cn';
 
   const FONT_CJK =
-    "system-ui, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif";
-  const FONT_LATIN = "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
-  const FONT_AR = "system-ui, -apple-system, BlinkMacSystemFont, 'Noto Naskh Arabic', 'Noto Sans Arabic', Tahoma, Arial, sans-serif";
+    "'DengXian', '等线', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, sans-serif";
+  const FONT_LATIN = "'Segoe UI', 'DengXian', '等线', system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, sans-serif";
+  const FONT_AR = "'Noto Naskh Arabic', 'Noto Sans Arabic', 'Segoe UI', system-ui, Tahoma, sans-serif";
 
   const rows = ([
     isCn
-      ? { id: 'zh', name: '中文', level: '母语', dot: '#d3494b', nameLang: 'zh-Hans', levelLang: 'zh-Hans', fontFamily: FONT_CJK }
-      : { id: 'zh', name: 'Chinese', level: 'Native', dot: '#d3494b', nameLang: 'en', levelLang: 'en', fontFamily: FONT_LATIN },
+      ? { id: 'zh', name: '中文', level: '母语', dot: '#a65f3f', nameLang: 'zh-Hans', levelLang: 'zh-Hans', fontFamily: FONT_CJK }
+      : { id: 'zh', name: 'Chinese', level: 'Native', dot: '#a65f3f', nameLang: 'en', levelLang: 'en', fontFamily: FONT_LATIN },
     isCn
-      ? { id: 'en', name: '英语', level: '专业工作水平', dot: '#9f8fdb', nameLang: 'zh-Hans', levelLang: 'zh-Hans', fontFamily: FONT_CJK }
-      : { id: 'en', name: 'English', level: 'Professional Proficiency', dot: '#9f8fdb', nameLang: 'en', levelLang: 'en', fontFamily: FONT_LATIN },
+      ? { id: 'en', name: '英语', level: '专业工作水平', dot: '#c89a3d', nameLang: 'zh-Hans', levelLang: 'zh-Hans', fontFamily: FONT_CJK }
+      : { id: 'en', name: 'English', level: 'Professional Proficiency', dot: '#c89a3d', nameLang: 'en', levelLang: 'en', fontFamily: FONT_LATIN },
     (() => {
       if (isArabicLocale) {
-        return { id: 'ar', name: 'العربية', level: 'كفاءة مهنية', dot: '#7e8966', nameLang: 'ar', levelLang: 'ar', fontFamily: FONT_AR } as const;
+        return { id: 'ar', name: 'العربية', level: 'كفاءة مهنية', dot: '#657a3f', nameLang: 'ar', levelLang: 'ar', fontFamily: FONT_AR } as const;
       }
       if (isCn) {
-        return { id: 'ar', name: '阿拉伯语', level: '专业工作水平', dot: '#7e8966', nameLang: 'zh-Hans', levelLang: 'zh-Hans', fontFamily: FONT_CJK } as const;
+        return { id: 'ar', name: '阿拉伯语', level: '专业工作水平', dot: '#657a3f', nameLang: 'zh-Hans', levelLang: 'zh-Hans', fontFamily: FONT_CJK } as const;
       }
-      return { id: 'ar', name: 'Arabic', level: 'Professional Proficiency', dot: '#7e8966', nameLang: 'en', levelLang: 'en', fontFamily: FONT_LATIN } as const;
+      return { id: 'ar', name: 'Arabic', level: 'Professional Proficiency', dot: '#657a3f', nameLang: 'en', levelLang: 'en', fontFamily: FONT_LATIN } as const;
     })(),
   ] as const);
 
@@ -156,7 +163,7 @@ export const LanguageProficiency: React.FC<ArchiveVariant> = ({ variant = 'defau
     return (
       <motion.section
         aria-label="Language Proficiency"
-        className="archive-material-card relative w-[min(332px,90vw)] overflow-hidden rounded-[20px] border border-[#7e8966]/22 bg-[#dfe6d3]/86 p-5 text-[#26342f] shadow-[0_16px_30px_rgba(90,70,45,0.11)]"
+        className="archive-material-card relative w-[332px] overflow-hidden rounded-[8px] border border-[#7e8966]/22 bg-[#dfe6d3]/86 p-5 text-[#26342f] shadow-[0_16px_30px_rgba(90,70,45,0.11)]"
         animate={{ y: [0, 2, 0] }}
         transition={{ duration: 7.2, repeat: Infinity, ease: 'easeInOut' }}
       >
@@ -178,7 +185,7 @@ export const LanguageProficiency: React.FC<ArchiveVariant> = ({ variant = 'defau
               <div
                 key={row.id}
                 dir={dir}
-                className="group relative min-h-[54px] rounded-[12px] border border-[#26342f]/10 bg-[#fcf9f0]/70 px-3 py-2.5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)] transition-transform duration-200 hover:-translate-y-0.5"
+                className="group relative min-h-[54px] rounded-[8px] border border-[#26342f]/10 bg-[#fcf9f0]/70 px-3 py-2.5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)] transition-transform duration-200 hover:-translate-y-0.5"
               >
                 <div className="absolute right-3 top-2 font-mono text-[8px] uppercase tracking-[0.18em] text-[#26342f]/24">
                   0{idx + 1}
@@ -218,7 +225,7 @@ export const LanguageProficiency: React.FC<ArchiveVariant> = ({ variant = 'defau
   return (
       <motion.section
       aria-label="Language Proficiency"
-      className="relative h-[295px] w-[min(430px,90vw)] overflow-hidden rounded-[5px] border border-[#7e8966]/24 bg-[#fcf9f0]/82 py-5 pl-0 pr-[30px] text-[#26342f] shadow-[0_14px_26px_rgba(90,70,45,0.16)] backdrop-blur-[3px]"
+      className="home-language-card relative h-[295px] w-[430px] overflow-hidden rounded-[8px] border border-[#7e8966]/24 bg-[#fcf9f0]/82 py-5 pl-0 pr-[30px] text-[#26342f] shadow-[0_14px_26px_rgba(90,70,45,0.16)] backdrop-blur-[3px]"
       style={{
         backgroundColor: 'rgb(252 249 240 / 0.78)',
         borderColor: 'rgb(126 137 102 / 0.24)',
@@ -247,7 +254,7 @@ export const LanguageProficiency: React.FC<ArchiveVariant> = ({ variant = 'defau
         </div>
       </div>
 
-      <div className="relative z-10 ml-[46px] mt-3 grid grid-cols-1 gap-2">
+      <div className="relative z-10 ml-[25px] mt-3 grid grid-cols-1 gap-2">
         {rows.map((row, idx) => {
           const isArabicRow = row.id === 'ar';
           const dir = isArabicRow && isArabicLocale ? 'rtl' : 'ltr';
@@ -269,7 +276,7 @@ export const LanguageProficiency: React.FC<ArchiveVariant> = ({ variant = 'defau
               </div>
               <div
                 lang={row.levelLang}
-                className={`font-mono ${row.id === 'zh' ? 'text-[9px]' : 'text-[11px]'} font-bold uppercase tracking-[0.2em] text-[#26342f]/50 ${dir === 'rtl' ? 'text-right' : 'text-left'}`}
+                className={`font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-[#26342f]/50 ${dir === 'rtl' ? 'text-right' : 'text-left'}`}
                 style={{ fontFamily: row.fontFamily }}
               >
                 {row.level}
@@ -284,7 +291,7 @@ export const LanguageProficiency: React.FC<ArchiveVariant> = ({ variant = 'defau
 
       <div className="relative z-10 ml-5 mt-3 grid w-[345px] grid-cols-[1fr_96px] gap-3 border-t border-[#26342f]/10 pt-2.5">
         <div className="h-6 rounded-sm bg-[repeating-linear-gradient(90deg,#26342f_0_2px,transparent_2px_6px)] opacity-[0.16]" />
-        <div className="whitespace-nowrap pl-2.5 pt-2.5 font-mono text-[10px] uppercase leading-tight tracking-[0.18em] text-[#26342f]/58">
+        <div className="ml-[45px] whitespace-nowrap pl-2.5 pt-0 font-mono text-[10px] uppercase leading-tight tracking-[0.18em] text-[#26342f]/58">
           Field File
         </div>
       </div>
@@ -338,7 +345,7 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
     return (
       <motion.section
         aria-label={t.skills.toolsTitle}
-        className="archive-material-card relative w-[300px] overflow-hidden rounded-[16px] border border-[#2d2d2d]/10 bg-[#fcf9f0]/82 p-4 shadow-[0_14px_28px_rgba(90,70,45,0.1)]"
+        className="archive-material-card relative w-[300px] overflow-hidden rounded-[8px] border border-[#2d2d2d]/10 bg-[#fcf9f0]/82 p-4 shadow-[0_14px_28px_rgba(90,70,45,0.1)]"
         animate={{ y: [0, -1.5, 0] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       >
@@ -380,7 +387,7 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
   return (
       <motion.section
         aria-label={t.skills.toolsTitle}
-        className="relative w-[483px] overflow-visible"
+        className="home-toolbox-card relative w-[483px] overflow-visible"
         animate={{ y: [0, -1.4, 0] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       >
@@ -404,10 +411,21 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
         </svg>
       </div>
 
-      <div className="relative z-10 h-[408px] w-[483px] origin-center -translate-x-0.5 scale-95 overflow-hidden rounded-[3px] border border-[#2d2d2d]/12 bg-[#fcf9f0] shadow-[0_12px_22px_rgba(90,70,45,0.14)]">
-        <div className="absolute right-4 top-[3px] z-20 rotate-12 font-serif text-[48px] leading-none text-[#7e8966] drop-shadow-[0_3px_4px_rgba(90,70,45,0.18)]" aria-hidden="true">
-          📎
-        </div>
+      <div
+        className="home-toolbox-paperclip pointer-events-none absolute right-8 top-[-6px] z-[80] h-[64px] w-[30px] rotate-12 drop-shadow-[0_4px_5px_rgba(90,70,45,0.2)]"
+        aria-hidden="true"
+      >
+        <img
+          src="/decorations/pin.png"
+          alt=""
+          width={272}
+          height={577}
+          draggable={false}
+          className="h-full w-full select-none object-contain"
+        />
+      </div>
+
+      <div className="relative z-10 h-[408px] w-[483px] origin-center -translate-x-0.5 scale-95 overflow-hidden rounded-[8px] border border-[#2d2d2d]/12 bg-[#fcf9f0] shadow-[0_12px_22px_rgba(90,70,45,0.14)]">
         <div className="absolute inset-y-0 left-0 w-9 border-r border-[#26342f]/12 bg-[#fcf9f0]/78" aria-hidden="true">
           <div className="absolute left-1/2 top-7 h-3 w-3 -translate-x-1/2 rounded-full border border-[#26342f]/10 bg-[#fcf9f0] shadow-[inset_0_1px_3px_rgba(23,34,30,0.12)]" />
           <div className="absolute left-1/2 top-1/2 h-[132px] w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#c4bd97]/48 bg-[#e5dfd4] shadow-[inset_0_1px_3px_rgba(80,70,45,0.12)]" />
@@ -420,7 +438,7 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
             backgroundImage: 'repeating-linear-gradient(90deg, rgba(45,45,45,0.5) 0 1px, transparent 1px 7px)',
           }}
         />
-        <div className="relative z-10 h-full py-10 pl-[50px] pr-5">
+        <div className="relative z-10 h-full py-10 pl-[50px] pr-[50px]">
           <div className="mb-4 flex items-start justify-between gap-3 border-b border-[#2d2d2d]/10 pb-3">
             <div>
               <h2 className="text-[21px] font-bold tracking-tight text-[#26342f]">{t.skills.toolsTitle}</h2>
@@ -436,7 +454,7 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
               if (!tool) return null;
               return (
                 <div key={tool.name} className="group flex min-h-[72px] flex-col items-center justify-start gap-1.5 text-center">
-                  <div className="relative flex h-[50px] w-[50px] items-center justify-center rounded-[4px] border border-[#cfd3cc] bg-[#fdfcf4] p-1.5 shadow-[0_2px_5px_rgba(45,45,45,0.12)] transition-[transform,border-color,box-shadow] duration-200 group-hover:-translate-y-0.5 group-hover:border-[#9f8fdb]/32 group-hover:shadow-[0_4px_8px_rgba(45,45,45,0.14)]">
+                  <div className="relative flex h-[50px] w-[50px] items-center justify-center rounded-[8px] border border-[#cfd3cc] bg-[#fdfcf4] p-1.5 shadow-[0_2px_5px_rgba(45,45,45,0.12)] transition-[transform,border-color,box-shadow] duration-200 group-hover:-translate-y-0.5 group-hover:border-[#9f8fdb]/32 group-hover:shadow-[0_4px_8px_rgba(45,45,45,0.14)]">
                     {!!tool.icon && !brokenIcons[tool.name] && (
                       <img
                         src={tool.icon}
@@ -493,7 +511,7 @@ export const StickyNote: React.FC<ArchiveVariant> = ({ variant = 'default' }) =>
         href={`/images/${encodeURIComponent(filePath)}`}
         download={fileName}
         aria-label="Download CV.pdf"
-        className="archive-material-card group relative block h-[128px] w-[292px] overflow-hidden rounded-[14px] border border-[#2d2d2d]/10 bg-[#f2b642]/32 p-4 text-[#26342f] shadow-[0_14px_26px_rgba(90,70,45,0.12)]"
+        className="archive-material-card group relative block h-[128px] w-[292px] overflow-hidden rounded-[8px] border border-[#2d2d2d]/10 bg-[#f2b642]/32 p-4 text-[#26342f] shadow-[0_14px_26px_rgba(90,70,45,0.12)]"
         animate={{ y: [0, 1.5, 0] }}
         whileHover={{ y: -4 }}
         whileTap={{ scale: 0.98 }}
@@ -522,7 +540,7 @@ export const StickyNote: React.FC<ArchiveVariant> = ({ variant = 'default' }) =>
       href={`/images/${encodeURIComponent(filePath)}`}
       download={fileName}
       aria-label="Download CV.pdf"
-      className="group relative mt-9 block h-[198px] w-[116px] overflow-visible text-[#17221e]"
+      className="home-cv-ticket group relative mt-9 block h-[198px] w-[116px] overflow-visible text-[#17221e]"
       initial={{ rotate: -2 }}
       animate={{ y: [0, 1.5, 0], rotate: -2 }}
       whileHover={{ y: -4, scale: 1.02, rotate: -2 }}
@@ -531,7 +549,7 @@ export const StickyNote: React.FC<ArchiveVariant> = ({ variant = 'default' }) =>
     >
       <div className="absolute -right-1 -top-10 h-16 w-20 rotate-[22deg] rounded-[50%] border-t-2 border-[#5c5347]/58" aria-hidden="true" />
       <div
-        className="relative h-full w-full overflow-hidden rounded-b-[4px] bg-[#c4a66f] px-3 pb-3 pt-6 shadow-[0_12px_20px_rgba(90,70,45,0.2)]"
+        className="relative h-full w-full overflow-hidden rounded-b-[8px] bg-[#c4a66f] px-3 pb-3 pt-6 shadow-[0_12px_20px_rgba(90,70,45,0.2)]"
         style={{
           clipPath: 'polygon(0 18px, 30% 18px, 38% 0, 62% 0, 70% 18px, 100% 18px, 100% 100%, 0 100%)',
           WebkitMaskImage: 'radial-gradient(circle at 50% 14px, transparent 0 6px, #000 6.8px)',

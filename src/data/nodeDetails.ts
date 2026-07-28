@@ -58,31 +58,24 @@ export const nodeDetailsDataEn =
       {
         school: "Shanghai International Studies University",
         subSchool: "Xianda College",
-        degree: "Bachelor's Degree",
+        degree: "BA in Arabic",
         period: "Sep 2020 – Jun 2024",
-        focus: "Arabic and International Business background",
+        focus: "Arabic and International Business background · GPA 3.7 / 4.0",
         honor: "Multiple Academic Excellence Scholarships"
       }
     ],
     impacts: [
       {
-        title: "YoY Growth in Overseas Buyers",
-        desc: "Driven a massive surge in overseas attendance covering 175+ countries, delivering precise MENA leads for the sales team.",
-        statsType: "boxes",
-        stats: [
-          { value: "8,221", label: "Overseas Visitors", theme: "purple" },
-          { value: "+128%", label: "YoY Surged", theme: "yellow" }
-        ]
-      },
-      {
-        title: "Digital Marketing & Traffic Conversion",
-        desc: "Spearheaded English SEO and eDM design, significantly boosting the conversion rates of digital assets.",
+        title: "Exhibition Overseas Audience Growth",
+        desc: "Supported multilingual marketing, partner coordination and buyer-facing operations for WATERTECH CHINA and WieTec, contributing to the exhibitions’ international audience growth.",
         statsType: "tags",
-        tags: ["~800 Daily Peak Visits", "30.2% eDM Open Rate", "8.5% CTR"]
+        tags: ["+128% Audience Volume", "175+ Countries"]
       },
       {
-        title: "MENA Multilingual Market Reach",
-        desc: "Coordinated trilingual (EN/ZH/AR) materials, accumulating nearly 3,000 effective overseas visitors across all channels."
+        title: "Traffic, Content & Growth Engine",
+        desc: "Delivered English SEO, eDM and WhatsApp operations that connected content production with measurable traffic, registration and MENA audience outcomes.",
+        statsType: "tags",
+        tags: ["+200 Daily Visits", "3,000+ Effective Target-region Reach"]
       }
     ]
   },
@@ -93,24 +86,18 @@ export const nodeDetailsDataEn =
         subSchool: "Dubai Campus",
         degree: "MSc International Business",
         period: "Sep 2024 – Jan 2026",
-        focus: "Market strategy, Web3 ecosystems, MENA institutional context",
+        focus: "International Business · GPA 3.6 / 4.0",
         honor: "Full Scholarship Recipient"
       }
     ],
     impacts: [
       {
-        title: "On-site Operations at Huawei Global Summit",
-        desc: "Coordinated overseas human resources on-site, ensuring the smooth execution of exhibition assistance and technical forum support.",
-        statsType: "boxes",
-        stats: [
-          { value: "30+", label: "Part-time Staff Coordinated", theme: "purple" }
-        ]
+        title: "Large-scale International Summit Operations",
+        desc: "Coordinated 30+ overseas staff across VIP reception, logistics and technical-session support in a fast-moving summit environment."
       },
       {
-        title: "Premium Reception & Cross-Cultural Interpreting",
-        desc: "Provided on-site EN/ZH/AR interpreting and guest guidance for the Consulate General of China in Dubai and the AIB-MENA Conference, helping reduce cultural and communication barriers.",
-        statsType: "tags",
-        tags: ["Diplomatic Reception", "Academic Summit Coordination"]
+        title: "Cross-cultural Multilingual Reception",
+        desc: "Provided Chinese, English and Arabic communication and guest support across government cultural and international academic events in Dubai."
       },
       {
         title: "Insights into MENA Tech Ecosystem",
@@ -124,8 +111,8 @@ export const nodeDetailsDataEn =
         school: "Alexandria University",
         degree: "Exchange Program",
         period: "Sep 2022 – Jun 2023",
-        focus: "Arabic Language & Cultural Immersion",
-        honor: "Ranked 1st in GPA Evaluation"
+        focus: "Arabic Language & Cultural Immersion · GPA 4.0 / 4.0",
+        honor: "Ranked 1st · Academic Excellence Certificate"
       }
     ],
     impacts: [
@@ -133,19 +120,15 @@ export const nodeDetailsDataEn =
         title: "Perfect Academic Achievement",
         desc: "Achieved a perfect GPA (4.0/4.0) during the exchange program in Egypt, ranking 1st in the comprehensive evaluation and receiving the Academic Excellence Certificate from Alexandria University.",
         statsType: "tags",
-        tags: ["Top 1 Comprehensive Evaluation", "Academic Excellence Certificate"]
+        tags: ["GPA 4.0 / 4.0", "Ranked 1st", "Academic Excellence"]
       },
       {
-        title: "Cultural Immersion & Linguistic Breakthrough",
-        desc: "Deeply immersed in a native Arabic environment, mastering both Modern Standard Arabic (MSA) and the Egyptian dialect for daily communication, breaking down core cultural and linguistic barriers.",
+        title: "Deep Cultural Immersion & Local-language Development",
+        desc: "Built practical Arabic communication through academic study and daily life in Egypt, covering Modern Standard Arabic and everyday Egyptian Arabic while developing first-hand cultural understanding.",
         statsType: "boxes",
         stats: [
           { value: "MSA + Egyptian", label: "Dual-Track Linguistic Capability", theme: "yellow" }
         ]
-      },
-      {
-        title: "Insights into Cross-Border Informal Business Communication",
-        desc: "Through academic and field immersion, deepened her understanding of Middle Eastern and North African markets."
       }
     ]
   }
@@ -169,29 +152,22 @@ export const nodeDetailsDataCn =
         subSchool: "贤达经济人文学院",
         degree: "阿拉伯语专业 (本科)",
         period: "2020.09 – 2024.06",
-        focus: "阿拉伯语与国际商务背景",
+        focus: "阿拉伯语与国际商务背景 · GPA 3.7 / 4.0",
         honor: "多次获得优秀学生奖学金"
       }
     ],
     impacts: [
       {
-        title: "展会海外高质增长",
-        desc: "助力世环会及水展海外观众大幅增长，有效覆盖 175+ 国家，为销售团队精准输送 MENA 区域高质量买家线索。",
-        statsType: "boxes",
-        stats: [
-          { value: "8,221", label: "海外观众人次", theme: "purple" },
-          { value: "+128%", label: "同比增长 (YoY)", theme: "yellow" }
-        ]
+        title: "展会海外高质量增长",
+        desc: "参与WATERTECH CHINA与WieTec的多语言营销、合作方协调及海外买家支持，助力展会扩大国际观众规模与全球覆盖。",
+        statsType: "tags",
+        tags: ["海外观众规模 +128%", "覆盖175+国家和地区"]
       },
       {
         title: "流量与内容引擎架构",
-        desc: "制定英文 SEO 策略并主导 eDM 营销设计，显著提升品牌数字资产的自然流量与主动触达转化率。",
+        desc: "通过英文SEO、eDM及WhatsApp运营，将内容生产与网站流量、预登记及MENA受众触达连接起来。",
         statsType: "tags",
-        tags: ["日访问峰值近 800 次", "eDM 打开率 30.18%", "点击率 8.50%"]
-      },
-      {
-        title: "全渠道多语种触达",
-        desc: "统筹中/英/阿三语物料，通过 WhatsApp、LinkedIn 及 Facebook 等渠道，累计触达近 3,000名 有效海外访客，深度渗透 MENA 市场。"
+        tags: ["日均访问 +200", "有效触达3,000+目标地区人次"]
       }
     ]
   },
@@ -203,24 +179,18 @@ export const nodeDetailsDataCn =
         subSchool: "(QS100) 迪拜校区",
         degree: "国际商务 (硕士)",
         period: "2024.09 – 2026.01",
-        focus: "市场战略、Web3 生态、中东非体制环境",
+        focus: "国际商务 · GPA 3.6 / 4.0",
         honor: "全额奖学金"
       }
     ],
     impacts: [
       {
         title: "大型跨国峰会场务统筹",
-        desc: "在 2025 华为全球数据中心产业论坛 (迪拜) 中，现场统筹协调海外人力资源，有效保障展区协助与技术论坛支持的顺畅进行。",
-        statsType: "boxes",
-        stats: [
-          { value: "30+", label: "统筹兼职人员", theme: "purple" }
-        ]
+        desc: "在高节奏的国际峰会现场统筹30余名海外工作人员，覆盖VIP接待、后勤分配及技术论坛支持。"
       },
       {
         title: "跨文化多语种高端接待",
-        desc: "为中国驻迪拜总领馆“邂逅花间”宋代雅集活动及 AIB-MENA 国际峰会提供现场翻译与嘉宾接待，减少文化与沟通壁垒。",
-        statsType: "tags",
-        tags: ["中 / 英 / 阿 多语种", "外事活动接待", "学术峰会协调"]
+        desc: "在迪拜政府文化活动与国际学术会议中提供中、英、阿三语沟通及嘉宾支持，协助不同文化背景的参与者顺利完成现场流程。"
       },
       {
         title: "前沿科技生态商业洞察",
@@ -236,8 +206,8 @@ export const nodeDetailsDataCn =
         subSchool: "交流项目",
         degree: "阿拉伯语专业 (本科交换)",
         period: "2022.09 – 2023.06",
-        focus: "阿拉伯语语言与文化沉浸",
-        honor: "综测年级第一"
+        focus: "阿拉伯语语言与文化沉浸 · GPA 4.0 / 4.0",
+        honor: "综合测评第一 · 学业优秀证明"
       }
     ],
     impacts: [
@@ -245,19 +215,15 @@ export const nodeDetailsDataCn =
         title: "满分学术成就",
         desc: "在埃及交流期间，以全科满分 (GPA 4.0/4.0) 的优异成绩位列综合测评年级第一，并荣获亚历山大大学官方颁发的学业优秀证明。",
         statsType: "tags",
-        tags: ["Top 1 综合测评", "学业优秀证明"]
+        tags: ["GPA 4.0 / 4.0", "综合测评第一", "学业优秀证明"]
       },
       {
         title: "深度文化沉浸与本土语言破壁",
-        desc: "深度沉浸于阿拉伯语母语环境，不仅掌握了阿拉伯语标准语 (MSA)，更熟练应用埃及方言进行日常交流，打破核心的文化与语言壁垒。",
+        desc: "通过在埃及的学习与日常生活积累阿拉伯语实地沟通经验，覆盖标准阿拉伯语及埃及方言，并形成对当地文化与沟通方式的直接理解。",
         statsType: "boxes",
         stats: [
           { value: "MSA + Egyptian", label: "双轨语言能力构建", theme: "yellow" }
         ]
-      },
-      {
-        title: "跨国非正式商业沟通洞察",
-        desc: "通过实地生活与学术交流，深化了对中东及北非市场的认识。"
       }
     ]
   }

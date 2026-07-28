@@ -1,69 +1,82 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-// 原生 JS 核心类
+type ScrambleGlyph = {
+  from: string;
+  to: string;
+  start: number;
+  end: number;
+  char?: string;
+};
+
 class TextScramble {
-  el: HTMLElement;
-  chars: string;
-  resolve!: () => void;
-  queue: any[];
-  frameRequest!: number;
-  frame: number;
+  private readonly el: HTMLElement;
+  private readonly chars = '!<>-_\\/[]{}—=+*^?#010101X';
+  private queue: ScrambleGlyph[] = [];
+  private frameRequest = 0;
+  private frame = 0;
+  private resolve: () => void = () => undefined;
 
   constructor(el: HTMLElement) {
     this.el = el;
-    this.chars = '!<>-_\\/[]{}—=+*^?#010101X';
-    this.queue = [];
-    this.frame = 0;
     this.update = this.update.bind(this);
   }
 
   setText(newText: string) {
     const oldText = this.el.innerText || '';
     const length = Math.max(oldText.length, newText.length);
-    const promise = new Promise<void>((resolve) => (this.resolve = resolve));
-    this.queue = [];
+    const promise = new Promise<void>((resolve) => {
+      this.resolve = resolve;
+    });
 
-    for (let i = 0; i < length; i++) {
-      const from = oldText[i] || '';
-      const to = newText[i] || '';
+    this.queue = Array.from({ length }, (_, index) => {
       const start = Math.floor(Math.random() * 40);
-      const end = start + Math.floor(Math.random() * 40);
-      this.queue.push({ from, to, start, end });
-    }
+      return {
+        from: oldText[index] || '',
+        to: newText[index] || '',
+        start,
+        end: start + Math.floor(Math.random() * 40),
+      };
+    });
+
     cancelAnimationFrame(this.frameRequest);
     this.frame = 0;
     this.update();
     return promise;
   }
 
-  update() {
+  cancel() {
+    cancelAnimationFrame(this.frameRequest);
+  }
+
+  private update() {
     let output = '';
     let complete = 0;
-    for (let i = 0, n = this.queue.length; i < n; i++) {
-      let { from, to, start, end, char } = this.queue[i];
-      if (this.frame >= end) {
-        complete++;
-        output += to;
-      } else if (this.frame >= start) {
-        if (!char || Math.random() < 0.28) {
-          char = this.randomChar();
-          this.queue[i].char = char;
+
+    this.queue.forEach((glyph) => {
+      if (this.frame >= glyph.end) {
+        complete += 1;
+        output += glyph.to;
+      } else if (this.frame >= glyph.start) {
+        if (!glyph.char || Math.random() < 0.28) {
+          glyph.char = this.randomChar();
         }
-        output += `<span class="text-[#9f8fdb] opacity-80">${char}</span>`;
+        output += `<span class="scramble-glyph">${glyph.char}</span>`;
       } else {
-        output += from;
+        output += glyph.from;
       }
-    }
+    });
+
     this.el.innerHTML = output;
     if (complete === this.queue.length) {
       this.resolve();
-    } else {
-      this.frameRequest = requestAnimationFrame(this.update);
-      this.frame++;
+      return;
     }
+
+    this.frameRequest = requestAnimationFrame(this.update);
+    this.frame += 1;
   }
 
-  randomChar() {
+  private randomChar() {
     return this.chars[Math.floor(Math.random() * this.chars.length)];
   }
 }
@@ -71,52 +84,55 @@ class TextScramble {
 interface ScrambleHoverTitleProps {
   text: string;
   className?: string;
+  animateOnView?: boolean;
+  as?: 'h2' | 'h3';
 }
 
-export const ScrambleHoverTitle: React.FC<ScrambleHoverTitleProps> = ({ text, className }) => {
+export const ScrambleHoverTitle: React.FC<ScrambleHoverTitleProps> = ({
+  text,
+  className = '',
+  animateOnView = true,
+  as: Heading = 'h3',
+}) => {
   const elRef = useRef<HTMLHeadingElement>(null);
   const fxRef = useRef<TextScramble | null>(null);
 
   useEffect(() => {
-    if (elRef.current) {
-      // 初始化 TextScramble 实例
-      if (!fxRef.current) {
-        fxRef.current = new TextScramble(elRef.current);
-        elRef.current.innerText = text; // 设置初始占位文字
-      }
+    const element = elRef.current;
+    if (!element) return undefined;
 
-      // 设置交叉观察器
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          // 当标题进入视口时 (isIntersecting 为 true)
-          if (entry.isIntersecting) {
-            fxRef.current?.setText(text); // 触发乱码动画
-            observer.unobserve(entry.target); // 触发一次后取消观察，防止上下滚动反复触发
-          }
-        },
-        { threshold: 0.2 } // 露出 20% 时触发
-      );
+    fxRef.current ??= new TextScramble(element);
+    element.innerText = text;
 
-      observer.observe(elRef.current);
-
-      // 清理函数
-      return () => observer.disconnect();
+    if (!animateOnView || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return () => fxRef.current?.cancel();
     }
-  }, [text]); // 当 text 改变（轮播图切换）时，重新执行检测和动画
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        fxRef.current?.setText(text);
+        observer.unobserve(entry.target);
+      },
+      { threshold: 0.2 },
+    );
+
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      fxRef.current?.cancel();
+    };
+  }, [animateOnView, text]);
 
   const handleMouseEnter = () => {
-    if (fxRef.current) {
-      fxRef.current.setText(text);
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      fxRef.current?.setText(text);
     }
   };
 
   return (
-    <h3
-      ref={elRef}
-      className={`${className} cursor-crosshair`}
-      onMouseEnter={handleMouseEnter}
-    >
+    <Heading ref={elRef} className={`${className} cursor-crosshair`} onMouseEnter={handleMouseEnter}>
       {text}
-    </h3>
+    </Heading>
   );
 };

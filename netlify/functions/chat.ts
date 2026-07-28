@@ -11,6 +11,11 @@ declare const Netlify: {
   };
 };
 
+const getEnvValue = (name: string) => {
+  const netlifyEnv = globalThis.Netlify?.env?.get(name);
+  return netlifyEnv ?? process.env[name];
+};
+
 type ChatMessage = {
   role: 'user' | 'assistant';
   content: string;
@@ -42,7 +47,7 @@ export default async (request: Request): Promise<Response> => {
     });
   }
 
-  const apiKey = Netlify.env.get('DEEPSEEK_API_KEY');
+  const apiKey = getEnvValue('DEEPSEEK_API_KEY');
   if (!apiKey) {
     return new Response(JSON.stringify({ error: 'Missing DEEPSEEK_API_KEY' }), {
       status: 500,
@@ -72,13 +77,22 @@ export default async (request: Request): Promise<Response> => {
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'deepseek-reasoner',
+      model: 'deepseek-v4-pro',
       messages: formattedMessages,
+      thinking: { type: 'enabled' },
+      reasoning_effort: 'high',
       stream: true,
     }),
   });
 
   if (!deepSeekResponse.ok || !deepSeekResponse.body) {
+    const errorText = await deepSeekResponse.text().catch(() => '');
+    console.error('DeepSeek API error', {
+      status: deepSeekResponse.status,
+      statusText: deepSeekResponse.statusText,
+      body: errorText.slice(0, 500),
+    });
+
     return new Response(JSON.stringify({ error: 'Failed to reach chat provider' }), {
       status: 502,
       headers: { 'Content-Type': 'application/json' },

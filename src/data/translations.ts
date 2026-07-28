@@ -5,7 +5,7 @@ export const translations = {
     homePage: {
       greetingArabic: "مرحبا، انا سها",
       greetingEnglish: "Hi, I’m Suha.",
-      intro: "I have experience in digital marketing and international projects, and I’ve worked on large-scale exhibitions, global events, and cross-border operations, helping brands reach the right audience and execute smoothly in complex environments.",
+      intro: "I work across international marketing and project operations, with experience in B2B exhibitions, multilingual campaigns and cross-company coordination. I connect channel strategy with hands-on execution, helping international projects move smoothly across Chinese and MENA business contexts.",
       experience: "Drag the panels on the right to explore more about me, or click the assistant in the bottom-right corner to ask anything 👉"
     },
     nav: {
@@ -36,16 +36,16 @@ export const translations = {
       title: "Core Competencies",
       items: [
         {
-          title: 'Project Management & Execution',
-          list: ['End-to-end Project Delivery', 'Cross-functional Team Coordination', 'Resource & Timeline Management', 'Risk Mitigation & On-site Operations']
+          title: 'International Marketing & Channel Operations',
+          list: ['B2B Campaigns', 'eDM', 'Social Media', 'Website Content']
         },
         {
-          title: 'Strategic Planning & Market Intelligence',
-          list: ['Go-to-Market (GTM) Strategy', 'Regional Market Analysis (MENA)', 'Market & Competitor Research', 'Product & Campaign Lifecycle Management']
+          title: 'Project Operations & Cross-company Coordination',
+          list: ['Timeline Delivery', 'Partner Alignment', 'On-site Execution', 'Issue Response']
         },
         {
-          title: 'Cross-Cultural & Stakeholder Relations',
-          list: ['Internal & External Stakeholder Alignment', 'Multilingual Business Communication (ZH/EN/AR)', 'Key Account & Vendor Management', 'International Exhibitions & Activations']
+          title: 'China–MENA Communication & Stakeholder Support',
+          list: ['Trilingual Communication', 'Buyer Reception', 'Localization', 'Partner Support']
         }
       ]
     },
@@ -122,26 +122,34 @@ export const translations = {
     },
     projects: {
       title: "PROJECTS",
-      web3Title: "Web3 Market Strategy & Growth",
+      web3Title: "MENA Web3 Research & Strategy",
       hint: "Click arrows to view more projects",
       web3Strategy: [
         {
           id: 'uae',
           num: '01',
-          label: 'Research',
-          sidebarTitle: "Women in UAE Web3",
-          sidebarTags: ['Empirical Survey', 'Interviews', 'Inclusiveness Signals'],
-          banner: "/images/Project 3-Institutional and Cultural Drivers of Women's Participation in the UAE WEB3.png",
-          projectTag: 'Phase 01 · Research',
+          label: 'Independent Research',
+          sidebarTitle: "Women’s Participation in UAE Web3",
+          sidebarTags: ['Independent', 'Mixed Methods', 'User Insight'],
+          banner: "/images/Project 3-Institutional and Cultural Drivers of Women's Participation in the UAE WEB3.webp",
+          projectTag: 'Independent Research Project',
           fullTitle: "Research-Driven Strategy: UAE & Women Participation",
-          subtitle: '',
-          skills: 'Research Framework Design｜Survey & Interview Planning｜Primary Research｜Insight Synthesis｜Market Insight｜Independent Research Ownership',
-          process: 'Studied women’s participation in UAE Web3 through institutional, cultural, and platform factors. Collected survey and interview data, then grouped findings around access, recognition and platform inclusiveness.',
-          output: 'The project maps key barriers and support mechanisms shaping women’s Web3 participation in the UAE. It supports market entry thinking, user segmentation, inclusive growth, and female user engagement strategy.',
-          infographic: '/images/WEB3 infographic.png',
+          description: "Institutional, cultural and platform factors shaping women's participation in UAE Web3.",
+          subtitle: 'Selected academic and strategy projects exploring users, partnerships and market expansion in the UAE and wider MENA ecosystem.',
+          duration: 'Academic Research Project',
+          focusLabel: 'QUESTION',
+          focus: 'How do institutional, cultural and platform factors shape women’s entry, retention and advancement in the UAE Web3 ecosystem?',
+          roleLabel: 'MY ROLE',
+          role: 'Research framework · Survey and interview planning · Primary research · Insight synthesis',
+          methodLabel: 'METHOD',
+          method: 'Studied women’s participation in UAE Web3 through institutional, cultural, and platform factors. Collected survey and interview data, then grouped findings around access, recognition and platform inclusiveness.',
+          skills: 'Mixed-method Research｜User Insight｜Inclusion Strategy',
+          process: 'Survey responses · Interviews · Mixed-method analysis',
+          output: 'A research report mapping barriers and support mechanisms related to access, recognition and platform inclusiveness, with implications for segmentation and inclusive user growth.',
+          infographic: '/images/WEB3 infographic.webp',
           infographicTag: 'Edited by AnyGen',
           blocks: [
-            { icon: '📋', label: 'METHOD', badge: '50 surveys + 5 interviews', text: 'Mixed-methods · Entry → Retention → Advancement framework.' },
+            { icon: '📋', label: 'METHOD', badge: 'Mixed methods', text: 'Survey responses and interviews · Entry → Retention → Advancement framework.' },
             { icon: '💡', label: 'KEY FINDING', badge: 'Banking > Culture', text: 'Post-licensing banking access is the tightest bottleneck — not cultural resistance.' },
             { icon: '→', label: 'FEEDS INTO', badge: 'Phase 02 Alliance Design', text: 'Defines the underserved segment any market entry strategy must address first.' }
           ]
@@ -149,17 +157,25 @@ export const translations = {
         {
           id: 'sandbox',
           num: '02',
-          label: 'Strategy',
-          sidebarTitle: 'Sandbox × Yalla Alliance',
-          sidebarTags: ['VARA Policy', 'Data Analysis', 'Metaverse Synergy'],
-          banner: '/images/Project 1-Cooperative strategy between The SANDBOX & Yalla.png',
-          projectTag: 'Phase 02 · Strategy',
+          label: '',
+          sidebarTitle: 'The Sandbox × Yalla Strategy',
+          sidebarTags: ['Team Project', 'Partnership', 'Localization'],
+          banner: '/images/Project 1-Cooperative strategy between The SANDBOX & Yalla.webp',
+          projectTag: 'Team Collaboration Project',
           fullTitle: 'Platform Collaboration Strategy: The Sandbox & Yalla',
-          subtitle: '',
-          skills: 'Team Leadership｜Strategy Coordination｜MENA Market Entry｜Alliance Strategy｜Risk Mapping｜Strategic Presentation',
-          process: 'Analysed The Sandbox’s MENA entry challenges across users, social engagement, culture, regulation, and growth. Evaluated Yalla Group’s fit and compared alliance, marketing, content, and future JV options.',
-          output: 'The project defines Yalla Group’s partnership value, the fit of a non-equity alliance, and a staged route from pilot projects to localised operations. It covers community, virtual events, branded content, user conversion, risk control, and execution.',
-          infographic: '/images/SANDBOX infographic.png',
+          description: 'MENA market entry, social platform synergy and a lower-risk alliance route.',
+          subtitle: 'Selected academic and strategy projects exploring users, partnerships and market expansion in the UAE and wider MENA ecosystem.',
+          duration: 'Team Collaboration Project',
+          focusLabel: 'OBJECTIVE',
+          focus: 'Evaluate how a partnership with Yalla could support The Sandbox’s localized market entry and ecosystem growth across MENA.',
+          roleLabel: 'MY CONTRIBUTION',
+          role: 'MENA market research · Partnership fit analysis · Localization risks · Strategy coordination',
+          methodLabel: 'METHOD',
+          method: 'Analysed The Sandbox’s MENA entry challenges across users, social engagement, culture, regulation, and growth. Evaluated Yalla Group’s fit and compared alliance, marketing, content, and future JV options.',
+          skills: 'Partnership Analysis｜Localization',
+          process: 'Market-entry analysis · Partnership-fit assessment · Risk mapping',
+          output: 'A staged partnership roadmap moving from lower-risk pilots toward localized operations, covering community activation, content collaboration, user conversion and execution risks.',
+          infographic: '/images/SANDBOX infographic.webp',
           infographicTag: 'Edited by Canva',
           blocks: [
             { icon: '⚖️', label: 'FRAMEWORK', badge: "Porter's Five Forces", text: "VARA as entry enabler. Yalla's 38.99M MAU as localization moat." },
@@ -170,22 +186,30 @@ export const translations = {
         {
           id: 'binance',
           num: '03',
-          label: 'Scale',
-          sidebarTitle: 'Binance Global Strategy',
-          sidebarTags: ['PESTEL Analysis', 'SWOT Analysis', 'Compliance Mapping'],
-          banner: '/images/Project 2-Stategic Analysis and Recommendations for BINANCE.png',
-          projectTag: 'Phase 03 · Scale',
+          label: '',
+          sidebarTitle: 'Binance Expansion & Compliance',
+          sidebarTags: ['Team Project', 'Regulation', 'Compliance'],
+          banner: '/images/Project 2-Stategic Analysis and Recommendations for BINANCE.webp',
+          projectTag: 'Team Collaboration Project',
           fullTitle: 'Exchange Market Strategy: Binance Case Project',
-          subtitle: '',
-          skills: 'Team Collaboration｜Strategy Research Support｜Regulatory Analysis｜Compliance Mapping｜Regional Research｜Business Analysis',
-          process: 'Analysed Binance’s global expansion through PESTEL and SWOT. Assessed platform strengths, regulatory pressure, market opportunities, compliance risks, and regional business conditions.',
-          output: 'The project covers PESTEL, SWOT, regional regulation, and compliance risk mapping. It identifies growth-ready markets, cautious-entry markets, and strategy choices for balancing growth, trust, compliance, and localisation.',
-          infographic: '/images/BINANCE infographic.png',
+          description: 'Regulatory, platform and regional signals for exchange expansion strategy.',
+          subtitle: 'Selected academic and strategy projects exploring users, partnerships and market expansion in the UAE and wider MENA ecosystem.',
+          duration: 'Team Collaboration Project',
+          focusLabel: 'OBJECTIVE',
+          focus: 'Assess expansion opportunities and regulatory constraints while balancing market growth, trust, compliance and localization.',
+          roleLabel: 'MY CONTRIBUTION',
+          role: 'Regional research · PESTEL and SWOT support · Regulatory analysis · Compliance mapping',
+          methodLabel: 'METHOD',
+          method: 'Analysed Binance’s global expansion through PESTEL and SWOT. Assessed platform strengths, regulatory pressure, market opportunities, compliance risks, and regional business conditions.',
+          skills: 'Compliance Mapping｜Strategic Analysis',
+          process: 'PESTEL · SWOT · Regional regulation comparison · Compliance mapping',
+          output: 'A strategic analysis distinguishing growth-ready and cautious-entry markets, with proposed directions for balancing expansion, regulatory readiness and local operating conditions.',
+          infographic: '/images/BINANCE infographic.webp',
           infographicTag: 'Edited by ChatGPT',
           blocks: [
             { icon: '🧩', label: 'FRAMEWORK', badge: 'Dynamic Capabilities', text: 'Sensing / Seizing / Transforming applied post $4.3B DOJ settlement and executive exodus.' },
             { icon: '💡', label: 'KEY FINDING', badge: 'Compliance = moat', text: '$213M compliance investment reframed as market-access strategy. Web3 Wallet lag = strategic blind spot.' },
-            { icon: '📅', label: '36-MONTH PLAN', badge: 'Timeline', text: '0–12m 1,000-person compliance build\n1–3yr 5 DeFi products + regional offices\n3yr+ 1M+ daily transactions platform', isList: true }
+            { icon: '📅', label: 'PROPOSED DIRECTION', badge: 'Recommendation', text: 'Strengthen compliance capability\nPrioritize regulation-ready markets\nLocalize operating and trust-building strategy', isList: true }
           ]
         }
       ],
@@ -231,13 +255,13 @@ export const translations = {
         resultTitle: "RESULT",
         metrics: {
           deliver: { 
-            label: "Conversion Rate", 
+            label: "Click-to-registration Rate", 
             value: "26.07%", 
-            avg: "Industry Avg: 3.0%", 
-            delta: "8.7x vs Avg"
+            avg: "Click-to-registration from eDM traffic", 
+            delta: "Direct result"
           },
-          open: { label: "Open Rate", value: "30.18%", avg: "Industry Avg: 21.5%", delta: "1.4x vs Avg" },
-          ctr: { label: "CTR", value: "8.50%", avg: "Industry Avg: 2.6%", delta: "3.2x vs Avg" }
+          open: { label: "Open Rate", value: "30.18%", avg: "Campaign audience engagement", delta: "High engagement" },
+          ctr: { label: "CTR", value: "8.50%", avg: "Direct click-through from eDM", delta: "Direct result" }
         },
         impact: "Outperformed B2B industry benchmarks by up to 220% in engagement, validating the high quality of lead segmentation and content localization (Source: Mailchimp 2024)."
       },
@@ -246,7 +270,7 @@ export const translations = {
         title: "eDM Localization",
         desc: "RTL Adaptation & Cultural Localization",
         taskTitle: "TASK & CHALLENGE",
-        taskDesc: "Cross-cultural visual reconstruction: Localization design for Arabic graphic content.",
+        taskDesc: "Localization design for Arabic graphic content.",
         difficulty: "Handle RTL (Right-to-Left) layout logic for the MENA market without altering the original design aesthetic.",
         req: "Ensure text flow, visual focus, and interactive elements align with local reading habits.",
         actionTitle: "ACTION & STRATEGY",
@@ -409,7 +433,7 @@ export const translations = {
     aiChat: {
       title: "AI Assistant",
       welcome: "Hi! I'm Suha's web assistant. I can help you understand her background, projects, and skills. Feel free to ask me anything!",
-      placeholder: "Ask anything...",
+      placeholder: "Ask about Suha’s experience or projects...",
       error: "Sorry, I encountered an error. Please try again later.",
       matchBtn: "JD Match Analysis"
     }
@@ -418,7 +442,7 @@ export const translations = {
     homePage: {
       greetingArabic: "مرحبا، انا سها",
       greetingEnglish: "Hi, I’m Suha.",
-      intro: "我具备数字营销与国际项目经验，参与过大型展会、国际会议和跨境项目运营，擅长在复杂环境中推动项目落地，并帮助品牌精准触达目标受众。",
+      intro: "我拥有国际市场营销与项目运营经验，参与过大型B2B展会、多语言营销及跨企业协作。我擅长将渠道策略与实际执行衔接起来，支持国际项目在中国与中东商业环境中顺利推进。\n在多语言、多合作方与高节奏的项目环境中，我能够持续推进营销内容、资源协同与现场交付。",
       experience: "拖动右侧的版块查看相关信息，或点击右下角的助手询问任何内容 👉"
     },
     nav: {
@@ -449,16 +473,16 @@ export const translations = {
       title: "核心胜任力",
       items: [
         {
-          title: '项目管理与执行',
-          list: ['端到端项目交付', '跨部门团队协作', '资源与时间线管理', '风险控制与现场运营']
+          title: '国际市场营销与渠道运营',
+          list: ['B2B营销', '电子邮件营销', '社交媒体', '网站内容']
         },
         {
-          title: '战略规划与市场情报',
-          list: ['市场进入策略 (GTM)', '区域市场分析 (MENA)', '市场与竞品调研', '产品与活动全生命周期管理']
+          title: '项目运营与跨企业协同',
+          list: ['进度执行', '合作方协调', '现场支持', '突发问题处理']
         },
         {
-          title: '跨文化沟通与多方统筹',
-          list: ['内外部利益相关者对齐', '多语言商业沟通 (中/英/阿)', '关键客户与供应商管理', '国际展会与活动落地']
+          title: '中国—中东沟通与利益相关者支持',
+          list: ['三语沟通', '买家接待', '内容本地化', '合作方支持']
         }
       ]
     },
@@ -535,26 +559,34 @@ export const translations = {
     },
     projects: {
       title: "PROJECTS",
-      web3Title: "Web3 市场战略与增长",
+      web3Title: "中东 Web3 研究与战略",
       hint: "点击箭头查看更多项目",
       web3Strategy: [
         {
           id: 'uae',
           num: '01',
-          label: '调研',
-          sidebarTitle: "阿联酋 Web3 女性参与度",
-          sidebarTags: ['实证调查', '深度访谈', '包容性信号'],
-          banner: "/images/Project 3-Institutional and Cultural Drivers of Women's Participation in the UAE WEB3.png",
-          projectTag: '阶段 01 · 调研',
+          label: '独立研究',
+          sidebarTitle: "阿联酋 Web3 行业中的女性参与",
+          sidebarTags: ['独立研究', '混合研究', '用户洞察'],
+          banner: "/images/Project 3-Institutional and Cultural Drivers of Women's Participation in the UAE WEB3.webp",
+          projectTag: '独立研究项目',
           fullTitle: "调研驱动策略：阿联酋与女性参与",
-          subtitle: '',
-          skills: '研究框架设计｜问卷与访谈规划｜一手资料研究｜洞察提炼｜市场洞察｜独立研究推进',
-          process: '围绕 UAE Web3 行业中的女性参与问题，将研究拆成三个方向：制度支持、文化影响和技术平台体验。通过问卷和访谈收集一手资料，并整理出政策认知、资金和银行准入、职业认可、学习成本和平台包容性等核心主题。',
-          output: '项目展示了女性进入 UAE Web3 行业时面对的主要阻力，并梳理了能推动参与和留存的支持机制。内容可用于 Web3 市场进入判断、用户细分、包容性增长和女性用户参与策略。',
-          infographic: '/images/WEB3 infographic.png',
+          description: '制度、文化与平台因素如何影响阿联酋 Web3 女性参与。',
+          subtitle: '围绕阿联酋及更广泛中东生态中的用户、平台合作与市场扩张展开的研究及战略项目。',
+          duration: '学术研究项目',
+          focusLabel: '研究问题',
+          focus: '制度、文化与平台因素如何影响女性进入、留存并发展于阿联酋 Web3 生态？',
+          roleLabel: '我的职责',
+          role: '研究框架 · 问卷与访谈规划 · 一手研究 · 洞察提炼',
+          methodLabel: '研究方法',
+          method: '围绕 UAE Web3 行业中的女性参与问题，将研究拆成三个方向：制度支持、文化影响和技术平台体验。通过问卷和访谈收集一手资料，并整理出政策认知、资金和银行准入、职业认可、学习成本和平台包容性等核心主题。',
+          skills: '混合研究｜用户洞察｜包容性增长策略',
+          process: '问卷调查 · 访谈记录 · 混合研究方法',
+          output: '形成研究报告，梳理与准入、认可及平台包容性相关的主要障碍与支持机制，并提炼其对用户细分及包容性增长的启示。',
+          infographic: '/images/WEB3 infographic.webp',
           infographicTag: 'Edited by AnyGen',
           blocks: [
-            { icon: '📋', label: '方法论', badge: '50份问卷 + 5次访谈', text: '混合方法 · 入门 → 留存 → 晋升框架。' },
+            { icon: '📋', label: '方法论', badge: '混合研究', text: '问卷与访谈 · 进入 → 留存 → 发展框架。' },
             { icon: '💡', label: '核心发现', badge: '银行服务 > 文化因素', text: '获得牌照后的银行服务接入是最大瓶颈，而非文化阻力。' },
             { icon: '→', label: '输入至', badge: '阶段 02 联盟设计', text: '定义了市场进入策略必须优先解决的服务不足群体。' }
           ]
@@ -562,17 +594,25 @@ export const translations = {
         {
           id: 'sandbox',
           num: '02',
-          label: '策略',
-          sidebarTitle: 'Sandbox × Yalla 联盟',
-          sidebarTags: ['VARA 政策', '数据分析', '元宇宙协同'],
-          banner: "/images/Project 1-Cooperative strategy between The SANDBOX & Yalla.png",
-          projectTag: '阶段 02 · 策略',
+          label: '',
+          sidebarTitle: 'The Sandbox × Yalla 合作战略',
+          sidebarTags: ['团队项目', '合作分析', '本地化'],
+          banner: "/images/Project 1-Cooperative strategy between The SANDBOX & Yalla.webp",
+          projectTag: '团队合作项目',
           fullTitle: '平台协作策略：The Sandbox & Yalla',
-          subtitle: '',
-          skills: '团队领导力｜策略协调｜MENA 市场进入｜联盟策略｜风险梳理｜战略展示',
-          process: '分析 The Sandbox 进入 MENA 市场时需要解决的本地用户触达、社交场景、文化适配、监管环境和平台增长问题。随后评估 Yalla Group 的匹配度，并比较非股权战略联盟、联合营销、内容合作和未来合资等合作方式。',
-          output: '项目明确了 Yalla Group 的合作价值、非股权战略联盟的适配性，以及从低风险试点到深度本地化运营的推进路径。内容覆盖社交社区、虚拟活动、品牌内容、用户转化、风险控制和商业落地。',
-          infographic: '/images/SANDBOX infographic.png',
+          description: '围绕 MENA 市场进入、社交平台协同与低风险联盟路线展开。',
+          subtitle: '围绕阿联酋及更广泛中东生态中的用户、平台合作与市场扩张展开的研究及战略项目。',
+          duration: '团队合作项目',
+          focusLabel: '项目目标',
+          focus: '评估与 Yalla 的合作如何支持 The Sandbox 在中东市场的本地化进入及生态增长。',
+          roleLabel: '我的贡献',
+          role: '中东市场研究 · 合作匹配度分析 · 本地化风险 · 战略协调',
+          methodLabel: '研究方法',
+          method: '分析 The Sandbox 进入 MENA 市场时需要解决的本地用户触达、社交场景、文化适配、监管环境和平台增长问题。随后评估 Yalla Group 的匹配度，并比较非股权战略联盟、联合营销、内容合作和未来合资等合作方式。',
+          skills: '合作分析｜本地化',
+          process: '市场进入分析 · 合作匹配度评估 · 风险梳理',
+          output: '形成分阶段合作路线，从低风险试点逐步推进至本地化运营，覆盖社区激活、内容合作、用户转化与执行风险。',
+          infographic: '/images/SANDBOX infographic.webp',
           infographicTag: 'Edited by Canva',
           blocks: [
             { icon: '⚖️', label: '分析框架', badge: "波特五力模型", text: "VARA 作为准入推动者。Yalla 的 3899 万月活作为本地化护城河。" },
@@ -583,22 +623,30 @@ export const translations = {
         {
           id: 'binance',
           num: '03',
-          label: '扩张',
-          sidebarTitle: '币安全球策略',
-          sidebarTags: ['PESTEL 分析', 'SWOT 分析', '合规映射'],
-          banner: '/images/Project 2-Stategic Analysis and Recommendations for BINANCE.png',
-          projectTag: '阶段 03 · 扩张',
+          label: '',
+          sidebarTitle: 'Binance 扩张与合规分析',
+          sidebarTags: ['团队项目', '监管研究', '合规分析'],
+          banner: '/images/Project 2-Stategic Analysis and Recommendations for BINANCE.webp',
+          projectTag: '团队合作项目',
           fullTitle: '交易所市场策略：币安案例项目',
-          subtitle: '',
-          skills: '团队协作｜策略研究支持｜监管分析｜合规映射｜区域研究｜商业分析',
-          process: '从政治、经济、社会、技术、环境和法律因素出发，分析 Binance 在不同地区扩张时受到的外部影响。结合 SWOT 等方法，梳理平台优势、监管压力、市场机会和合规风险，并比较不同区域的监管态度和业务环境。',
-          output: '项目形成了全球加密平台战略分析内容，覆盖 PESTEL、SWOT、区域监管比较和合规风险地图。内容明确了更适合增长的市场、更需要谨慎进入的市场，并提出了增长、信任、合规和本地化之间的平衡策略。',
-          infographic: '/images/BINANCE infographic.png',
+          description: '从监管、平台能力和区域机会判断交易所扩张路径。',
+          subtitle: '围绕阿联酋及更广泛中东生态中的用户、平台合作与市场扩张展开的研究及战略项目。',
+          duration: '团队合作项目',
+          focusLabel: '项目目标',
+          focus: '评估市场扩张机会与监管约束，并平衡增长、信任、合规及本地化要求。',
+          roleLabel: '我的贡献',
+          role: '区域研究 · PESTEL 与 SWOT 支持 · 监管分析 · 合规映射',
+          methodLabel: '研究方法',
+          method: '从政治、经济、社会、技术、环境和法律因素出发，分析 Binance 在不同地区扩张时受到的外部影响。结合 SWOT 等方法，梳理平台优势、监管压力、市场机会和合规风险，并比较不同区域的监管态度和业务环境。',
+          skills: '合规映射｜战略分析',
+          process: 'PESTEL · SWOT · 区域监管比较 · 合规映射',
+          output: '形成战略分析，区分适合增长与需要谨慎进入的市场，并提出平衡扩张、监管准备度及本地运营条件的建议方向。',
+          infographic: '/images/BINANCE infographic.webp',
           infographicTag: 'Edited by ChatGPT',
           blocks: [
             { icon: '🧩', label: '分析框架', badge: '动态能力', text: '在 43 亿美元 DOJ 和解及高管离职后应用 感知 / 捕捉 / 转型 框架。' },
             { icon: '💡', label: '核心发现', badge: '合规 = 护城河', text: '2.13 亿美元合规投资重构为 market-access 策略。Web3 钱包滞后是战略盲点。' },
-            { icon: '📅', label: '36个月计划', badge: '时间线', text: '0–12月 组建 1000 人合规团队\n1–3年 5 款 DeFi 产品 + 区域办事处\n3年以上 日交易量百万级平台', isList: true }
+            { icon: '📅', label: '建议方向', badge: '研究建议', text: '强化合规能力\n优先进入监管准备度较高的市场\n推进运营与信任建设本地化', isList: true }
           ]
         }
       ],
@@ -644,13 +692,13 @@ export const translations = {
         resultTitle: "RESULT",
         metrics: {
           deliver: { 
-            label: "转化率", 
+            label: "点击后预登记率", 
             value: "26.07%", 
-            avg: "行业平均: 3.0%", 
-            delta: "8.7x 行业均值"
+            avg: "来自 eDM 流量的点击后预登记", 
+            delta: "直接结果"
           },
-          open: { label: "打开率", value: "30.18%", avg: "行业平均: 21.5%", delta: "1.4x 行业均值" },
-          ctr: { label: "点击率", value: "8.50%", avg: "行业平均: 2.6%", delta: "3.2x 行业均值" }
+          open: { label: "打开率", value: "30.18%", avg: "项目受众互动表现", delta: "高互动" },
+          ctr: { label: "点击率", value: "8.50%", avg: "来自 eDM 的直接点击", delta: "直接结果" }
         },
         impact: "在互动指标上超出 B2B 行业基准高达 220%，验证了线索分层与内容本地化的高质量策略 (来源: Mailchimp 2024)。"
       },
@@ -822,7 +870,7 @@ export const translations = {
     aiChat: {
       title: "AI 助手",
       welcome: "你好呀，我是这个网页的助手，帮助您了解网页中关于 Suha 的各个板块和信息。有任何不清楚的地方可以直接发给我。",
-      placeholder: "输入提问内容...",
+      placeholder: "询问Suha的经历或项目...",
       error: "抱歉，我遇到了一些问题。请稍后再试。",
       matchBtn: "JD 匹配分析"
     }
