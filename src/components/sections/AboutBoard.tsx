@@ -94,7 +94,7 @@ const SpinePunchHoles: React.FC = () => {
             height={hole.height}
             rx="4"
             ry="4"
-            fill="#efe1d1"
+            fill="#B69567"
             stroke="rgba(77, 57, 36, 0.22)"
             strokeWidth="0.8"
             vectorEffect="non-scaling-stroke"
@@ -187,7 +187,7 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
         onToggleCardVisibility={toggleCardVisibility}
       />
 
-      {!isArchiveLayout && !releaseCardFrame && <SpinePunchHoles />}
+      {!isArchiveLayout && <SpinePunchHoles />}
 
       <div
         ref={panelRef}

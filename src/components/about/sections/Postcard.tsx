@@ -283,12 +283,12 @@ export const Postcard: React.FC<PostcardProps> = ({
               Contact Folder
             </div>
             <div className="grid gap-2.5 text-[15px]">
-              <div className="group flex items-center gap-2.5">
-                <DecorativeIcon icon={Mail} size={16} className="text-text-dark/58 group-hover:text-[#9f8fdb]" />
+              <div className="group/email flex items-center gap-2.5">
+                <DecorativeIcon icon={Mail} size={16} className="text-text-dark/58 group-hover/email:text-[#9f8fdb]" />
                 <a
                   href={`mailto:${email}`}
                   aria-label={`Email ${email}`}
-                  className="min-w-0 truncate text-text-dark/72 transition-colors duration-200 hover:text-[#9f8fdb]"
+                  className="min-w-0 truncate text-text-dark/72 transition-colors duration-200 hover:text-[#9f8fdb] group-hover/email:text-[#9f8fdb]"
                 >
                   {email}
                 </a>
@@ -356,20 +356,27 @@ export const Postcard: React.FC<PostcardProps> = ({
             animate={{ x: 0, opacity: 1, rotate: 0 }}
             exit={{ x: -72, opacity: 0, rotate: -2 }}
             transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
-            style={{ backgroundColor: 'rgba(252, 249, 240, 0.62)' }}
-            className="absolute bottom-[-50px] left-[476px] z-10 h-[236px] w-[236px] rounded-[10px] border border-[#7e8966]/22 bg-[rgba(252,249,240,0.62)] px-9 py-5 shadow-[0_18px_30px_rgba(90,70,45,0.14)] backdrop-blur-md"
+            style={{ backgroundColor: 'rgba(252, 249, 240, 0.82)' }}
+            className="home-wechat-ticket absolute bottom-0 left-[491px] z-10 grid h-[148px] w-[292px] grid-cols-[112px_minmax(0,1fr)] gap-4 border border-[#7e8966]/22 bg-[rgba(252,249,240,0.82)] px-7 py-4 shadow-[0_18px_30px_rgba(90,70,45,0.14)] backdrop-blur-md"
           >
-            <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-[#7e8966]/72">Scan Here</div>
-            <div className="mx-auto w-[90%] rounded-[7px] border border-[#7e8966]/18 bg-[rgba(255,255,255,0.7)] p-1.5 shadow-sm backdrop-blur-sm">
+            <div className="rounded-[7px] border border-[#7e8966]/18 bg-[rgba(255,255,255,0.7)] p-1.5 shadow-sm backdrop-blur-sm">
               <img
                 src="/images/wechat-meshsuha-qr.jpeg"
                 alt="WeChat QR code for MeshSuha"
                 className="block w-full rounded-[5px]"
               />
             </div>
-            <div className="mt-2 flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.14em] text-[#26342f]/50">
-              <span>{wechatId}</span>
-              <span>QR</span>
+            <div className="flex min-w-0 flex-col justify-between py-1">
+              <div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#7e8966]/72">Scan Here</div>
+                <div className="mt-2 font-mono text-[15px] font-semibold uppercase tracking-[0.12em] text-[#26342f]/64">
+                  {wechatId}
+                </div>
+              </div>
+              <div className="flex items-center justify-between border-t border-dashed border-[#7e8966]/22 pt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[#26342f]/45">
+                <span>Field Contact</span>
+                <span>QR</span>
+              </div>
             </div>
           </motion.aside>
         )}

@@ -71,7 +71,9 @@ export const DraggableCard: React.FC<DraggableCardProps> = ({
     <motion.div
       drag
       dragConstraints={constraintsRef}
-      dragElastic={0.1}
+      dragElastic={0.04}
+      dragMomentum={false}
+      dragTransition={{ bounceStiffness: 240, bounceDamping: 32, power: 0.12, timeConstant: 140 }}
       onDragStart={() => {
         dragStartOffsetRef.current = { x: adjustOffset.x, y: adjustOffset.y };
         setActiveId(id);

@@ -392,7 +392,7 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       >
         <div className="relative origin-center scale-[0.9025]">
-      <div className="absolute -left-12 top-1/2 h-[413px] w-[80px] -translate-y-1/2 drop-shadow-[0_12px_22px_rgba(53,65,41,0.16)]" aria-hidden="true">
+      <div className="absolute -left-12 top-1/2 z-10 h-[413px] w-[80px] -translate-y-1/2 drop-shadow-[0_12px_22px_rgba(53,65,41,0.16)]" aria-hidden="true">
         <svg className="h-full w-full overflow-visible" viewBox="0 0 80 413" preserveAspectRatio="none">
           <path
             fill="#71855e"
@@ -425,7 +425,7 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
         />
       </div>
 
-      <div className="relative z-10 h-[408px] w-[483px] origin-center -translate-x-0.5 scale-95 overflow-hidden rounded-[8px] border border-[#2d2d2d]/12 bg-[#fcf9f0] shadow-[0_12px_22px_rgba(90,70,45,0.14)]">
+      <div className="relative z-20 h-[408px] w-[483px] origin-center -translate-x-0.5 scale-95 overflow-hidden rounded-[8px] border border-[#2d2d2d]/12 bg-[#fcf9f0] shadow-[0_12px_22px_rgba(90,70,45,0.14)]">
         <div className="absolute inset-y-0 left-0 w-9 border-r border-[#26342f]/12 bg-[#fcf9f0]/78" aria-hidden="true">
           <div className="absolute left-1/2 top-7 h-3 w-3 -translate-x-1/2 rounded-full border border-[#26342f]/10 bg-[#fcf9f0] shadow-[inset_0_1px_3px_rgba(23,34,30,0.12)]" />
           <div className="absolute left-1/2 top-1/2 h-[132px] w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#c4bd97]/48 bg-[#e5dfd4] shadow-[inset_0_1px_3px_rgba(80,70,45,0.12)]" />
@@ -543,7 +543,7 @@ export const StickyNote: React.FC<ArchiveVariant> = ({ variant = 'default' }) =>
       className="home-cv-ticket group relative mt-9 block h-[198px] w-[116px] overflow-visible text-[#17221e]"
       initial={{ rotate: -2 }}
       animate={{ y: [0, 1.5, 0], rotate: -2 }}
-      whileHover={{ y: -4, scale: 1.02, rotate: -2 }}
+      whileHover={{ rotate: -2 }}
       whileTap={{ scale: 0.98, rotate: -2 }}
       transition={{ duration: 7.6, repeat: Infinity, ease: 'easeInOut' }}
     >

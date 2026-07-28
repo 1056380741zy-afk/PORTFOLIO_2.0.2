@@ -3606,8 +3606,12 @@ body {
 }
 
 .home-cv-ticket > div:last-child {
+  border: 1px solid rgb(79 91 66 / 34%) !important;
   background-color: #b59e71 !important;
-  box-shadow: 0 8px 16px rgb(90 70 45 / 14%) !important;
+  box-shadow:
+    0 16px 28px rgb(54 40 24 / 24%),
+    0 3px 0 rgb(79 91 66 / 18%),
+    inset 0 1px 0 rgb(255 246 224 / 26%) !important;
 }
 
 .home-profile-board .home-contact-card,
