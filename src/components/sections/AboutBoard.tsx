@@ -16,15 +16,15 @@ const CARD_CONTROLS: CardControl[] = [
   { id: 'sticky', label: 'Sticky' },
 ];
 
-const CARD_OFFSET_STORAGE_KEY = 'aboutBoardCardOffsets_v17';
+const CARD_OFFSET_STORAGE_KEY = 'aboutBoardCardOffsets_v18';
 
 const DEFAULT_CARD_OFFSETS: Record<CardId, CardAdjustOffset> = {
-  postcardBack: { x: 108, y: 78, scale: 0.83 },
+  postcardBack: { x: 60, y: 12, scale: 0.83 },
   postcardFront: { x: 10, y: 0, scale: 1 },
-  blueprint: { x: -14, y: 18, scale: 0.9 },
-  language: { x: 56, y: 122, scale: 0.88 },
-  toolbox: { x: -34, y: -4, scale: 0.84 },
-  sticky: { x: 20, y: -315, scale: 1 },
+  blueprint: { x: 52, y: -20, scale: 0.9 },
+  language: { x: -40, y: -60, scale: 0.88 },
+  toolbox: { x: 85, y: 35, scale: 0.84 },
+  sticky: { x: 20, y: -270, scale: 1 },
 };
 
 const ARCHIVE_CARD_OFFSETS: Record<CardId, CardAdjustOffset> = {
