@@ -14,7 +14,10 @@ export type CardAdjustOffset = {
 export type CardAdjustControl = {
   isOpen: boolean;
   offsets: Record<CardId, CardAdjustOffset>;
+  exportText: string;
+  copied: boolean;
   onToggle: () => void;
   onChange: (id: CardId, axis: keyof CardAdjustOffset, value: number) => void;
   onReset: () => void;
+  onCopy: () => void;
 };

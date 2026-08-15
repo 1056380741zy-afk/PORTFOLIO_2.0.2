@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, X, Sparkles, Bot } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { SuhaBot } from '../shared/SuhaBot';
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -18,6 +19,7 @@ export function AIChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const { language } = useLanguage();
+  const location = useLocation();
 
   // 增强语言识别：兼容 zh, zh-CN, cn 等不同写法
   const isZh = language && (language.toLowerCase().includes('zh') || language.toLowerCase().includes('cn'));
@@ -78,7 +80,8 @@ export function AIChat() {
         },
         body: JSON.stringify({
           messages: chatMessages,
-          isZh: !!isZh
+          isZh: !!isZh,
+          pagePath: location.pathname
         })
       });
 
@@ -175,11 +178,8 @@ export function AIChat() {
               {messages.map((msg, index) => (
                 <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   {msg.role === 'assistant' && (
-                    <div className="flex items-start gap-2.5 w-full">
-                      <div className="w-8 h-8 flex-shrink-0 mt-1">
-                        <SuhaBot size={32} isThinking={isLoading && index === messages.length - 1} showBackground={true} />
-                      </div>
-                      <div className="flex-1 max-w-[85%]">
+                    <div className="w-full">
+                      <div className="max-w-[85%]">
                         {(msg.content || (isLoading && index === messages.length - 1)) && (
                           <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-sm p-3.5 text-[14px] text-gray-700 whitespace-pre-wrap leading-relaxed shadow-sm">
                             {msg.content || (
@@ -223,9 +223,9 @@ export function AIChat() {
               placeholder={currentT.placeholder}
               disabled={isLoading}
               rows={1}
-              className="w-full bg-white border border-gray-200 rounded-xl py-3.5 pl-4 pr-12 text-[14px] text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#9f8fdb] focus:ring-1 focus:ring-[#9f8fdb] transition-all disabled:opacity-50 resize-none min-h-[55px] max-h-[100px] overflow-y-auto"
+              className="w-full bg-white border border-gray-200 rounded-xl py-[15px] pl-4 pr-12 text-[14px] text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#9f8fdb] focus:ring-1 focus:ring-[#9f8fdb] transition-all disabled:opacity-50 resize-none min-h-[70px] max-h-[100px] overflow-y-auto"
               style={{
-                height: `min(100px, max(55px, ${Math.min(100, 38 + ((input.match(/\n/g)?.length ?? 0) + 1) * 22)}px))`,
+                height: `min(100px, max(70px, ${Math.min(100, 40 + ((input.match(/\n/g)?.length ?? 0) + 1) * 22)}px))`,
                 lineHeight: '1.5',
               }}
             />

@@ -1,26 +1,26 @@
 export const WEB3_PROJECTS = [
   {
     id: 'sandbox-yalla',
-    imageUrl: '/images/Project%201-Cooperative%20strategy%20between%20The%20SANDBOX%20%26%20Yalla.png',
-    infographicUrl: '/images/Project%201.png',
+    imageUrl: '/projects/web3/sandbox-yalla-banner.webp',
+    infographicUrl: '/projects/web3/sandbox-infographic.webp',
   },
   {
     id: 'binance-strategy',
-    imageUrl: '/images/Project%202-Stategic%20Analysis%20and%20Recommendations%20for%20Binance.png',
-    infographicUrl: '/images/Project%202.png',
+    imageUrl: '/projects/web3/binance-banner.webp',
+    infographicUrl: '/projects/web3/binance-infographic.webp',
   },
   {
     id: 'uae-women-web3',
-    imageUrl: "/images/Project%203-Institutional%20and%20Cultural%20Drivers%20of%20Women's%20Participation%20in%20the%20UAE%20Web3%20Sector.png",
-    infographicUrl: '/images/Project%203.png',
+    imageUrl: '/projects/web3/uae-women-banner.webp',
+    infographicUrl: '/projects/web3/uae-women-infographic.webp',
   }
 ];
 
 export const EXHIBITIONS = [
-  { id: 'e1', image: '/images/aib-mena-Header-Logo.png', fit: 'contain', padding: true },
-  { id: 'e2', image: '/images/Consulate%20General%20of%20China%20in%20Dubai.jpg', fit: 'cover' },
-  { id: 'e3', image: '/images/Huawei.jpeg', fit: 'contain' },
-  { id: 'e4', image: '/images/Banner%202425.jpg', fit: 'cover' }
+  { id: 'e1', image: '/projects/activation/aib-mena-header-logo.png', fit: 'contain', padding: true },
+  { id: 'e2', image: '/projects/activation/china-consulate-dubai.jpg', fit: 'cover' },
+  { id: 'e3', image: '/projects/activation/huawei-gdc.jpeg', fit: 'contain' },
+  { id: 'e4', image: '/projects/activation/watertech-banner.jpg', fit: 'cover' }
 ];
 
 // Global Theme Configuration

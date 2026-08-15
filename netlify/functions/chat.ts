@@ -24,6 +24,7 @@ type ChatMessage = {
 type ChatRequestBody = {
   messages?: ChatMessage[];
   isZh?: boolean;
+  pagePath?: string;
 };
 
 const encoder = new TextEncoder();
@@ -66,7 +67,7 @@ export default async (request: Request): Promise<Response> => {
   }
 
   const formattedMessages = [
-    { role: 'system', content: buildSystemPrompt(!!body.isZh) },
+    { role: 'system', content: buildSystemPrompt(!!body.isZh, body.pagePath) },
     ...sanitizeMessages(body.messages),
   ];
 

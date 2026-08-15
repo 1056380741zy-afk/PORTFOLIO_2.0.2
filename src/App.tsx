@@ -50,21 +50,23 @@ const AppContent: React.FC = () => {
 
   useEffect(() => {
     const updateCanvasScale = () => {
+      // Use the layout viewport so Safari's visual viewport zoom does not
+      // trigger a second round of canvas scaling.
       const availableWidth = document.documentElement.clientWidth || window.innerWidth;
+      const availableHeight = document.documentElement.clientHeight || window.innerHeight;
 
       setCanvasScale(Math.min(
         1,
         availableWidth / DESIGN_CANVAS_WIDTH,
+        availableHeight / DESIGN_CANVAS_HEIGHT,
       ));
     };
 
     updateCanvasScale();
     window.addEventListener('resize', updateCanvasScale);
-    window.visualViewport?.addEventListener('resize', updateCanvasScale);
 
     return () => {
       window.removeEventListener('resize', updateCanvasScale);
-      window.visualViewport?.removeEventListener('resize', updateCanvasScale);
     };
   }, []);
 

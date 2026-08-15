@@ -19,6 +19,7 @@ export const Home: React.FC = () => {
       <div
         className="home-document-grid relative grid h-full w-full grid-cols-[25%_75%]"
         style={{
+          gridTemplateColumns: 'calc(25% - 16px) calc(75% + 16px)',
           padding: 0,
           margin: 0,
           borderRadius: '8px',
@@ -29,7 +30,7 @@ export const Home: React.FC = () => {
         }}
       >
         <div
-          className="home-cover-panel relative z-20 flex h-full w-full min-w-0 flex-col px-[70px] py-[30px]"
+          className="home-cover-panel relative z-20 flex h-full w-full min-w-0 flex-col px-[45px] py-[30px]"
           style={{ backgroundColor: pageBackgroundColor, boxShadow: '3px 0 10px rgba(90, 70, 45, 0.12)' }}
         >
           <div className="max-w-[520px] my-auto mx-[-6px]">
@@ -45,7 +46,7 @@ export const Home: React.FC = () => {
             </div>
 
             <div className="home-intro-copy mt-[37px] space-y-[22px] text-[13px] leading-relaxed text-text-dark/80 font-mono">
-              <p className={`home-intro-main ${language === 'cn' ? 'whitespace-pre-line' : ''}`}>{t.homePage.intro}</p>
+              <p className={`home-intro-main ${language === 'cn' ? 'home-intro-main-cn whitespace-pre-line' : ''}`}>{t.homePage.intro}</p>
               <p className="home-intro-hint text-[11px] leading-relaxed text-text-dark/55">{t.homePage.experience}</p>
             </div>
           </div>

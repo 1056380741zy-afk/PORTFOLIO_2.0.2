@@ -572,11 +572,11 @@ export const JourneyMap: React.FC = () => {
                     <div
                       key={city.id}
                       ref={(el) => { cityRefs.current[idx] = el; }}
-                      className={`relative z-10 border-b border-[#cfc8bb]/55 pb-[14px] transition-opacity duration-500 last:border-b-0 last:pb-0 ${
+                      className={`relative z-10 border-b border-[#cfc8bb]/55 pb-[14px] transition-opacity duration-500 last:border-b-0 last:pb-0 ${idx > 0 ? 'pt-[15px]' : ''} ${
                         isActive ? 'opacity-100' : 'opacity-55'
                       }`}
                       style={{
-                        '--journey-city-material': ['#b59e71', '#8f694f', '#7e8966'][idx],
+                        '--journey-city-material': ['#b59e71', '#985c4b', '#7e8966'][idx],
                       } as React.CSSProperties}
                     >
                       <button
@@ -586,7 +586,7 @@ export const JourneyMap: React.FC = () => {
                           isActive ? 'journey-city-header-active' : 'journey-city-header-idle'
                         }`}
                         style={{
-                          '--journey-detail-material': ['#b59e71', '#8f694f', '#7e8966'][idx],
+                          '--journey-detail-material': ['#b59e71', '#985c4b', '#7e8966'][idx],
                         } as React.CSSProperties}
                       >
                         <span className={`journey-city-header-index flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] text-xl transition-all duration-300 ${

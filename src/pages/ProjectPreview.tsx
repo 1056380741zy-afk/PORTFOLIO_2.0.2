@@ -80,7 +80,7 @@ const projects = [
       en: 'An international B2B exhibition project combining channel strategy, multilingual digital campaigns, partner coordination and buyer-facing operations.',
       cn: '结合渠道策略、多语言数字营销、合作方协同及海外买家支持的国际B2B展会项目。',
     } satisfies LocalizedString,
-    visual: '/projects/generated/project-preview-card01-field-archive.png',
+    visual: '/projects/index/cards/international-exhibition.png',
     visualPlaceholder: '880 × 960 PX',
     target: '/projects/preview/exhibition',
     metrics: [
@@ -107,7 +107,7 @@ const projects = [
       en: 'Selected academic, government and technology events in Dubai, demonstrating multilingual communication, on-site coordination and rapid issue response.',
       cn: '迪拜学术、政府与科技活动，展示多语言沟通、现场协调及突发问题响应能力。',
     } satisfies LocalizedString,
-    visual: '/projects/generated/project-preview-card02-field-archive.png',
+    visual: '/projects/index/cards/event-operations.png',
     visualPlaceholder: '880 × 960 PX',
     target: '/projects/preview/activation',
     metrics: [
@@ -134,7 +134,7 @@ const projects = [
       en: 'Three research and strategy projects exploring participation, platform partnerships and exchange expansion in the UAE and wider MENA Web3 ecosystem.',
       cn: '围绕阿联酋及中东Web3生态中的用户参与、平台合作及交易所扩张展开的三个研究与战略项目。',
     } satisfies LocalizedString,
-    visual: '/projects/generated/project-preview-card03-field-archive.png',
+    visual: '/projects/index/cards/web3-research.png',
     visualPlaceholder: '880 × 960 PX',
     target: '/projects/preview/web3',
     metrics: [
@@ -293,7 +293,6 @@ export const ProjectPreview: React.FC = () => {
       <main className={`project-preview-page project-preview-detail-page project-preview-detail-page-${detail} custom-scrollbar`}>
         <section className="project-preview-detail-shell" aria-label={activeDetail.title}>
           <div className="project-preview-detail-toolbar">
-            <span className="project-preview-detail-ruler" aria-hidden="true" />
             <Link to="/projects/preview" className="project-preview-detail-back">
               <ArrowLeft size={16} strokeWidth={1.5} />
               <span>PROJECT PREVIEW</span>
@@ -304,6 +303,7 @@ export const ProjectPreview: React.FC = () => {
                 <h1>{activeDetail.title}</h1>
               </div>
             </div>
+            <span className="project-preview-detail-ruler" aria-hidden="true" />
           </div>
 
           <div className="project-preview-detail-content">
@@ -328,7 +328,7 @@ export const ProjectPreview: React.FC = () => {
         <div className="project-preview-dots project-preview-dots-b" aria-hidden="true" />
         <div className="project-preview-dots project-preview-dots-c" aria-hidden="true" />
         <img
-          src="/decorations/topographic-contours.webp"
+          src="/projects/index/decorations/topographic-contours.webp"
           alt=""
           width={1692}
           height={930}
@@ -343,7 +343,7 @@ export const ProjectPreview: React.FC = () => {
             <div className="project-preview-title-block">
               <h1>SELECTED PROJECTS</h1>
               <p className="project-preview-kicker">STRATEGY IN ACTION</p>
-              <p className="project-preview-intro">
+              <p className="project-preview-intro font-semibold">
                 {language === 'cn'
                   ? '覆盖中国与中东市场的营销、项目运营与市场研究实践。'
                   : 'Marketing, operations and market research across China and MENA.'}

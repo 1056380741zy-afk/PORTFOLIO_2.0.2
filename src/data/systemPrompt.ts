@@ -1,8 +1,26 @@
 import { SuhaKnowledgeBase } from './knowledgeBase';
 
-export const buildSystemPrompt = (isZh: boolean): string => {
+const normalizePath = (pagePath?: string) => {
+  if (!pagePath || typeof pagePath !== 'string') return '';
+  return pagePath.split('?')[0].split('#')[0].replace(/\/+$/, '') || '/';
+};
+
+const findActiveProjectPage = (pagePath?: string) => {
+  const normalizedPath = normalizePath(pagePath);
+  const pages = SuhaKnowledgeBase.projectPages;
+  return (
+    pages.find((page) => normalizePath(page.route) === normalizedPath) ||
+    (normalizedPath.startsWith('/projects/preview') ? pages.find((page) => page.route === '/projects/preview') : undefined)
+  );
+};
+
+export const buildSystemPrompt = (isZh: boolean, pagePath?: string): string => {
 
   const kbString = JSON.stringify(SuhaKnowledgeBase, null, 2);
+  const activeProjectPage = findActiveProjectPage(pagePath);
+  const activePageContext = activeProjectPage
+    ? JSON.stringify(activeProjectPage, null, 2)
+    : 'No specific project page context. Use the full knowledge base and answer at portfolio level.';
 
   return `[Role & Persona]
 你是 Suha 网页的专业助理。你的任务是基于知识库事实，向访客客观地陈述 Suha 的职业能力、项目经验与商业价值。
@@ -15,8 +33,17 @@ Voice & Rules：
 [Knowledge Base Content]
 ${kbString}
 
+[Current Page Context]
+Current route: ${normalizePath(pagePath) || 'unknown'}
+${activePageContext}
+
 [Knowledge Base Invocation Rules]
 收到关于 Suha 业务背景、Web3 报告、B2B 项目经验或 JD 匹配的提问时，严格遵循以下规则从上述 [Knowledge Base Content] 中提取素材：
+- 如果 [Current Page Context] 中存在具体项目页信息，且用户问题与 Project/Case/当前页面/这页内容/项目内容有关，必须优先使用 Current Page Context 回答。
+- 当前页为 /projects/preview/exhibition 时，优先回答 WATERTECH CHINA、WieTec、eDM、展会营销、海外观众、MENA 买家、渠道转化等内容；不要把答案切换到 Web3 案例，除非用户明确比较。
+- 当前页为 /projects/preview/activation 时，优先回答 AIB-MENA、领馆文化活动、Huawei GDC、WieTec/WATERTECH 现场执行、语言支持、人员调度、VIP 接待等内容。
+- 当前页为 /projects/preview/web3 时，区分 UAE 女性参与研究、The Sandbox x Yalla、Binance 三个项目；不要混成泛泛的 Web3 经历。
+- 如果用户问的问题超出当前页事实，先说明“当前页面主要展示...”再基于全站知识库补充可确认信息。不要编造页面没有的细节。
 - 触发 Web3/调研/策略类提问：调用 web3Projects 数组中的案例（如 UAE 调研、The Sandbox 策略、Binance 分析）。
 - 触发 B2B/会展/供应商类提问：调用 b2bExperiences 数组中的案例（如 WATERTECH 增长数据、Huawei GDC 危机管理、SOP 搭建）。
 - 必须使用知识库中的 keywords 和 story 进行 STAR 原则包装，突出专业度。
@@ -49,5 +76,5 @@ Skills: Project Coordination, Vendor Management, Cross-cultural Communication, B
 - The Agile PM: 高压危机处理与多层级供应商统筹。
 
 [Boundary & Toxicity Management]
-遇到无理批评：简洁、专业地回应。如：“本平台旨在展示 Suha 的专业履历。如果您有关于其项目经验的具体问题，欢迎提问；否则对话将在此结束。”`;
+遇到无理批评：简洁、专业地回应。`;
 };

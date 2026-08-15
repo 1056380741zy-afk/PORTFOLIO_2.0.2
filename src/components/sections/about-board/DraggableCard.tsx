@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, type PanInfo } from 'framer-motion';
+import { motion, useMotionValue } from 'framer-motion';
 import type { CardAdjustOffset, CardId } from './types';
 
 const RESTING_Z_INDEX: Record<CardId, number> = {
@@ -18,9 +18,9 @@ type DraggableCardProps = {
   initialRotate: number;
   activeId: CardId;
   setActiveId: (id: CardId) => void;
-  constraintsRef: React.RefObject<HTMLDivElement>;
   className?: string;
   visualScale?: number;
+  footprintScale?: number;
   adjustOffset?: CardAdjustOffset;
   onAdjustOffsetChange?: (id: CardId, nextOffset: CardAdjustOffset) => void;
 };
@@ -32,16 +32,23 @@ export const DraggableCard: React.FC<DraggableCardProps> = ({
   initialRotate,
   activeId,
   setActiveId,
-  constraintsRef,
   className = '',
   visualScale = 1,
+  footprintScale = 1,
   adjustOffset = { x: 0, y: 0, scale: 1 },
   onAdjustOffsetChange,
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
-  const dragStartOffsetRef = useRef({ x: 0, y: 0 });
   const [contentSize, setContentSize] = useState<{ width: number; height: number } | null>(null);
   const adjustedScale = visualScale * (adjustOffset.scale ?? 1);
+  const adjustedFootprintScale = adjustedScale * footprintScale;
+  const x = useMotionValue(adjustOffset.x);
+  const y = useMotionValue(adjustOffset.y);
+
+  useEffect(() => {
+    x.set(adjustOffset.x);
+    y.set(adjustOffset.y);
+  }, [adjustOffset.x, adjustOffset.y, x, y]);
 
   useEffect(() => {
     if (!contentRef.current) return;
@@ -62,42 +69,35 @@ export const DraggableCard: React.FC<DraggableCardProps> = ({
 
   const scaledSize = contentSize
     ? {
-        width: contentSize.width * adjustedScale,
-        height: contentSize.height * adjustedScale,
+        width: contentSize.width * adjustedFootprintScale,
+        height: contentSize.height * adjustedFootprintScale,
       }
     : undefined;
 
   return (
     <motion.div
       drag
-      dragConstraints={constraintsRef}
-      dragElastic={0.04}
       dragMomentum={false}
       dragTransition={{ bounceStiffness: 240, bounceDamping: 32, power: 0.12, timeConstant: 140 }}
       onDragStart={() => {
-        dragStartOffsetRef.current = { x: adjustOffset.x, y: adjustOffset.y };
         setActiveId(id);
       }}
-      onDragEnd={(_, info: PanInfo) => {
+      onDragEnd={() => {
         onAdjustOffsetChange?.(id, {
           ...adjustOffset,
-          x: Math.round(dragStartOffsetRef.current.x + info.offset.x),
-          y: Math.round(dragStartOffsetRef.current.y + info.offset.y),
+          x: Math.round(x.get()),
+          y: Math.round(y.get()),
         });
       }}
       onMouseDown={() => setActiveId(id)}
       initial={{
         top: initialPos.top,
         left: initialPos.left,
-        x: adjustOffset.x,
-        y: adjustOffset.y,
         rotate: initialRotate,
         opacity: 0,
       }}
       animate={{
         opacity: 1,
-        x: adjustOffset.x,
-        y: adjustOffset.y,
         rotate: initialRotate,
         zIndex: activeId === id ? 70 : RESTING_Z_INDEX[id],
       }}
@@ -107,7 +107,7 @@ export const DraggableCard: React.FC<DraggableCardProps> = ({
         transition: { duration: 0 },
       }}
       className={`absolute cursor-grab select-none ${className}`}
-      style={{ top: initialPos.top, left: initialPos.left, transformOrigin: 'top left', ...scaledSize }}
+      style={{ top: initialPos.top, left: initialPos.left, x, y, transformOrigin: 'top left', ...scaledSize }}
     >
       <div
         ref={contentRef}

@@ -34,7 +34,7 @@ const sanitizeMessages = (messages: any[] = []) =>
 
 app.post(['/api/chat', '/.netlify/functions/chat'], async (req, res) => {
   try {
-    const { messages, isZh } = req.body;
+    const { messages, isZh, pagePath } = req.body;
     const apiKey = process.env.DEEPSEEK_API_KEY;
 
     // 设置响应头为 Server-Sent Events (SSE) 以支持流式输出
@@ -50,7 +50,7 @@ app.post(['/api/chat', '/.netlify/functions/chat'], async (req, res) => {
 
     // 拼装符合 DeepSeek 要求的消息数组
     const formattedMessages = [
-      { role: 'system', content: buildSystemPrompt(!!isZh) },
+      { role: 'system', content: buildSystemPrompt(!!isZh, pagePath) },
       ...sanitizeMessages(messages)
     ];
 

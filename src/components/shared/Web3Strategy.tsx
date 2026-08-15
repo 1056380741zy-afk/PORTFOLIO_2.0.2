@@ -102,12 +102,11 @@ export const Web3Strategy: React.FC = () => {
           className="web3-research-dossier relative grid h-full min-h-0 grid-rows-[205px_minmax(0,1fr)] content-stretch gap-2.5 overflow-visible"
         >
           <div className="project-file-card relative z-10 h-full rounded-[8px] border-2 border-[#7e8966]/42 bg-[#7e8966]/8 p-3.5">
-            <div className="flex items-center justify-between gap-2">
-              <span className="font-mono text-[12px] font-bold uppercase text-[#5f6849]">
-                Case guide
-              </span>
-              <span className="h-1.5 w-16 rounded-full bg-[#7e8966]" />
-            </div>
+          <div className="flex items-center justify-between gap-2">
+            <span className="font-mono text-[12px] font-bold uppercase text-[#5f6849]">
+              Case guide
+            </span>
+          </div>
 
             <div className="mt-[5px] grid h-[151px] grid-cols-3 gap-2">
               {strategyData.map((item, itemIdx) => {

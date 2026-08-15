@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { AnimatePresence, motion, type PanInfo } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useMotionValue } from 'framer-motion';
 import { Check, Copy, Linkedin, Mail, MessageCircle } from 'lucide-react';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import type { CardAdjustOffset } from '../../sections/about-board/types';
@@ -9,19 +9,16 @@ type PostcardProps = {
   variant?: 'default' | 'archive';
   frontAdjust?: CardAdjustOffset;
   hideFront?: boolean;
-  onFrontAdjustChange?: (nextOffset: CardAdjustOffset) => void;
 };
 
 export const Postcard: React.FC<PostcardProps> = ({
   variant = 'default',
   frontAdjust,
   hideFront = false,
-  onFrontAdjustChange,
 }) => {
   const { t, language } = useLanguage();
   const [copied, setCopied] = useState(false);
   const [wechatQrOpen, setWechatQrOpen] = useState(false);
-  const frontDragStartRef = useRef({ x: 0, y: 0 });
   const copyTimeoutRef = useRef<number | null>(null);
   const email = "zy18964266810@outlook.com";
   const linkedInHandle = 'suha-zhu';
@@ -29,6 +26,13 @@ export const Postcard: React.FC<PostcardProps> = ({
   const wechatId = 'MeshSuha';
   const isCn = language === 'cn';
   const resolvedFrontAdjust = frontAdjust ?? { x: 10, y: 0, scale: 1 };
+  const frontX = useMotionValue(resolvedFrontAdjust.x);
+  const frontY = useMotionValue(resolvedFrontAdjust.y);
+
+  useEffect(() => {
+    frontX.set(resolvedFrontAdjust.x);
+    frontY.set(resolvedFrontAdjust.y);
+  }, [frontX, frontY, resolvedFrontAdjust.x, resolvedFrontAdjust.y]);
 
   const handleCopy = async () => {
     try {
@@ -176,7 +180,7 @@ export const Postcard: React.FC<PostcardProps> = ({
               <div className="mb-2 font-mono text-[8px] uppercase tracking-[0.22em] text-[#7e8966]/72">Scan Here</div>
               <div className="rounded-[8px] border border-[#7e8966]/18 bg-[rgba(255,255,255,0.7)] p-2 shadow-sm backdrop-blur-sm">
                 <img
-                  src="/images/wechat-meshsuha-qr.jpeg"
+                  src="/home/board/postcard/wechat-qr.jpeg"
                   alt="WeChat QR code for MeshSuha"
                   className="block w-full rounded-[8px]"
                 />
@@ -195,18 +199,16 @@ export const Postcard: React.FC<PostcardProps> = ({
   return (
     <motion.div
       className="home-contact-card relative w-[630px]"
-      animate={{ y: [0, -2, 0] }}
-      transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
     >
       <div
         className="home-postcard-enlarged pointer-events-none absolute -left-[120px] -top-[165px] z-0 h-[390px] w-[540px] rotate-[-8deg] overflow-hidden rounded-[8px] border border-[#8b785d]/22 bg-[#efe2c9] shadow-[0_18px_32px_rgba(76,58,34,0.2)]"
         aria-hidden="true"
       >
         <img
-          src="/images/postcard-desert-background.png"
+          src="/home/board/postcard/desert-ascii-telemetry.png"
           alt=""
-          width={1459}
-          height={1049}
+          width={1479}
+          height={1064}
           draggable={false}
           className="h-full w-full select-none object-cover"
         />
@@ -215,27 +217,14 @@ export const Postcard: React.FC<PostcardProps> = ({
       {!hideFront && (
       <motion.div
         className="home-postcard-enlarged relative z-20 w-[510px]"
-        drag
-        dragMomentum={false}
         initial={false}
         animate={{
-          x: resolvedFrontAdjust.x,
-          y: resolvedFrontAdjust.y,
           rotate: 5,
           scale: resolvedFrontAdjust.scale,
         }}
-        onPointerDown={(e) => e.stopPropagation()}
-        onDragStart={() => {
-          frontDragStartRef.current = { x: resolvedFrontAdjust.x, y: resolvedFrontAdjust.y };
-        }}
-        onDragEnd={(_, info: PanInfo) => {
-          onFrontAdjustChange?.({
-            ...resolvedFrontAdjust,
-            x: Math.round(frontDragStartRef.current.x + info.offset.x),
-            y: Math.round(frontDragStartRef.current.y + info.offset.y),
-          });
-        }}
         style={{
+          x: frontX,
+          y: frontY,
           transformOrigin: 'top left',
         }}
       >
@@ -348,41 +337,55 @@ export const Postcard: React.FC<PostcardProps> = ({
         </div>
       </div>
 
+      </motion.div>
+      )}
+
       <AnimatePresence>
-        {wechatQrOpen && (
+        {!hideFront && wechatQrOpen && (
           <motion.aside
             id="wechat-meshsuha-qr"
-            initial={{ x: -72, opacity: 0, rotate: -2 }}
-            animate={{ x: 0, opacity: 1, rotate: 0 }}
-            exit={{ x: -72, opacity: 0, rotate: -2 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
-            style={{ backgroundColor: 'rgba(252, 249, 240, 0.82)' }}
-            className="home-wechat-ticket absolute bottom-0 left-[491px] z-10 grid h-[148px] w-[292px] grid-cols-[112px_minmax(0,1fr)] gap-4 border border-[#7e8966]/22 bg-[rgba(252,249,240,0.82)] px-7 py-4 shadow-[0_18px_30px_rgba(90,70,45,0.14)] backdrop-blur-md"
+            style={{
+              x: frontX,
+              y: frontY,
+              transformOrigin: 'top left',
+            }}
+            className="home-wechat-ticket absolute left-[491px] top-[218px] z-10 mt-[90px] ml-[60px] h-[148px] w-[292px]"
           >
-            <div className="rounded-[7px] border border-[#7e8966]/18 bg-[rgba(255,255,255,0.7)] p-1.5 shadow-sm backdrop-blur-sm">
-              <img
-                src="/images/wechat-meshsuha-qr.jpeg"
-                alt="WeChat QR code for MeshSuha"
-                className="block w-full rounded-[5px]"
-              />
-            </div>
-            <div className="flex min-w-0 flex-col justify-between py-1">
-              <div>
-                <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#7e8966]/72">Scan Here</div>
-                <div className="mt-2 font-mono text-[15px] font-semibold uppercase tracking-[0.12em] text-[#26342f]/64">
-                  {wechatId}
+            <motion.div
+              initial={{ x: -72, rotate: 5 }}
+              animate={{ x: 0, rotate: 5 }}
+              exit={{ x: -72, rotate: 5 }}
+              transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
+              style={{ backgroundColor: 'rgba(252, 250, 250, 0.97)' }}
+              className="ml-[8px] grid h-full w-full grid-cols-[112px_minmax(0,1fr)] gap-4 border border-[#7e8966]/22 bg-[rgba(252,250,250,0.97)] px-[30px] py-4 shadow-[0_18px_30px_rgba(90,70,45,0.14)] backdrop-blur-md"
+            >
+              <div className="rounded-[7px] border border-[#7e8966]/18 bg-[rgba(255,255,255,0.7)] p-1.5 shadow-sm backdrop-blur-sm">
+                <img
+                  src="/home/board/postcard/wechat-qr.jpeg"
+                  alt="WeChat QR code for MeshSuha"
+                  className="block w-full rounded-[5px]"
+                />
+              </div>
+              <div className="flex min-w-0 flex-col justify-between py-1">
+                <div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#7e8966]/72">Scan Here</div>
+                  <div className="mt-2 font-mono text-[15px] font-semibold uppercase tracking-[0.12em] text-[#26342f]/64">
+                    {wechatId}
+                  </div>
+                </div>
+                <div className="flex items-center justify-between border-t border-dashed border-[#7e8966]/22 pt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[#26342f]/45">
+                  <span>Field Contact</span>
+                  <span>QR</span>
                 </div>
               </div>
-              <div className="flex items-center justify-between border-t border-dashed border-[#7e8966]/22 pt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[#26342f]/45">
-                <span>Field Contact</span>
-                <span>QR</span>
-              </div>
-            </div>
+            </motion.div>
           </motion.aside>
         )}
       </AnimatePresence>
-      </motion.div>
-      )}
     </motion.div>
   );
 };

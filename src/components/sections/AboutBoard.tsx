@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Postcard } from '../about/sections/Postcard';
 import { Blueprint, LanguageProficiency, Toolbox, StickyNote } from '../about/sections/AboutCards';
@@ -16,15 +16,15 @@ const CARD_CONTROLS: CardControl[] = [
   { id: 'sticky', label: 'Sticky' },
 ];
 
-const CARD_OFFSET_STORAGE_KEY = 'aboutBoardCardOffsets_v19';
+const CARD_OFFSET_STORAGE_KEY = 'aboutBoardCardOffsets_v23';
 
 const DEFAULT_CARD_OFFSETS: Record<CardId, CardAdjustOffset> = {
-  postcardBack: { x: 108, y: 78, scale: 0.83 },
-  postcardFront: { x: 10, y: 0, scale: 1 },
-  blueprint: { x: -14, y: 18, scale: 0.9 },
-  language: { x: 56, y: 122, scale: 0.88 },
-  toolbox: { x: -34, y: -4, scale: 0.84 },
-  sticky: { x: 20, y: -315, scale: 1 },
+  postcardBack: { x: 138, y: 164, scale: 0.8 },
+  postcardFront: { x: 378, y: 107, scale: 1 },
+  blueprint: { x: 26, y: 0, scale: 1 },
+  language: { x: -30, y: -96, scale: 1 },
+  toolbox: { x: 188, y: 19, scale: 1 },
+  sticky: { x: -60, y: -240, scale: 1 },
 };
 
 const ARCHIVE_CARD_OFFSETS: Record<CardId, CardAdjustOffset> = {
@@ -55,24 +55,24 @@ const normalizeCardOffsets = (
 const SpinePunchHoles: React.FC = () => {
   const holes = [
     { top: 0, height: 10 },
-    { top: 60, height: 16 },
-    { top: 96, height: 16 },
-    { top: 156, height: 10 },
-    { top: 216, height: 16 },
-    { top: 252, height: 16 },
-    { top: 312, height: 10 },
+    { top: 86, height: 16 },
+    { top: 132, height: 16 },
+    { top: 218, height: 10 },
+    { top: 304, height: 16 },
+    { top: 350, height: 16 },
+    { top: 436, height: 10 },
   ];
   const stripWidth = 30;
   const stripCenterX = stripWidth / 2;
   const svgHeight = 600;
-  const holeGroupHeight = 328;
-  const yOffset = 8;
+  const holeGroupHeight = 446;
+  const yOffset = 0;
   const holeStartY = svgHeight / 2 - holeGroupHeight / 2 + yOffset;
 
   return (
     <div
       className="absolute top-0 bottom-0 z-[220] pointer-events-none"
-      style={{ top: '7.5px', bottom: '7.5px', left: '-9px', width: `${stripWidth}px` }}
+      style={{ top: '8px', bottom: '8px', left: '-28px', width: `${stripWidth}px` }}
       aria-hidden="true"
     >
       <svg
@@ -106,33 +106,29 @@ const SpinePunchHoles: React.FC = () => {
 };
 
 type AboutBoardProps = {
-  cardDragConstraintsRef?: React.RefObject<HTMLDivElement>;
   releaseCardFrame?: boolean;
   layout?: 'default' | 'archive';
 };
 
 export const AboutBoard: React.FC<AboutBoardProps> = ({
-  cardDragConstraintsRef,
   releaseCardFrame = false,
   layout = 'default',
 }) => {
   const { t } = useLanguage();
   const [activeId, setActiveId] = useState<CardId>('toolbox');
-  const constraintsRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const [cardMenuOpen, setCardMenuOpen] = useState(false);
   const defaultCardOffsets = layout === 'archive' ? ARCHIVE_CARD_OFFSETS : DEFAULT_CARD_OFFSETS;
   const cardOffsetStorageKey = layout === 'archive' ? `${CARD_OFFSET_STORAGE_KEY}_archive_v2` : CARD_OFFSET_STORAGE_KEY;
   const [cardOffsets, setCardOffsets] = useState<Record<CardId, CardAdjustOffset>>(defaultCardOffsets);
   const [hiddenCards, setHiddenCards] = useState<Set<CardId>>(new Set());
-  const dragConstraintsRef = cardDragConstraintsRef ?? panelRef;
   const isArchiveLayout = layout === 'archive';
   const rootStyle = isArchiveLayout
     ? { boxSizing: 'border-box' as const, height: '100%', width: '100%' }
     : { boxSizing: 'border-box' as const, top: '-5px', height: 'calc(100% + 15px)', width: 'calc(100% - 5px)', marginRight: '-70px' };
   const panelStyle = isArchiveLayout
     ? { position: 'absolute' as const, inset: 0 }
-    : { position: 'absolute' as const, top: '8px', right: 0, bottom: '5px', left: '27px', marginRight: '35px', marginLeft: '10px' };
+    : { position: 'absolute' as const, top: '8px', right: 0, bottom: '10px', left: '27px', marginRight: '35px', marginLeft: '10px' };
 
   const toggleCardVisibility = (id: CardId) => {
     setHiddenCards((current) => {
@@ -175,7 +171,6 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
 
   return (
     <div 
-      ref={constraintsRef}
       className="relative h-full min-h-0"
       style={rootStyle}
     >
@@ -183,7 +178,9 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
         cardControls={CARD_CONTROLS}
         cardMenuOpen={cardMenuOpen}
         hiddenCards={hiddenCards}
-        onToggleCardMenu={() => setCardMenuOpen((open) => !open)}
+        onToggleCardMenu={() => {
+          setCardMenuOpen((open) => !open);
+        }}
         onToggleCardVisibility={toggleCardVisibility}
       />
 
@@ -222,7 +219,6 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
         initialRotate={isArchiveLayout ? -1 : -4}
         activeId={activeId}
         setActiveId={setActiveId}
-        constraintsRef={dragConstraintsRef}
         className={isArchiveLayout ? 'archive-card-postcard' : ''}
         visualScale={isArchiveLayout ? 0.82 : 0.72975}
         adjustOffset={cardOffsets.postcardBack}
@@ -232,7 +228,6 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
           variant={isArchiveLayout ? 'archive' : 'default'}
           frontAdjust={cardOffsets.postcardFront}
           hideFront={hiddenCards.has('postcardFront')}
-          onFrontAdjustChange={(nextOffset) => updateCardOffsetSnapshot('postcardFront', nextOffset)}
         />
       </DraggableCard>
       )}
@@ -240,11 +235,10 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
       {!hiddenCards.has('blueprint') && (
       <DraggableCard
         id="blueprint"
-        initialPos={isArchiveLayout ? { top: '45%', left: '35%' } : { top: '55%', left: '8%' }}
+        initialPos={isArchiveLayout ? { top: '45%', left: '35%' } : { top: 'calc(55% - 25px)', left: '8%' }}
         initialRotate={isArchiveLayout ? 0 : -5.5}
         activeId={activeId}
         setActiveId={setActiveId}
-        constraintsRef={dragConstraintsRef}
         className={isArchiveLayout ? 'archive-card-blueprint' : ''}
         visualScale={isArchiveLayout ? 0.74 : 0.76}
         adjustOffset={cardOffsets.blueprint}
@@ -261,7 +255,6 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
         initialRotate={isArchiveLayout ? 0 : -1}
         activeId={activeId}
         setActiveId={setActiveId}
-        constraintsRef={dragConstraintsRef}
         className={isArchiveLayout ? 'archive-card-language' : ''}
         visualScale={isArchiveLayout ? 0.74 : 0.783}
         adjustOffset={cardOffsets.language}
@@ -278,9 +271,9 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
         initialRotate={isArchiveLayout ? 0 : 4}
         activeId={activeId}
         setActiveId={setActiveId}
-        constraintsRef={dragConstraintsRef}
         className={isArchiveLayout ? 'archive-card-toolbox' : ''}
         visualScale={isArchiveLayout ? 0.68 : 0.684}
+        footprintScale={isArchiveLayout ? 1 : 0.85}
         adjustOffset={cardOffsets.toolbox}
         onAdjustOffsetChange={updateCardOffsetSnapshot}
       >

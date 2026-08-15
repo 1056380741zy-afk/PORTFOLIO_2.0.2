@@ -131,14 +131,14 @@ export const translations = {
           label: 'Independent Research',
           sidebarTitle: "Women’s Participation in UAE Web3",
           sidebarTags: ['Independent', 'Mixed Methods', 'User Insight'],
-          banner: "/images/Project 3-Institutional and Cultural Drivers of Women's Participation in the UAE WEB3.webp",
+          banner: '/projects/web3/uae-women-banner.webp',
           projectTag: 'Independent Research Project',
           fullTitle: "Research-Driven Strategy: UAE & Women Participation",
           description: "Institutional, cultural and platform factors shaping women's participation in UAE Web3.",
           subtitle: 'Selected academic and strategy projects exploring users, partnerships and market expansion in the UAE and wider MENA ecosystem.',
           duration: 'Academic Research Project',
           focusLabel: 'QUESTION',
-          focus: 'How do institutional, cultural and platform factors shape women’s entry, retention and advancement in the UAE Web3 ecosystem?',
+          focus: 'How do institutional, cultural and platform factors shape women’s entry, retention and advancement in the UAE Web3 ecosystem.',
           roleLabel: 'MY ROLE',
           role: 'Research framework · Survey and interview planning · Primary research · Insight synthesis',
           methodLabel: 'METHOD',
@@ -146,7 +146,7 @@ export const translations = {
           skills: 'Mixed-method Research｜User Insight｜Inclusion Strategy',
           process: 'Survey responses · Interviews · Mixed-method analysis',
           output: 'A research report mapping barriers and support mechanisms related to access, recognition and platform inclusiveness, with implications for segmentation and inclusive user growth.',
-          infographic: '/images/WEB3 infographic.webp',
+          infographic: '/projects/web3/uae-women-infographic.webp',
           infographicTag: 'Edited by AnyGen',
           blocks: [
             { icon: '📋', label: 'METHOD', badge: 'Mixed methods', text: 'Survey responses and interviews · Entry → Retention → Advancement framework.' },
@@ -160,7 +160,7 @@ export const translations = {
           label: '',
           sidebarTitle: 'The Sandbox × Yalla Strategy',
           sidebarTags: ['Team Project', 'Partnership', 'Localization'],
-          banner: '/images/Project 1-Cooperative strategy between The SANDBOX & Yalla.webp',
+          banner: '/projects/web3/sandbox-yalla-banner.webp',
           projectTag: 'Team Collaboration Project',
           fullTitle: 'Platform Collaboration Strategy: The Sandbox & Yalla',
           description: 'MENA market entry, social platform synergy and a lower-risk alliance route.',
@@ -175,7 +175,7 @@ export const translations = {
           skills: 'Partnership Analysis｜Localization',
           process: 'Market-entry analysis · Partnership-fit assessment · Risk mapping',
           output: 'A staged partnership roadmap moving from lower-risk pilots toward localized operations, covering community activation, content collaboration, user conversion and execution risks.',
-          infographic: '/images/SANDBOX infographic.webp',
+          infographic: '/projects/web3/sandbox-infographic.webp',
           infographicTag: 'Edited by Canva',
           blocks: [
             { icon: '⚖️', label: 'FRAMEWORK', badge: "Porter's Five Forces", text: "VARA as entry enabler. Yalla's 38.99M MAU as localization moat." },
@@ -189,7 +189,7 @@ export const translations = {
           label: '',
           sidebarTitle: 'Binance Expansion & Compliance',
           sidebarTags: ['Team Project', 'Regulation', 'Compliance'],
-          banner: '/images/Project 2-Stategic Analysis and Recommendations for BINANCE.webp',
+          banner: '/projects/web3/binance-banner.webp',
           projectTag: 'Team Collaboration Project',
           fullTitle: 'Exchange Market Strategy: Binance Case Project',
           description: 'Regulatory, platform and regional signals for exchange expansion strategy.',
@@ -204,7 +204,7 @@ export const translations = {
           skills: 'Compliance Mapping｜Strategic Analysis',
           process: 'PESTEL · SWOT · Regional regulation comparison · Compliance mapping',
           output: 'A strategic analysis distinguishing growth-ready and cautious-entry markets, with proposed directions for balancing expansion, regulatory readiness and local operating conditions.',
-          infographic: '/images/BINANCE infographic.webp',
+          infographic: '/projects/web3/binance-infographic.webp',
           infographicTag: 'Edited by ChatGPT',
           blocks: [
             { icon: '🧩', label: 'FRAMEWORK', badge: 'Dynamic Capabilities', text: 'Sensing / Seizing / Transforming applied post $4.3B DOJ settlement and executive exodus.' },
@@ -263,7 +263,7 @@ export const translations = {
           open: { label: "Open Rate", value: "30.18%", avg: "Campaign audience engagement", delta: "High engagement" },
           ctr: { label: "CTR", value: "8.50%", avg: "Direct click-through from eDM", delta: "Direct result" }
         },
-        impact: "Outperformed B2B industry benchmarks by up to 220% in engagement, validating the high quality of lead segmentation and content localization (Source: Mailchimp 2024)."
+        impact: "The eDM flow produced measurable direct engagement and click-to-registration results, supporting a more traceable conversion path from campaign content to visitor registration."
       },
       case2: {
         tag: "Case 2",
@@ -568,7 +568,7 @@ export const translations = {
           label: '独立研究',
           sidebarTitle: "阿联酋 Web3 行业中的女性参与",
           sidebarTags: ['独立研究', '混合研究', '用户洞察'],
-          banner: "/images/Project 3-Institutional and Cultural Drivers of Women's Participation in the UAE WEB3.webp",
+          banner: '/projects/web3/uae-women-banner.webp',
           projectTag: '独立研究项目',
           fullTitle: "调研驱动策略：阿联酋与女性参与",
           description: '制度、文化与平台因素如何影响阿联酋 Web3 女性参与。',
@@ -583,7 +583,7 @@ export const translations = {
           skills: '混合研究｜用户洞察｜包容性增长策略',
           process: '问卷调查 · 访谈记录 · 混合研究方法',
           output: '形成研究报告，梳理与准入、认可及平台包容性相关的主要障碍与支持机制，并提炼其对用户细分及包容性增长的启示。',
-          infographic: '/images/WEB3 infographic.webp',
+          infographic: '/projects/web3/uae-women-infographic.webp',
           infographicTag: 'Edited by AnyGen',
           blocks: [
             { icon: '📋', label: '方法论', badge: '混合研究', text: '问卷与访谈 · 进入 → 留存 → 发展框架。' },
@@ -597,7 +597,7 @@ export const translations = {
           label: '',
           sidebarTitle: 'The Sandbox × Yalla 合作战略',
           sidebarTags: ['团队项目', '合作分析', '本地化'],
-          banner: "/images/Project 1-Cooperative strategy between The SANDBOX & Yalla.webp",
+          banner: '/projects/web3/sandbox-yalla-banner.webp',
           projectTag: '团队合作项目',
           fullTitle: '平台协作策略：The Sandbox & Yalla',
           description: '围绕 MENA 市场进入、社交平台协同与低风险联盟路线展开。',
@@ -612,7 +612,7 @@ export const translations = {
           skills: '合作分析｜本地化',
           process: '市场进入分析 · 合作匹配度评估 · 风险梳理',
           output: '形成分阶段合作路线，从低风险试点逐步推进至本地化运营，覆盖社区激活、内容合作、用户转化与执行风险。',
-          infographic: '/images/SANDBOX infographic.webp',
+          infographic: '/projects/web3/sandbox-infographic.webp',
           infographicTag: 'Edited by Canva',
           blocks: [
             { icon: '⚖️', label: '分析框架', badge: "波特五力模型", text: "VARA 作为准入推动者。Yalla 的 3899 万月活作为本地化护城河。" },
@@ -626,7 +626,7 @@ export const translations = {
           label: '',
           sidebarTitle: 'Binance 扩张与合规分析',
           sidebarTags: ['团队项目', '监管研究', '合规分析'],
-          banner: '/images/Project 2-Stategic Analysis and Recommendations for BINANCE.webp',
+          banner: '/projects/web3/binance-banner.webp',
           projectTag: '团队合作项目',
           fullTitle: '交易所市场策略：币安案例项目',
           description: '从监管、平台能力和区域机会判断交易所扩张路径。',
@@ -641,7 +641,7 @@ export const translations = {
           skills: '合规映射｜战略分析',
           process: 'PESTEL · SWOT · 区域监管比较 · 合规映射',
           output: '形成战略分析，区分适合增长与需要谨慎进入的市场，并提出平衡扩张、监管准备度及本地运营条件的建议方向。',
-          infographic: '/images/BINANCE infographic.webp',
+          infographic: '/projects/web3/binance-infographic.webp',
           infographicTag: 'Edited by ChatGPT',
           blocks: [
             { icon: '🧩', label: '分析框架', badge: '动态能力', text: '在 43 亿美元 DOJ 和解及高管离职后应用 感知 / 捕捉 / 转型 框架。' },
@@ -700,7 +700,7 @@ export const translations = {
           open: { label: "打开率", value: "30.18%", avg: "项目受众互动表现", delta: "高互动" },
           ctr: { label: "点击率", value: "8.50%", avg: "来自 eDM 的直接点击", delta: "直接结果" }
         },
-        impact: "在互动指标上超出 B2B 行业基准高达 220%，验证了线索分层与内容本地化的高质量策略 (来源: Mailchimp 2024)。"
+        impact: "该 eDM 流程形成了可追踪的直接互动与点击后预登记结果，证明内容触达、CTA 路径与观众登记之间的转化链路更清晰。"
       },
       case2: {
         tag: "案例 2",

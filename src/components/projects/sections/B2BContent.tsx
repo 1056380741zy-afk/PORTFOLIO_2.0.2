@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import {
   ArrowRight,
   CalendarDays,
+  FileText,
+  Film,
   Globe2,
-  Mail,
+  Layers,
   Megaphone,
   Sparkles,
   Target,
@@ -20,15 +22,19 @@ import { Card } from '../../shared/Card';
 import { MetricItem } from '../MetricItem';
 import { StrategicBlock, StrategicItem } from '../StrategicBlock';
 import { ExhibitionGridCard } from '../ExhibitionGridCard';
-import { ProjectCaseCard } from '../ProjectCaseCard';
-import { EvidenceFrame, EvidenceSlip } from '../../shared/ArchivePrimitives';
+import { EvidenceFrame } from '../../shared/ArchivePrimitives';
 import { ArchiveCtaLink, DecorativeIcon } from '../../shared/DecorativeIcon';
 
 const ExhibitionPerformance = lazy(() => import('../../shared/ExhibitionPerformance').then((module) => ({
   default: module.ExhibitionPerformance,
 })));
 const projectCardSurface = 'project-case-strategy-card information-hover-card channel-strategy-card';
-const FEATURED_VIDEO_SRC = '/images/freecompress-demo.mp4?v=20260709c';
+const FEATURED_VIDEO_SRC = '/projects/exhibition/campaign-video.mp4?v=20260709c';
+const VIDEO_POSTER_FALLBACK_SRC = '/projects/activation/watertech-banner.jpg';
+const EDM_PDF_SRC = '/projects/exhibition/edm-campaign.pdf';
+const LANDING_PAGE_PDF_SRC = '/projects/exhibition/localization-landing-page.pdf';
+const EDM_PDF_PREVIEW_SRC = '/projects/exhibition/edm-preview.jpg';
+const LANDING_PAGE_PDF_PREVIEW_SRC = '/projects/exhibition/localization-preview.jpg';
 
 // ─── Section Divider Line ──────────────────────────────────────────────────
 export const SectionDividerLine: React.FC<{ label: string; sublabel?: string; className?: string }> = ({ label, sublabel, className = '' }) => (
@@ -75,12 +81,10 @@ interface ActivationPreviewCase {
 }
 
 const activationImageDimensions: Record<string, { width: number; height: number }> = {
-  '/images/aib-mena-Header-Logo.png': { width: 1280, height: 256 },
-  '/projects/card04-transparent.webp': { width: 2172, height: 724 },
-  '/projects/card02-transparent.webp': { width: 1448, height: 1086 },
-  '/images/Consulate%20General%20of%20China%20in%20Dubai.jpg': { width: 1280, height: 853 },
-  '/images/Huawei.jpeg': { width: 1280, height: 580 },
-  '/images/Banner%202425.jpg': { width: 1280, height: 693 },
+  '/projects/activation/aib-mena-header-logo.png': { width: 1280, height: 256 },
+  '/projects/activation/china-consulate-dubai.jpg': { width: 1280, height: 853 },
+  '/projects/activation/huawei-gdc.jpeg': { width: 1280, height: 580 },
+  '/projects/activation/watertech-banner.jpg': { width: 1280, height: 693 },
 };
 
 const activationPreviewCases: ActivationPreviewCase[] = [
@@ -96,7 +100,7 @@ const activationPreviewCases: ActivationPreviewCase[] = [
     tags: ['University', 'Conference'],
     languages: ['English', 'Chinese'],
     roles: ['Event Support', 'On-site Operations', 'Chinese & English Communication'],
-    image: '/images/aib-mena-Header-Logo.png',
+    image: '/projects/activation/aib-mena-header-logo.png',
     imageMode: 'contain',
     metrics: [
       { icon: UsersRound, label: 'Scale', value: '130+ Delegates · 31 Countries' },
@@ -116,7 +120,7 @@ const activationPreviewCases: ActivationPreviewCase[] = [
     tags: ['Cultural', 'Diplomatic Event'],
     languages: ['Chinese', 'English', 'Arabic'],
     roles: ['Multilingual Guest Communication', 'Venue Support', 'On-site Coordination'],
-    image: '/images/Consulate%20General%20of%20China%20in%20Dubai.jpg',
+    image: '/projects/activation/china-consulate-dubai.jpg',
     imageMode: 'cover',
     metrics: [
       { icon: UsersRound, label: 'Scale', value: '150+ International Guests' },
@@ -136,7 +140,7 @@ const activationPreviewCases: ActivationPreviewCase[] = [
     tags: ['Summit', 'Digital Infrastructure'],
     languages: ['English', 'Chinese', 'Arabic'],
     roles: ['Staff Allocation', 'Cross-team Communication', 'VIP Reception', 'Real-time Issue Response'],
-    image: '/images/Huawei.jpeg',
+    image: '/projects/activation/huawei-gdc.jpeg',
     imageMode: 'cover',
     metrics: [
       { icon: UsersRound, label: 'Scale', value: '500+ Experts · Leaders · Partners' },
@@ -155,7 +159,7 @@ const activationPreviewCases: ActivationPreviewCase[] = [
     tags: ['Exhibition', 'Water Industry'],
     languages: ['Chinese', 'English'],
     roles: ['Event Support', 'Language Support'],
-    image: '/images/Banner%202425.jpg',
+    image: '/projects/activation/watertech-banner.jpg',
     imageMode: 'contain',
     metrics: [
       { icon: UsersRound, label: 'Scale', value: '100,000+ Visitors · 175+ Countries' },
@@ -178,7 +182,7 @@ const activationPreviewCasesCn: ActivationPreviewCase[] = [
     tags: ['大学', '会议'],
     languages: ['英语', '中文'],
     roles: ['活动支持 · 现场运营', '中英双语沟通'],
-    image: '/images/aib-mena-Header-Logo.png',
+    image: '/projects/activation/aib-mena-header-logo.png',
     imageMode: 'contain',
     metrics: [
       { icon: UsersRound, label: '规模', value: '130+ 位代表 · 来自31个国家' },
@@ -198,7 +202,7 @@ const activationPreviewCasesCn: ActivationPreviewCase[] = [
     tags: ['文化', '外交活动'],
     languages: ['中文', '英语', '阿语'],
     roles: ['多语种嘉宾沟通', '会场支持 · 现场协调'],
-    image: '/images/Consulate%20General%20of%20China%20in%20Dubai.jpg',
+    image: '/projects/activation/china-consulate-dubai.jpg',
     imageMode: 'cover',
     metrics: [
       { icon: UsersRound, label: '规模', value: '150+ 位国际嘉宾' },
@@ -218,7 +222,7 @@ const activationPreviewCasesCn: ActivationPreviewCase[] = [
     tags: ['峰会', '数字基础设施'],
     languages: ['英语', '中文', '阿语'],
     roles: ['人员调度 · 跨团队沟通', 'VIP接待 · 实时问题响应'],
-    image: '/images/Huawei.jpeg',
+    image: '/projects/activation/huawei-gdc.jpeg',
     imageMode: 'cover',
     metrics: [
       { icon: UsersRound, label: '规模', value: '500+ 技术专家 · 行业领袖 · 合作伙伴' },
@@ -237,7 +241,7 @@ const activationPreviewCasesCn: ActivationPreviewCase[] = [
     tags: ['展会', '水处理行业'],
     languages: ['中文', '英语'],
     roles: ['展会支持 · 语言支持'],
-    image: '/images/Banner%202425.jpg',
+    image: '/projects/activation/watertech-banner.jpg',
     imageMode: 'contain',
     metrics: [
       { icon: UsersRound, label: '规模', value: '10万+ 观众 · 覆盖175+国家和地区' },
@@ -395,6 +399,7 @@ export const B2BContent: React.FC<B2BContentProps> = ({ initialSection = null })
   const [videoPoster, setVideoPoster] = React.useState<string | undefined>(undefined);
   const videoContainerRef = React.useRef<HTMLDivElement | null>(null);
   const hasCapturedRef = React.useRef(false);
+  const isCn = language === 'cn';
 
   React.useEffect(() => {
     if (!initialSection) return;
@@ -457,12 +462,35 @@ export const B2BContent: React.FC<B2BContentProps> = ({ initialSection = null })
   }, []);
 
   if (initialSection === 'activation') {
-    return <ActivationPreviewBoard isCn={language === 'cn'} />;
+    return <ActivationPreviewBoard isCn={isCn} />;
   }
 
   const showExhibition = initialSection !== 'activation';
   const showActivation = initialSection !== 'exhibition';
-
+  const exhibitionOwnership = isCn
+    ? [
+        { label: '直接负责', value: 'eDM 结构优化 · CTA 链接矩阵 · RTL 视觉适配' },
+        { label: '协作交付', value: '社媒素材支持 · 渠道内容协同 · 供应商/团队沟通' },
+        { label: '项目背景', value: '海外观众增长 · 买家质量 · MENA 市场信号' },
+      ]
+    : [
+        { label: 'Direct Ownership', value: 'eDM structure · CTA link matrix · RTL visual adaptation' },
+        { label: 'Collaborative Work', value: 'Social assets · Channel coordination · Vendor/team communication' },
+        { label: 'Project Context', value: 'Overseas growth · Buyer quality · MENA market signal' },
+      ];
+  const channelMatrix = isCn
+    ? [
+        { logo: 'M/G', channel: 'Meta / Google', responsibility: '广告素材与投放内容支持', deliverable: 'Banner · CTA 路径 · Campaign copy' },
+        { logo: 'T/L', channel: 'TikTok / LinkedIn', responsibility: '平台素材适配与传播节奏', deliverable: '短视频素材 · 专业受众触达' },
+        { logo: 'WEB', channel: 'Website / WordPress', responsibility: '报名路径与落地页协同', deliverable: '页面入口 · 追踪链接 · 内容更新' },
+        { logo: 'WA', channel: 'WhatsApp / eDM', responsibility: '私域响应与邮件转化链路', deliverable: '询盘流转 · eDM 模板 · 注册链接' },
+      ]
+    : [
+        { logo: 'M/G', channel: 'Meta / Google', responsibility: 'Ad creative and campaign-content support', deliverable: 'Banners · CTA paths · Campaign copy' },
+        { logo: 'T/L', channel: 'TikTok / LinkedIn', responsibility: 'Platform asset adaptation and pacing', deliverable: 'Short-form assets · Professional audience reach' },
+        { logo: 'WEB', channel: 'Website / WordPress', responsibility: 'Registration path and landing-page coordination', deliverable: 'Entry points · Tracking links · Content updates' },
+        { logo: 'WA', channel: 'WhatsApp / eDM', responsibility: 'Private-domain response and email conversion flow', deliverable: 'Inquiry handoff · eDM templates · Registration links' },
+      ];
   return (
     <div className="flex flex-col gap-20">
 
@@ -476,141 +504,193 @@ export const B2BContent: React.FC<B2BContentProps> = ({ initialSection = null })
           />
         )}
 
-        <div className="flex flex-col gap-12">
-
-          {/* Channel Strategy */}
-          <div className="mt-[10px] pr-[5px]">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="decorative-icon decorative-icon-framed decorative-icon-framed-lg"><Mail /></span>
-              <h5 className="font-bold text-text-dark text-xl tracking-wide">{t.projects.channelStrategy}</h5>
-            </div>
-
-            <div className="flex flex-col gap-8 pl-4 border-l-2 border-[#2d2d2d]/5 ml-5">
-
-              {/* Case 1: EDM Optimization */}
-              <ProjectCaseCard
-                title={t.projects.case1.title}
-                tag={t.projects.case1.tag}
-                icon={<TrendingUp />}
-                imageSrc="/images/freecompress-EDM.pdf"
-                imageTitle="eDM Design PDF"
-                imageDesc={t.projects.case1.desc}
-              >
-                <Card depth={2} className={`field-note !rounded-[8px] p-6 flex-1 ${projectCardSurface}`}>
-                  <StrategicBlock icon={<Target />} title={t.projects.case1.taskTitle} description={t.projects.case1.taskDesc}>
-                    <StrategicItem text={t.projects.case1.painPoint} />
-                    <StrategicItem text={t.projects.case1.limitation} />
-                  </StrategicBlock>
-                </Card>
-
-                <Card depth={2} className={`field-note !rounded-[8px] p-6 flex-1 ${projectCardSurface}`}>
-                  <StrategicBlock icon={<Zap />} title={t.projects.case1.actionTitle} description={t.projects.case1.actionDesc}>
-                    <StrategicItem text={t.projects.case1.action1} type="tag" />
-                    <StrategicItem text={t.projects.case1.action2} type="tag" />
-                    <StrategicItem text={t.projects.case1.action3} type="tag" />
-                  </StrategicBlock>
-                </Card>
-
-                <Card depth={2} className={`evidence-slip !rounded-[8px] p-6 flex-1 ${projectCardSurface}`}>
-                  <h5 className="information-card-title font-bold text-text-dark mb-4 flex items-center gap-3 text-sm tracking-wide">
-                    <span className="decorative-icon"><Trophy /></span>
-                    {t.projects.case1.resultTitle}
-                  </h5>
-                  <div className="grid grid-cols-3 gap-2 mb-5 border-b border-[#2d2d2d]/5 pb-5">
-                    <MetricItem label={t.projects.case1.metrics?.open.label} value={t.projects.case1.metrics?.open.value} avg={t.projects.case1.metrics?.open.avg} delta={t.projects.case1.metrics?.open.delta} isInteractive />
-                    <MetricItem label={t.projects.case1.metrics?.ctr.label} value={t.projects.case1.metrics?.ctr.value} avg={t.projects.case1.metrics?.ctr.avg} delta={t.projects.case1.metrics?.ctr.delta} isInteractive />
-                    <MetricItem label={t.projects.case1.metrics?.deliver.label} value={t.projects.case1.metrics?.deliver.value} avg={t.projects.case1.metrics?.deliver.avg} delta={t.projects.case1.metrics?.deliver.delta} isInteractive />
-                  </div>
-                  <p className="text-xs text-gray-500 leading-relaxed" dangerouslySetInnerHTML={{ __html: t.projects.case1.impact }} />
-                </Card>
-              </ProjectCaseCard>
-
-              {/* Case 2: EDM Localization */}
-              <div className="pt-8 border-t border-[#2d2d2d]/5 border-dashed">
-                <ProjectCaseCard
-                  title={t.projects.case2.title}
-                  tag={t.projects.case2.tag}
-                  icon={<Globe2 />}
-                  imageSrc="/images/Landing Page_1420x4000.pdf"
-                  imageTitle="Landing Page Localization PDF"
-                  imageDesc={t.projects.case2.desc}
-                >
-                  <Card depth={2} className={`field-note !rounded-[8px] p-6 flex-1 ${projectCardSurface}`}>
-                    <StrategicBlock icon={<Target />} title={t.projects.case2.taskTitle} description={t.projects.case2.taskDesc}>
-                      <StrategicItem text={t.projects.case2.difficulty} />
-                      <StrategicItem text={t.projects.case2.req} />
-                    </StrategicBlock>
-                  </Card>
-
-                  <Card depth={2} className={`field-note !rounded-[8px] p-6 flex-1 ${projectCardSurface}`}>
-                    <StrategicBlock icon={<Zap />} title={t.projects.case2.actionTitle} description={t.projects.case2.actionDesc}>
-                      <StrategicItem text={t.projects.case2.action1} type="tag" />
-                      <StrategicItem text={t.projects.case2.action2} type="tag" />
-                    </StrategicBlock>
-                  </Card>
-
-                  <Card depth={2} className={`evidence-slip !rounded-[8px] p-6 flex-1 ${projectCardSurface}`}>
-                    <h5 className="information-card-title font-bold text-text-dark mb-4 flex items-center gap-3 text-sm tracking-wide">
-                      <span className="decorative-icon"><Trophy /></span>
-                      {t.projects.case2.resultTitle}
-                    </h5>
-                    <p className="text-sm font-bold text-text-dark mb-2 leading-snug">{t.projects.case2.impactTitle}</p>
-                    <div className="space-y-3">
-                      <StrategicItem label="MENA Market Coverage" text={t.projects.case2.impact1} type="tag" />
-                      <StrategicItem label="WA Channel Activation" text={t.projects.case2.impact2} type="tag" />
-                    </div>
-                  </Card>
-                </ProjectCaseCard>
+        <div className="exhibition-restructure flex flex-col gap-10">
+          <section className="exhibition-case-intro">
+            <div className="exhibition-section-heading exhibition-section-heading-compact">
+              <div>
+                <p>{isCn ? 'CASE INTRO / PROJECT CONTEXT' : 'CASE INTRO / PROJECT CONTEXT'}</p>
               </div>
             </div>
-          </div>
-
-          {/* Digital & Social Matrix */}
-          <div className="pr-[10px]">
-            <div className="mb-6">
-              <div className="flex items-center gap-3">
-                <span className="decorative-icon decorative-icon-framed decorative-icon-framed-lg"><Megaphone /></span>
-                <h5 className="font-bold text-text-dark text-xl tracking-wide">{t.projects.digitalMatrix.title}</h5>
-              </div>
-              <p className="text-gray-400 text-base italic font-medium mt-1 ml-[3.25rem]">
-                {t.projects.digitalMatrix.subtitle}
-              </p>
+            <div className="exhibition-ownership-grid">
+              {exhibitionOwnership.map((item) => (
+                <Card key={item.label} depth={2} className="information-hover-card exhibition-ownership-card !rounded-[8px] p-4">
+                  <span>{item.label}</span>
+                  <p>{item.value}</p>
+                </Card>
+              ))}
             </div>
+          </section>
 
-            <div className="pl-5 border-l-2 border-[#2d2d2d]/5 ml-5">
-              <Card depth={2} className="project-case-strategy-card !rounded-[8px] !bg-transparent w-full p-4 relative group mb-10 shadow-none" ref={videoContainerRef}>
-                <div className="absolute top-4 right-4 bg-[#2d2d2d]/60 text-white px-3 py-1 rounded-full text-[10px] font-bold backdrop-blur-sm z-10">
-                  {t.projects.digitalMatrix.featuredVideo}
+          <section className="exhibition-case-record exhibition-case-record-edm">
+            <Card depth={2} className="archive-surface exhibition-evidence-card !rounded-[8px] p-4">
+              <div className="exhibition-card-heading">
+                <span className="decorative-icon decorative-icon-framed"><FileText /></span>
+                <div>
+                  <p>{t.projects.case1.tag}</p>
+                  <h5>{t.projects.case1.title}</h5>
                 </div>
-                <div className="w-full aspect-video bg-[#2d2d2d] rounded-[8px] overflow-hidden shadow-sm relative">
-                  <video key={FEATURED_VIDEO_SRC} controls preload="none" className="h-full w-full rounded-[8px] object-cover" poster={videoPoster}>
+              </div>
+              <EvidenceFrame
+                className="evidence-document-frame exhibition-pdf-preview"
+                caption={t.projects.case1.desc}
+                source="eDM Design PDF"
+                mediaType="PDF PREVIEW"
+              >
+                <a href={EDM_PDF_SRC} target="_blank" rel="noreferrer" aria-label="Open eDM Design PDF">
+                  <img
+                    src={EDM_PDF_PREVIEW_SRC}
+                    alt={t.projects.case1.desc}
+                    width={1200}
+                    height={2016}
+                    loading="eager"
+                    decoding="async"
+                  />
+                </a>
+              </EvidenceFrame>
+            </Card>
+
+            <div className="exhibition-case-copy-stack">
+              <Card depth={2} className={`field-note !rounded-[8px] p-6 ${projectCardSurface}`}>
+                <StrategicBlock icon={<Target />} title={t.projects.case1.taskTitle} description={t.projects.case1.taskDesc}>
+                  <StrategicItem text={t.projects.case1.painPoint} />
+                  <StrategicItem text={t.projects.case1.limitation} />
+                </StrategicBlock>
+              </Card>
+
+              <Card depth={2} className={`field-note !rounded-[8px] p-6 ${projectCardSurface}`}>
+                <StrategicBlock icon={<Zap />} title={t.projects.case1.actionTitle} description={t.projects.case1.actionDesc}>
+                  <StrategicItem text={t.projects.case1.action1} type="tag" />
+                  <StrategicItem text={t.projects.case1.action2} type="tag" />
+                  <StrategicItem text={t.projects.case1.action3} type="tag" />
+                </StrategicBlock>
+              </Card>
+
+              <Card depth={2} className={`evidence-slip !rounded-[8px] p-6 ${projectCardSurface}`}>
+                <h5 className="information-card-title font-bold text-text-dark mb-4 flex items-center gap-3 text-sm tracking-wide">
+                  <span className="decorative-icon"><Trophy /></span>
+                  {t.projects.case1.resultTitle}
+                </h5>
+                <div className="grid grid-cols-3 gap-2 mb-5 border-b border-[#2d2d2d]/5 pb-5">
+                  <MetricItem label={t.projects.case1.metrics?.open.label} value={t.projects.case1.metrics?.open.value} avg={t.projects.case1.metrics?.open.avg} delta={t.projects.case1.metrics?.open.delta} isInteractive />
+                  <MetricItem label={t.projects.case1.metrics?.ctr.label} value={t.projects.case1.metrics?.ctr.value} avg={t.projects.case1.metrics?.ctr.avg} delta={t.projects.case1.metrics?.ctr.delta} isInteractive />
+                  <MetricItem label={t.projects.case1.metrics?.deliver.label} value={t.projects.case1.metrics?.deliver.value} avg={t.projects.case1.metrics?.deliver.avg} delta={t.projects.case1.metrics?.deliver.delta} isInteractive />
+                </div>
+                <p className="text-xs text-gray-500 leading-relaxed" dangerouslySetInnerHTML={{ __html: t.projects.case1.impact }} />
+              </Card>
+            </div>
+          </section>
+
+          <section className="exhibition-case-record exhibition-case-record-localization">
+            <Card depth={2} className="archive-surface exhibition-evidence-card !rounded-[8px] p-4">
+              <div className="exhibition-card-heading">
+                <span className="decorative-icon decorative-icon-framed"><FileText /></span>
+                <div>
+                  <p>{t.projects.case2.tag}</p>
+                  <h5>{t.projects.case2.title}</h5>
+                </div>
+              </div>
+              <EvidenceFrame
+                className="evidence-document-frame exhibition-pdf-preview"
+                caption={t.projects.case2.desc}
+                source="Landing Page Localization PDF"
+                mediaType="PDF PREVIEW"
+              >
+                <a href={LANDING_PAGE_PDF_SRC} target="_blank" rel="noreferrer" aria-label="Open Landing Page Localization PDF">
+                  <img
+                    src={LANDING_PAGE_PDF_PREVIEW_SRC}
+                    alt={t.projects.case2.desc}
+                    width={900}
+                    height={2536}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              </EvidenceFrame>
+            </Card>
+
+            <div className="exhibition-case-copy-stack">
+              <Card depth={2} className={`field-note !rounded-[8px] p-6 ${projectCardSurface}`}>
+                <StrategicBlock icon={<Target />} title={t.projects.case2.taskTitle} description={t.projects.case2.taskDesc}>
+                  <StrategicItem text={t.projects.case2.difficulty} />
+                  <StrategicItem text={t.projects.case2.req} />
+                </StrategicBlock>
+              </Card>
+
+              <Card depth={2} className={`field-note !rounded-[8px] p-6 ${projectCardSurface}`}>
+                <StrategicBlock icon={<Zap />} title={t.projects.case2.actionTitle} description={t.projects.case2.actionDesc}>
+                  <StrategicItem text={t.projects.case2.action1} type="tag" />
+                  <StrategicItem text={t.projects.case2.action2} type="tag" />
+                </StrategicBlock>
+              </Card>
+
+              <Card depth={2} className={`evidence-slip !rounded-[8px] p-6 ${projectCardSurface}`}>
+                <h5 className="information-card-title font-bold text-text-dark mb-4 flex items-center gap-3 text-sm tracking-wide">
+                  <span className="decorative-icon"><Globe2 /></span>
+                  {t.projects.case2.resultTitle}
+                </h5>
+                <p className="text-sm font-bold text-text-dark mb-2 leading-snug">{t.projects.case2.impactTitle}</p>
+                <div className="space-y-3">
+                  <StrategicItem label="MENA Market Coverage" text={t.projects.case2.impact1} type="tag" />
+                  <StrategicItem label="WA Channel Activation" text={t.projects.case2.impact2} type="tag" />
+                </div>
+              </Card>
+            </div>
+          </section>
+
+          <section className="exhibition-video-matrix">
+            <div className="exhibition-section-heading">
+              <span className="decorative-icon decorative-icon-framed decorative-icon-framed-lg"><Megaphone /></span>
+              <div>
+                <p>{t.projects.digitalMatrix.subtitle}</p>
+                <h5>{t.projects.digitalMatrix.title}</h5>
+              </div>
+            </div>
+
+            <div className="exhibition-video-matrix-grid">
+              <Card depth={2} className="archive-surface exhibition-video-card !rounded-[8px] p-4" ref={videoContainerRef}>
+                <div className="exhibition-card-heading">
+                  <span className="decorative-icon decorative-icon-framed"><Film /></span>
+                  <div>
+                    <p>{t.projects.digitalMatrix.featuredVideo}</p>
+                    <h5>{isCn ? '展会内容视频展示' : 'Campaign Video Showcase'}</h5>
+                  </div>
+                </div>
+                <EvidenceFrame
+                  className="exhibition-video-frame"
+                  caption={isCn ? '多渠道内容营销视频素材' : 'Multi-channel content marketing video asset'}
+                  source="Social Media / Website / Ads"
+                  mediaType="VIDEO"
+                >
+                  <video key={FEATURED_VIDEO_SRC} controls preload="metadata" className="h-full w-full rounded-[8px]" poster={videoPoster || VIDEO_POSTER_FALLBACK_SRC}>
                     <source src={FEATURED_VIDEO_SRC} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
-                </div>
+                </EvidenceFrame>
               </Card>
 
-              <div className="flex flex-col items-center justify-center py-6 mb-8">
-                <p className="text-text-dark italic text-lg font-medium text-center mb-6">
-                  {t.projects.digitalMatrix.adsSubheader}
-                </p>
-                <div className="flex items-center justify-center gap-12">
-                  {[
-                    { src: '/images/icons8-facebook-240.png', alt: 'Facebook' },
-                    { src: '/images/icons8-whatsapp-240.png', alt: 'WhatsApp' },
-                    { src: '/images/icons8-linkedin-240.png', alt: 'LinkedIn' },
-                    { src: '/images/icons8-tiktok-240.png', alt: 'TikTok' },
-                    { src: '/images/icons8-wordpress-240.png', alt: 'WordPress' },
-                  ].map(({ src, alt }) => (
-                    <div key={alt} className="group flex flex-col items-center gap-2 hover:-translate-y-1 transition-transform duration-300">
-                      <img src={src} alt={alt} className="w-10 h-10 object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+              <Card depth={2} className="information-hover-card exhibition-channel-matrix-card !rounded-[8px] p-5">
+                <div className="exhibition-card-heading">
+                  <span className="decorative-icon decorative-icon-framed"><Layers /></span>
+                  <div>
+                    <p>{isCn ? 'CHANNEL / RESPONSIBILITY / DELIVERABLE' : 'CHANNEL / RESPONSIBILITY / DELIVERABLE'}</p>
+                    <h5>{isCn ? '渠道职责矩阵' : 'Channel Responsibility Matrix'}</h5>
+                  </div>
+                </div>
+                <div className="exhibition-channel-flow">
+                  {channelMatrix.map((row) => (
+                    <div className="exhibition-channel-flow-card" key={row.channel}>
+                      <div className="exhibition-channel-logo" aria-hidden="true">{row.logo}</div>
+                      <div className="exhibition-channel-copy">
+                        <strong>{row.channel}</strong>
+                        <span>{row.responsibility}</span>
+                      </div>
+                      <em>{row.deliverable}</em>
                     </div>
                   ))}
                 </div>
-              </div>
-
+              </Card>
             </div>
-          </div>
+          </section>
 
           {/* Exhibition Performance Analysis */}
           <div className="-mt-[35px]">

@@ -64,8 +64,6 @@ export const Blueprint: React.FC<ArchiveVariant> = ({ variant = 'default' }) => 
     <motion.section
       aria-label={t.competencies.title}
       className="home-core-card relative w-[390px] text-[#fcf9f0]"
-      animate={{ y: [0, -1.5, 0] }}
-      transition={{ duration: 6.8, repeat: Infinity, ease: 'easeInOut' }}
     >
       <div
         className="pointer-events-none absolute -top-2 right-12 z-20 h-7 w-24 rotate-[2deg] border border-[#8b785d]/10 bg-[#d7c7a8]/78 shadow-[0_2px_8px_rgba(65,48,28,0.1)]"
@@ -97,7 +95,7 @@ export const Blueprint: React.FC<ArchiveVariant> = ({ variant = 'default' }) => 
 
         <div className="relative z-10 border-b border-white/28 pb-4">
           <div>
-            <h2 className="font-mono text-[18px] font-bold uppercase tracking-[0.22em] text-[#fcf9f0]">
+            <h2 className="font-mono text-[20px] font-bold uppercase tracking-[0.22em] text-[#fcf9f0]">
               {t.competencies.title}
             </h2>
           </div>
@@ -231,8 +229,6 @@ export const LanguageProficiency: React.FC<ArchiveVariant> = ({ variant = 'defau
         borderColor: 'rgb(126 137 102 / 0.24)',
         clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%)',
       }}
-      animate={{ y: [0, 1.8, 0] }}
-      transition={{ duration: 7.2, repeat: Infinity, ease: 'easeInOut' }}
     >
       <div
         className="absolute inset-0 opacity-[0.12]"
@@ -262,7 +258,7 @@ export const LanguageProficiency: React.FC<ArchiveVariant> = ({ variant = 'defau
             <div
               key={row.id}
               dir={dir}
-              className="group relative grid min-h-[40px] grid-cols-[1fr_1.3fr_28px] items-center gap-4 rounded-[8px] border border-[#26342f]/12 bg-[#fcf9f0]/72 px-0 py-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)] transition-[transform,border-color,background-color] duration-200 hover:-translate-y-0.5 hover:border-[#9f8fdb]/24 hover:bg-[#fcf9f0]/90"
+              className="group relative grid min-h-[40px] grid-cols-[1fr_1.3fr_28px] items-center gap-4 rounded-[8px] border border-[#26342f]/12 bg-[#fcf9f0]/72 px-[5px] py-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.35)] transition-[transform,border-color,background-color] duration-200 hover:-translate-y-0.5 hover:border-[#9f8fdb]/24 hover:bg-[#fcf9f0]/90"
             >
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full" style={{ backgroundColor: row.dot }} aria-hidden="true" />
@@ -303,18 +299,18 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
   const { t } = useLanguage();
   const tools = useMemo(
     () => [
-      { name: 'WordPress', mark: 'WP', icon: '/toolsandsoftware/WordPress.png', iconScale: 1.22 },
-      { name: 'Elementor', mark: 'E', icon: '/toolsandsoftware/Elementor.png', iconScale: 1.26 },
-      { name: 'Canva', mark: 'C', icon: '/toolsandsoftware/Canva.png', iconScale: 1.0 },
-      { name: 'Figma', mark: 'F', icon: '/toolsandsoftware/Figma.png', iconScale: 1.26 },
-      { name: 'Adobe Illustrator', mark: 'Ai', icon: '/toolsandsoftware/AdobeIllustrator.png', iconScale: 1.0 },
-      { name: 'Adobe Dreamweaver', mark: 'Dw', icon: '/toolsandsoftware/AdobeDreamweaver.png', iconScale: 1.0 },
-      { name: 'Stripo', mark: 'S', icon: '/toolsandsoftware/Stripo.png', iconScale: 1.0 },
-      { name: 'Meta Biz', mark: 'M', icon: '/toolsandsoftware/Meta.png', iconScale: 1.26 },
-      { name: 'LinkedIn', mark: 'in', icon: '/toolsandsoftware/Linkedin.png', iconScale: 1.24 },
-      { name: 'TikTok', mark: 'Tk', icon: '/toolsandsoftware/TikTok.png', iconScale: 1.24 },
-      { name: 'CodeX', mark: 'CX', icon: '/toolsandsoftware/codex.png', iconScale: 1.18 },
-      { name: 'Microsoft Suite', mark: 'MS', icon: '/toolsandsoftware/Microsoft.png', iconScale: 1.22 },
+      { name: 'WordPress', mark: 'WP', icon: '/home/board/tools/wordpress.png', iconScale: 1.22 },
+      { name: 'Elementor', mark: 'E', icon: '/home/board/tools/elementor.png', iconScale: 1.26 },
+      { name: 'Canva', mark: 'C', icon: '/home/board/tools/canva.png', iconScale: 1.0 },
+      { name: 'Figma', mark: 'F', icon: '/home/board/tools/figma.png', iconScale: 1.26 },
+      { name: 'Adobe Illustrator', mark: 'Ai', icon: '/home/board/tools/adobe-illustrator.png', iconScale: 1.0 },
+      { name: 'Adobe Dreamweaver', mark: 'Dw', icon: '/home/board/tools/adobe-dreamweaver.png', iconScale: 1.0 },
+      { name: 'Stripo', mark: 'S', icon: '/home/board/tools/stripo.png', iconScale: 1.0 },
+      { name: 'Meta Biz', mark: 'M', icon: '/home/board/tools/meta.png', iconScale: 1.26 },
+      { name: 'LinkedIn', mark: 'in', icon: '/home/board/tools/linkedin.png', iconScale: 1.24 },
+      { name: 'TikTok', mark: 'Tk', icon: '/home/board/tools/tiktok.png', iconScale: 1.24 },
+      { name: 'CodeX', mark: 'CX', icon: '/home/board/tools/codex.png', iconScale: 1.18 },
+      { name: 'Microsoft Suite', mark: 'MS', icon: '/home/board/tools/microsoft.png', iconScale: 1.22 },
     ],
     []
   );
@@ -388,17 +384,15 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
       <motion.section
         aria-label={t.skills.toolsTitle}
         className="home-toolbox-card relative w-[483px] overflow-visible"
-        animate={{ y: [0, -1.4, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       >
         <div className="relative origin-center scale-[0.9025]">
-      <div className="absolute -left-12 top-1/2 z-10 h-[413px] w-[80px] -translate-y-1/2 drop-shadow-[0_12px_22px_rgba(53,65,41,0.16)]" aria-hidden="true">
-        <svg className="h-full w-full overflow-visible" viewBox="0 0 80 413" preserveAspectRatio="none">
+      <div className="absolute -left-12 top-1/2 z-10 h-[415px] w-[80px] -translate-y-1/2 drop-shadow-[0_12px_22px_rgba(152,92,75,0.2)]" aria-hidden="true">
+        <svg className="h-full w-full overflow-visible" viewBox="0 0 80 415" preserveAspectRatio="none">
           <path
-            fill="#71855e"
+            fill="#985c4b"
             fillRule="evenodd"
             d={[
-              'M6 0H74Q80 0 80 6V407Q80 413 74 413H6Q0 413 0 407V6Q0 0 6 0Z',
+              'M6 0H74Q80 0 80 6V409Q80 415 74 415H6Q0 415 0 409V6Q0 0 6 0Z',
               'M22 54m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0',
               'M22 78m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0',
               'M22 272m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0',
@@ -406,7 +400,7 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
             ].join(' ')}
           />
           {[54, 78, 272, 296].map((cy) => (
-            <circle key={cy} cx="22" cy={cy} r="6" fill="none" stroke="rgba(38,52,47,0.14)" strokeWidth="1" />
+            <circle key={cy} cx="22" cy={cy} r="6" fill="none" stroke="rgba(112,76,57,0.22)" strokeWidth="1" />
           ))}
         </svg>
       </div>
@@ -416,7 +410,7 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
         aria-hidden="true"
       >
         <img
-          src="/decorations/pin.png"
+          src="/home/board/decorations/pin.png"
           alt=""
           width={272}
           height={577}
@@ -425,7 +419,7 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
         />
       </div>
 
-      <div className="relative z-20 h-[408px] w-[483px] origin-center -translate-x-0.5 scale-95 overflow-hidden rounded-[8px] border border-[#2d2d2d]/12 bg-[#fcf9f0] shadow-[0_12px_22px_rgba(90,70,45,0.14)]">
+      <div className="relative z-20 -mt-[15px] h-[410px] w-[483px] origin-center -translate-x-0.5 scale-95 overflow-hidden rounded-[8px] border border-[#2d2d2d]/12 bg-[#fcf9f0] shadow-[0_12px_22px_rgba(90,70,45,0.14)]">
         <div className="absolute inset-y-0 left-0 w-9 border-r border-[#26342f]/12 bg-[#fcf9f0]/78" aria-hidden="true">
           <div className="absolute left-1/2 top-7 h-3 w-3 -translate-x-1/2 rounded-full border border-[#26342f]/10 bg-[#fcf9f0] shadow-[inset_0_1px_3px_rgba(23,34,30,0.12)]" />
           <div className="absolute left-1/2 top-1/2 h-[132px] w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#c4bd97]/48 bg-[#e5dfd4] shadow-[inset_0_1px_3px_rgba(80,70,45,0.12)]" />
@@ -438,11 +432,11 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
             backgroundImage: 'repeating-linear-gradient(90deg, rgba(45,45,45,0.5) 0 1px, transparent 1px 7px)',
           }}
         />
-        <div className="relative z-10 h-full py-10 pl-[50px] pr-[50px]">
+        <div className="relative z-10 h-full p-[30px]">
           <div className="mb-4 flex items-start justify-between gap-3 border-b border-[#2d2d2d]/10 pb-3">
             <div>
-              <h2 className="text-[21px] font-bold tracking-tight text-[#26342f]">{t.skills.toolsTitle}</h2>
-              <span className="mt-1 block font-mono text-[10px] uppercase tracking-[0.18em] text-[#9f8fdb]/62">
+              <h2 className="text-[26px] font-bold tracking-tight text-[#26342f]">{t.skills.toolsTitle}</h2>
+              <span className="mt-1 block font-mono text-[12px] uppercase tracking-[0.18em] text-[#9f8fdb]/62">
                 Digital Tools In My Kit
               </span>
             </div>
@@ -502,13 +496,13 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
 };
 
 export const StickyNote: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
-  const filePath = 'Yan ZHU_University of Birmingham_International Business_Arabic.pdf';
-  const fileName = 'Yan ZHU_University of Birmingham_International Business & Arabic.pdf';
+  const filePath = '/home/downloads/Suha-portfolio-CV.pdf';
+  const fileName = 'MKT_Yan ZHU_International Business & Arabic.pdf';
 
   if (variant === 'archive') {
     return (
       <motion.a
-        href={`/images/${encodeURIComponent(filePath)}`}
+        href={filePath}
         download={fileName}
         aria-label="Download CV.pdf"
         className="archive-material-card group relative block h-[128px] w-[292px] overflow-hidden rounded-[8px] border border-[#2d2d2d]/10 bg-[#f2b642]/32 p-4 text-[#26342f] shadow-[0_14px_26px_rgba(90,70,45,0.12)]"
@@ -537,15 +531,14 @@ export const StickyNote: React.FC<ArchiveVariant> = ({ variant = 'default' }) =>
 
   return (
     <motion.a
-      href={`/images/${encodeURIComponent(filePath)}`}
+      href={filePath}
       download={fileName}
       aria-label="Download CV.pdf"
       className="home-cv-ticket group relative mt-9 block h-[198px] w-[116px] overflow-visible text-[#17221e]"
       initial={{ rotate: -2 }}
-      animate={{ y: [0, 1.5, 0], rotate: -2 }}
+      animate={{ rotate: -2 }}
       whileHover={{ rotate: -2 }}
       whileTap={{ scale: 0.98, rotate: -2 }}
-      transition={{ duration: 7.6, repeat: Infinity, ease: 'easeInOut' }}
     >
       <div className="absolute -right-1 -top-10 h-16 w-20 rotate-[22deg] rounded-[50%] border-t-2 border-[#5c5347]/58" aria-hidden="true" />
       <div
