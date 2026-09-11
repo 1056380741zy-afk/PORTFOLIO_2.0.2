@@ -497,7 +497,7 @@ export const Toolbox: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
 
 export const StickyNote: React.FC<ArchiveVariant> = ({ variant = 'default' }) => {
   const filePath = '/home/downloads/Suha-portfolio-CV.pdf';
-  const fileName = 'MKT_Yan ZHU_International Business & Arabic.pdf';
+  const fileName = 'Suha-portfolio-CV.pdf';
 
   if (variant === 'archive') {
     return (

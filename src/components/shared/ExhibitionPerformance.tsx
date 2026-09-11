@@ -82,11 +82,11 @@ const BuyerQualityTooltip = ({ active, payload }: any) => {
     const entry = payload[0];
 
     return (
-      <div className="buyer-quality-tooltip rounded-[8px] border border-[#9f8fdb]/18 bg-[#fffdf7]/95 px-3 py-2 text-xs shadow-[0_10px_22px_rgba(80,62,36,0.12)] backdrop-blur-sm">
-        <div className="mb-1 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#9f8fdb]">
+      <div className="buyer-quality-tooltip z-50 min-w-[120px] rounded-lg border border-[#2d2d2d]/5 bg-white p-3 text-xs shadow-xl">
+        <div className="mb-2 border-b border-[#2d2d2d]/5 pb-1 font-bold tracking-tight text-gray-400">
           Audience Quality
         </div>
-        <div className="flex items-center gap-2 text-text-dark">
+        <div className="flex items-center gap-2 py-0.5 text-text-dark">
           <span className="h-2 w-2 rounded-full" style={{ backgroundColor: entry.color || entry.fill }} />
           <span className="font-medium opacity-80">{entry.name}</span>
           <span className="ml-auto font-mono font-bold">{entry.value}%</span>
@@ -129,7 +129,7 @@ export const ExhibitionPerformance: React.FC = () => {
       variants={containerVariants}
     >
         {/* Header - Subtitle Style */}
-        <motion.div variants={itemVariants} className="mt-5 mb-5 flex items-center gap-3">
+        <motion.div variants={itemVariants} className="mt-3 mb-3 flex items-center gap-3">
            <span className="decorative-icon decorative-icon-framed decorative-icon-framed-lg"><BarChart3 /></span>
            <h5 className="font-bold text-text-dark text-xl tracking-wide">{t.exhibitionPerformance.title}</h5>
         </motion.div>
@@ -137,10 +137,10 @@ export const ExhibitionPerformance: React.FC = () => {
         {/* Content Wrapper with Indentation */}
         <div className="pl-5 border-l-2 border-[#2d2d2d]/5 ml-5">
             {/* Grid Layout */}
-            <div className="mt-[30px] grid grid-cols-3 gap-6 pb-[25px] pr-[10px]">
+            <div className="mt-[10px] grid grid-cols-3 gap-4 pb-0 pr-0">
                 
                 {/* Card 1: Scale (Double Axis) */}
-                <Card depth={2} className="information-hover-card exhibition-performance-card !rounded-[8px] p-6 col-span-2">
+                <Card depth={2} className="information-hover-card exhibition-performance-card !rounded-[8px] p-5 h-[260px] col-span-2">
                     <div className="flex justify-between items-start mb-6">
                         <div>
                             <h4 className="font-bold text-text-dark flex items-center gap-2">
@@ -160,9 +160,9 @@ export const ExhibitionPerformance: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="h-[300px] w-full">
+                    <div className="relative -mt-[10px] h-[165px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <ComposedChart data={SCALE_DATA} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                            <ComposedChart data={SCALE_DATA} margin={{ top: 12, right: 16, bottom: 14, left: 16 }}>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={THEME.colors.grid} />
                                 <XAxis dataKey="year" tickLine={false} axisLine={false} tick={{fill: THEME.colors.muted, fontSize: 12}} dy={10} />
                                 <YAxis yAxisId="left" hide />
@@ -174,7 +174,7 @@ export const ExhibitionPerformance: React.FC = () => {
                                     stroke={THEME.colors.primaryPurple}
                                     strokeDasharray="3 3"
                                     label={{
-                                        value: '1st year of changing brand',
+                                        value: t.exhibitionPerformance.sec1.brandChangeLabel,
                                         position: 'top',
                                         fill: '#7e8966',
                                         fontSize: 10,
@@ -191,11 +191,8 @@ export const ExhibitionPerformance: React.FC = () => {
                 {/* Card 2: Overseas Growth (Big Stat) - ENHANCED HERO ELEMENT */}
                 <Card 
                     depth={2}
-                    className="information-hover-card exhibition-performance-card !rounded-[8px] p-6 flex flex-col justify-center items-center text-center relative overflow-hidden border border-[#2d2d2d]/5"
+                    className="information-hover-card exhibition-performance-card !rounded-[8px] p-5 h-[260px] flex flex-col justify-center items-center text-center relative overflow-hidden border border-[#2d2d2d]/5"
                 >
-                    <div className="exhibition-performance-decoration absolute top-0 right-0 p-4 opacity-10">
-                        <Globe size={120} />
-                    </div>
                     <h4 className="font-bold text-text-dark mb-4 text-sm uppercase tracking-wider z-10">{t.exhibitionPerformance.sec2.title}</h4>
                     <div
                       className="text-5xl font-black mb-2 z-10"
@@ -212,13 +209,13 @@ export const ExhibitionPerformance: React.FC = () => {
                     >
                         YoY Growth
                     </motion.div>
-                    <p className="text-xs text-gray-500 max-w-[200px] z-10">
+                    <p className="text-xs text-gray-500 max-w-[300px] z-10">
                         {t.exhibitionPerformance.sec2.insight}
                     </p>
                 </Card>
 
                 {/* Card 3: Buyer Quality (Pie) */}
-                <Card depth={2} className="information-hover-card exhibition-performance-card exhibition-performance-bottom-bleed exhibition-buyer-quality-card !rounded-[8px] p-6">
+                <Card depth={2} className="information-hover-card exhibition-performance-card exhibition-performance-bottom-bleed exhibition-buyer-quality-card !rounded-[8px] p-5 h-[330px]">
                      <h4 className="font-bold text-text-dark flex items-center gap-2 mb-2">
                         <Target size={18} color={THEME.colors.primaryPurple} />
                         {t.exhibitionPerformance.sec3.title}
@@ -226,7 +223,7 @@ export const ExhibitionPerformance: React.FC = () => {
                      <p className="text-xs text-gray-400 mb-6">
                         {t.exhibitionPerformance.sec3.insight}
                      </p>
-                     <div className="h-[200px] w-full relative">
+                     <div className="h-[185px] w-full relative">
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                                 <Pie
@@ -263,7 +260,7 @@ export const ExhibitionPerformance: React.FC = () => {
                 </Card>
 
                 {/* Card 4: MENA Focus (Bar) */}
-                <Card depth={2} className="information-hover-card exhibition-performance-card exhibition-performance-bottom-bleed !rounded-[8px] p-6">
+                <Card depth={2} className="information-hover-card exhibition-performance-card exhibition-performance-bottom-bleed !rounded-[8px] p-5 h-[330px]">
                      <h4 className="font-bold text-text-dark flex items-center gap-2 mb-2">
                         <Globe size={18} color={THEME.colors.primaryOrange} />
                         {t.exhibitionPerformance.sec4.title}
@@ -271,7 +268,7 @@ export const ExhibitionPerformance: React.FC = () => {
                      <p className="text-xs text-gray-400 mb-6">
                         {t.exhibitionPerformance.sec4.insight}
                      </p>
-                     <div className="h-[200px] w-full">
+                     <div className="h-[185px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={MENA_DATA} margin={{ top: 20, right: 0, bottom: 0, left: -20 }}>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={THEME.colors.grid} />
@@ -287,7 +284,7 @@ export const ExhibitionPerformance: React.FC = () => {
                 </Card>
 
                 {/* Card 5: Channel Performance (Horizontal Bar) */}
-                 <Card depth={2} className="information-hover-card exhibition-performance-card exhibition-performance-bottom-bleed !rounded-[8px] p-6 col-span-1">
+                 <Card depth={2} className="information-hover-card exhibition-performance-card exhibition-performance-bottom-bleed !rounded-[8px] p-5 h-[330px] col-span-1">
                      <h4 className="font-bold text-text-dark flex items-center gap-2 mb-2">
                         <MousePointerClick size={18} color={THEME.colors.primaryPurple} />
                         {t.exhibitionPerformance.sec5.title}
@@ -295,7 +292,7 @@ export const ExhibitionPerformance: React.FC = () => {
                      <p className="text-xs text-gray-400 mb-6">
                         {t.exhibitionPerformance.sec5.insight}
                      </p>
-                     <div className="h-[250px] w-full">
+                     <div className="h-[200px] w-[440px] max-w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={CHANNEL_DATA} layout="vertical" margin={{ top: 0, right: 30, bottom: 0, left: 0 }}>
                                 <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke={THEME.colors.grid} />

@@ -45,6 +45,7 @@ const referencedPublicAssets = [
   'projects/web3/sandbox-yalla-banner.webp',
   'projects/web3/sandbox-infographic.webp',
   'projects/web3/uae-women-banner.webp',
+  'projects/web3/uae-women-infographic-v3.png',
   'projects/web3/uae-women-infographic.webp',
 ] as const;
 

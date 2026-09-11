@@ -16,14 +16,14 @@ const CARD_CONTROLS: CardControl[] = [
   { id: 'sticky', label: 'Sticky' },
 ];
 
-const CARD_OFFSET_STORAGE_KEY = 'aboutBoardCardOffsets_v23';
+const CARD_OFFSET_STORAGE_KEY = 'aboutBoardCardOffsets_v24';
 
 const DEFAULT_CARD_OFFSETS: Record<CardId, CardAdjustOffset> = {
-  postcardBack: { x: 138, y: 164, scale: 0.8 },
+  postcardBack: { x: 100, y: 188, scale: 0.9 },
   postcardFront: { x: 378, y: 107, scale: 1 },
-  blueprint: { x: 26, y: 0, scale: 1 },
-  language: { x: -30, y: -96, scale: 1 },
-  toolbox: { x: 188, y: 19, scale: 1 },
+  blueprint: { x: -23, y: 3, scale: 1 },
+  language: { x: -6, y: -86, scale: 1 },
+  toolbox: { x: 231, y: 28, scale: 1 },
   sticky: { x: -60, y: -240, scale: 1 },
 };
 
@@ -118,6 +118,7 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
   const [activeId, setActiveId] = useState<CardId>('toolbox');
   const panelRef = useRef<HTMLDivElement>(null);
   const [cardMenuOpen, setCardMenuOpen] = useState(false);
+  const [scaleMenuOpen, setScaleMenuOpen] = useState(false);
   const defaultCardOffsets = layout === 'archive' ? ARCHIVE_CARD_OFFSETS : DEFAULT_CARD_OFFSETS;
   const cardOffsetStorageKey = layout === 'archive' ? `${CARD_OFFSET_STORAGE_KEY}_archive_v2` : CARD_OFFSET_STORAGE_KEY;
   const [cardOffsets, setCardOffsets] = useState<Record<CardId, CardAdjustOffset>>(defaultCardOffsets);
@@ -125,7 +126,7 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
   const isArchiveLayout = layout === 'archive';
   const rootStyle = isArchiveLayout
     ? { boxSizing: 'border-box' as const, height: '100%', width: '100%' }
-    : { boxSizing: 'border-box' as const, top: '-5px', height: 'calc(100% + 15px)', width: 'calc(100% - 5px)', marginRight: '-70px' };
+    : { boxSizing: 'border-box' as const, top: '-5px', height: 'calc(100% + 15px)', width: 'calc(100% - 5px)', marginRight: 0 };
   const panelStyle = isArchiveLayout
     ? { position: 'absolute' as const, inset: 0 }
     : { position: 'absolute' as const, top: '8px', right: 0, bottom: '10px', left: '27px', marginRight: '35px', marginLeft: '10px' };
@@ -153,6 +154,23 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
     }));
   };
 
+  const updateCardScale = (id: CardId, scale: number) => {
+    updateCardOffsetSnapshot(id, {
+      ...cardOffsets[id],
+      scale,
+    });
+  };
+
+  const resetCardScales = () => {
+    setCardOffsets((current) => normalizeCardOffsets(
+      Object.fromEntries(CARD_CONTROLS.map(({ id }) => [
+        id,
+        { ...current[id], scale: defaultCardOffsets[id].scale },
+      ])) as Record<CardId, CardAdjustOffset>,
+      defaultCardOffsets,
+    ));
+  };
+
   React.useEffect(() => {
     try {
       const raw = localStorage.getItem(cardOffsetStorageKey);
@@ -177,11 +195,20 @@ export const AboutBoard: React.FC<AboutBoardProps> = ({
       <BoardControls
         cardControls={CARD_CONTROLS}
         cardMenuOpen={cardMenuOpen}
+        scaleMenuOpen={scaleMenuOpen}
+        cardOffsets={cardOffsets}
         hiddenCards={hiddenCards}
         onToggleCardMenu={() => {
           setCardMenuOpen((open) => !open);
+          setScaleMenuOpen(false);
+        }}
+        onToggleScaleMenu={() => {
+          setScaleMenuOpen((open) => !open);
+          setCardMenuOpen(false);
         }}
         onToggleCardVisibility={toggleCardVisibility}
+        onCardScaleChange={updateCardScale}
+        onResetCardScales={resetCardScales}
       />
 
       {!isArchiveLayout && <SpinePunchHoles />}

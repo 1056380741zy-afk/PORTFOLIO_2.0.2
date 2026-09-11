@@ -146,7 +146,7 @@ export const translations = {
           skills: 'Mixed-method Research｜User Insight｜Inclusion Strategy',
           process: 'Survey responses · Interviews · Mixed-method analysis',
           output: 'A research report mapping barriers and support mechanisms related to access, recognition and platform inclusiveness, with implications for segmentation and inclusive user growth.',
-          infographic: '/projects/web3/uae-women-infographic.webp',
+          infographic: '/projects/web3/uae-women-infographic-v3.png',
           infographicTag: 'Edited by AnyGen',
           blocks: [
             { icon: '📋', label: 'METHOD', badge: 'Mixed methods', text: 'Survey responses and interviews · Entry → Retention → Advancement framework.' },
@@ -356,6 +356,7 @@ export const translations = {
         title: "Exhibition Scale Overview",
         subtitle: "2023–2025",
         insight: "While exhibitor scale adjusted from the 2023 peak, overseas participation more than doubled in 2025, indicating structural internationalization acceleration.",
+        brandChangeLabel: "1st year of changing brand",
         legendExhibitors: "Exhibitors",
         legendOverseas: "Overseas Visitors"
       },
@@ -583,7 +584,7 @@ export const translations = {
           skills: '混合研究｜用户洞察｜包容性增长策略',
           process: '问卷调查 · 访谈记录 · 混合研究方法',
           output: '形成研究报告，梳理与准入、认可及平台包容性相关的主要障碍与支持机制，并提炼其对用户细分及包容性增长的启示。',
-          infographic: '/projects/web3/uae-women-infographic.webp',
+          infographic: '/projects/web3/uae-women-infographic-v3.png',
           infographicTag: 'Edited by AnyGen',
           blocks: [
             { icon: '📋', label: '方法论', badge: '混合研究', text: '问卷与访谈 · 进入 → 留存 → 发展框架。' },
@@ -793,6 +794,7 @@ export const translations = {
         title: "展会规模概览",
         subtitle: "2023–2025",
         insight: "展商规模较 2023 年峰值有所调整， 2025 年海外观众数量翻倍，显示出国际化进程的结构性加速。",
+        brandChangeLabel: "品牌焕新第一年",
         legendExhibitors: "参展商",
         legendOverseas: "海外观众"
       },

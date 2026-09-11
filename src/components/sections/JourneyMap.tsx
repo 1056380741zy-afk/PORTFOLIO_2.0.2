@@ -5,7 +5,7 @@ import { Award, Target } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { MapPathLayer } from './MapPathLayer';
 import { calculateAdaptiveMapScale } from '../../utils/journeyMapScale';
-import type { JourneyCityId, JourneyNodeDetails, JourneyNodeDetailsMap } from '../../data/nodeDetails';
+import type { JourneyCityId, JourneyImpact, JourneyNodeDetails, JourneyNodeDetailsMap } from '../../data/nodeDetails';
 import { ArchiveCtaLink } from '../shared/DecorativeIcon';
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
@@ -72,6 +72,9 @@ interface MapConfig {
 
 export const JourneyMap: React.FC = () => {
   const { t, language } = useLanguage();
+  const projectLinkClassName = `journey-project-link group relative inline-flex max-w-full items-center justify-start gap-2 whitespace-nowrap rounded-full border border-[#9f8fdb]/25 bg-[#9f8fdb]/10 px-4 py-2 text-left font-mono text-[10px] font-bold uppercase tracking-[0.08em] text-[#7f65bf] transition-colors duration-200 hover:border-[#9f8fdb]/40 hover:bg-[#9f8fdb]/15 ${
+    language === 'cn' ? 'w-[230px]' : 'w-[400px]'
+  }`;
 
   const [activeCityIdx, setActiveCityIdx] = useState(0);
   const [projConfig, setProjConfig] = useState<MapConfig>({ center: [80, 28], scale: 380 });
@@ -567,6 +570,14 @@ export const JourneyMap: React.FC = () => {
                 {CITIES.map((city, idx) => {
                   const details = getNodeDetails(city.id);
                   const isActive = activeCityIdx === idx;
+                  const impactGroups = details?.impacts?.reduce<JourneyImpact[][]>((groups, impact, impactIdx, impacts) => {
+                    const shouldMerge = impactIdx === 0;
+                    const isMergedFollowUp = impactIdx === 1;
+
+                    if (shouldMerge) groups.push(impacts.slice(impactIdx, impactIdx + 2));
+                    else if (!isMergedFollowUp) groups.push([impact]);
+                    return groups;
+                  }, []) ?? [];
 
                   return (
                     <div
@@ -679,93 +690,111 @@ export const JourneyMap: React.FC = () => {
                             </div>
                           ))}
 
-                          {details.impacts?.map((impact, impactIdx) => (
-                            <React.Fragment key={impactIdx}>
-                              <div className={`information-hover-card journey-information-card field-note journey-evidence-card journey-impact-note ${
-                                impactIdx === (details.impacts?.length ?? 0) - 1 ? 'journey-evidence-card-last' : ''
-                              } ${
-                                (city.id === 'dubai' && (impactIdx === 1 || impactIdx === 2))
-                                || (city.id === 'shanghai' && impactIdx === (details.impacts?.length ?? 0) - 1)
-                                  ? 'journey-impact-note-linked'
-                                  : ''
-                              }`}>
-                              <h4 className="information-card-title text-xs font-bold uppercase text-[#2D2926]">
-                                {impact.title}
-                              </h4>
-                              <p className="mt-2 text-sm leading-relaxed text-[#5c6674]">
-                                {impact.desc}
-                              </p>
-                              {impact.statsType === 'boxes' && impact.stats && (
-                                <div className="mt-3 flex flex-wrap gap-2">
-                                  {impact.stats.map((stat, sIdx) => (
-                                    <div
-                                      key={sIdx}
-                                      className="evidence-slip h-[60px] min-w-[112px] rounded-[8px] border border-[#eadfd8]/72 bg-white px-3 py-2.5 shadow-sm"
-                                    >
-                                      <span className={`block text-xl font-black leading-none ${
-                                        stat.theme === 'purple' ? 'text-[#9f8fdb]' : 'text-[#f5b002]'
-                                      }`} style={{ fontFamily: '"Inter Variable", Inter, Arial, sans-serif' }}>
-                                        {stat.value}
-                                      </span>
-                                      <span className="mt-1 block text-[10px] font-bold uppercase leading-tight text-[#5f554b]">
-                                        {stat.label}
-                                      </span>
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                              {impact.statsType === 'tags' && impact.tags && (
-                                <div className="mt-3 flex flex-wrap gap-2">
-                                  {impact.tags.map((tag: string, tIdx: number) => {
-                                    return (
-                                      <span
-                                        key={tIdx}
-                                        className="rounded-full border bg-[#f5b002]/[0.06] px-3 py-1 text-[11px] font-bold text-[#f0a900]"
-                                        style={{ borderColor: 'rgb(245 176 2 / 0.36)' }}
-                                      >
-                                        {tag}
-                                      </span>
-                                    );
-                                  })}
-                                </div>
-                              )}
-                              </div>
-                              {city.id === 'dubai' && impactIdx === 1 && (
-                                <div className="journey-project-link-row mb-[10px] border-b border-[#cfc8bb]/55 pb-[10px]">
-                                  <ArchiveCtaLink
-                                    to="/projects/preview/activation"
-                                    className="journey-project-link group mt-1 inline-flex w-fit items-center gap-2 rounded-full border border-[#9f8fdb]/25 bg-[#9f8fdb]/10 px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.08em] text-[#7f65bf] transition-colors duration-200 hover:border-[#9f8fdb]/40 hover:bg-[#9f8fdb]/15"
-                                    iconClassName="transition-transform duration-200 group-hover:translate-x-1"
-                                  >
-                                    {language === 'cn' ? '查看国际活动运营项目' : 'View International Event Operations'}
-                                  </ArchiveCtaLink>
-                                </div>
-                              )}
-                              {city.id === 'dubai' && impactIdx === 2 && (
-                                <div className="journey-project-link-row mb-[10px] border-b border-[#cfc8bb]/55 pb-[10px]">
-                                  <ArchiveCtaLink
-                                    to="/projects/preview/web3"
-                                    className="journey-project-link group mt-1 inline-flex w-fit items-center gap-2 rounded-full border border-[#9f8fdb]/25 bg-[#9f8fdb]/10 px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.08em] text-[#7f65bf] transition-colors duration-200 hover:border-[#9f8fdb]/40 hover:bg-[#9f8fdb]/15"
-                                    iconClassName="transition-transform duration-200 group-hover:translate-x-1"
-                                  >
-                                    {language === 'cn' ? '查看中东Web3研究与战略' : 'View MENA Web3 Research & Strategy'}
-                                  </ArchiveCtaLink>
-                                </div>
-                              )}
-                            </React.Fragment>
-                          ))}
+                          {impactGroups.map((group, groupIdx) => {
+                            const isMerged = group.length > 1;
+                            const lastImpactIdx = (details.impacts?.length ?? 0) - 1;
+                            const isLastGroup = group.some((impact) => details.impacts?.indexOf(impact) === lastImpactIdx);
+                            const isLinkedGroup = group.some((impact) => {
+                              const impactIdx = details.impacts?.indexOf(impact) ?? -1;
+                              return (city.id === 'dubai' && impactIdx === 2)
+                                || (city.id === 'shanghai' && impactIdx === lastImpactIdx);
+                            });
 
-                          {city.id === 'shanghai' && (
-                            <div className="journey-project-link-row mb-[10px] border-b border-[#cfc8bb]/55 pb-[10px]">
-                              <ArchiveCtaLink
-                                to="/projects/preview/exhibition"
-                                className="journey-project-link group mt-1 inline-flex w-fit items-center gap-2 rounded-full border border-[#9f8fdb]/25 bg-[#9f8fdb]/10 px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.08em] text-[#7f65bf] transition-colors duration-200 hover:border-[#9f8fdb]/40 hover:bg-[#9f8fdb]/15"
-                                iconClassName="transition-transform duration-200 group-hover:translate-x-1"
+                            return (
+                              <div
+                                key={`impact-group-${groupIdx}`}
+                                className={`information-hover-card journey-information-card field-note journey-evidence-card ${
+                                  isMerged ? 'journey-impact-group' : 'journey-impact-note'
+                                } ${isLastGroup ? 'journey-evidence-card-last' : ''} ${
+                                  isLinkedGroup ? 'journey-impact-note-linked' : ''
+                                }`}
                               >
-                                {language === 'cn' ? '查看国际展会营销项目' : 'View International Exhibition Campaigns'}
-                              </ArchiveCtaLink>
-                            </div>
-                          )}
+                                {group.map((impact, groupImpactIdx) => {
+                                  const impactIdx = details.impacts?.indexOf(impact) ?? -1;
+
+                                  return (
+                                    <div
+                                      key={impact.title}
+                                      className={isMerged ? `journey-impact-content ${groupImpactIdx > 0 ? 'journey-impact-content-divider' : ''}` : undefined}
+                                    >
+                                      <h4 className="information-card-title text-xs font-bold uppercase text-[#2D2926]">
+                                        {impact.title}
+                                      </h4>
+                                      <p className="mt-2 text-sm leading-relaxed text-[#5c6674]">
+                                        {impact.desc}
+                                      </p>
+                                      {city.id === 'dubai' && impactIdx === 1 && (
+                                        <div className="journey-project-link-row mt-3">
+                                          <ArchiveCtaLink
+                                            to="/projects/preview/activation"
+                                            className={`${projectLinkClassName} mt-1`}
+                                            iconClassName="absolute right-3 transition-transform duration-200 group-hover:translate-x-1"
+                                          >
+                                            {language === 'cn' ? '查看项目 02：国际活动运营' : 'View Project 02: International Event Operations'}
+                                          </ArchiveCtaLink>
+                                        </div>
+                                      )}
+                                      {city.id === 'dubai' && impactIdx === 2 && (
+                                        <div className="journey-project-link-row mt-3">
+                                          <ArchiveCtaLink
+                                            to="/projects/preview/web3"
+                                            className={`${projectLinkClassName} mt-1`}
+                                            iconClassName="absolute right-3 transition-transform duration-200 group-hover:translate-x-1"
+                                          >
+                                            {language === 'cn' ? '查看项目 03：中东Web3研究与战略' : 'View Project 03: MENA Web3 Research & Strategy'}
+                                          </ArchiveCtaLink>
+                                        </div>
+                                      )}
+                                      {impact.statsType === 'boxes' && impact.stats && (
+                                        <div className="mt-3 flex flex-wrap gap-2">
+                                          {impact.stats.map((stat, sIdx) => (
+                                            <div
+                                              key={sIdx}
+                                              className="evidence-slip h-[60px] min-w-[112px] rounded-[8px] border border-[#eadfd8]/72 bg-white px-3 py-2.5 shadow-sm"
+                                            >
+                                              <span className={`block text-xl font-black leading-none ${
+                                                stat.theme === 'purple' ? 'text-[#9f8fdb]' : 'text-[#f5b002]'
+                                              }`} style={{ fontFamily: '"Inter Variable", Inter, Arial, sans-serif' }}>
+                                                {stat.value}
+                                              </span>
+                                              <span className="mt-1 block text-[10px] font-bold uppercase leading-tight text-[#5f554b]">
+                                                {stat.label}
+                                              </span>
+                                            </div>
+                                          ))}
+                                        </div>
+                                      )}
+                                      {impact.statsType === 'tags' && impact.tags && (
+                                        <div className="mt-3 flex flex-wrap gap-2">
+                                          {impact.tags.map((tag: string, tIdx: number) => (
+                                            <span
+                                              key={tIdx}
+                                              className="rounded-full border bg-[#f5b002]/[0.06] px-3 py-1 text-[11px] font-bold text-[#f0a900]"
+                                              style={{ borderColor: 'rgb(245 176 2 / 0.36)' }}
+                                            >
+                                              {tag}
+                                            </span>
+                                          ))}
+                                        </div>
+                                      )}
+                                      {city.id === 'shanghai' && impactIdx === lastImpactIdx && (
+                                        <div className="journey-project-link-row mt-3">
+                                          <ArchiveCtaLink
+                                            to="/projects/preview/exhibition"
+                                            className={projectLinkClassName}
+                                            iconClassName="absolute right-3 transition-transform duration-200 group-hover:translate-x-1"
+                                          >
+                                            {language === 'cn' ? '查看项目 01：国际展会营销项目' : 'View Project 01: International Exhibition Campaigns'}
+                                          </ArchiveCtaLink>
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            );
+                          })}
+
                         </div>
                       )}
                     </div>

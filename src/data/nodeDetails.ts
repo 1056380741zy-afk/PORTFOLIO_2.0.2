@@ -86,7 +86,7 @@ export const nodeDetailsDataEn =
         subSchool: "Dubai Campus",
         degree: "MSc International Business",
         period: "Sep 2024 – Jan 2026",
-        focus: "International Business · GPA 3.6 / 4.0",
+        focus: "International Business · GPA 3.5 / 4.0",
         honor: "Full Scholarship Recipient"
       }
     ],
@@ -179,7 +179,7 @@ export const nodeDetailsDataCn =
         subSchool: "(QS100) 迪拜校区",
         degree: "国际商务 (硕士)",
         period: "2024.09 – 2026.01",
-        focus: "国际商务 · GPA 3.6 / 4.0",
+        focus: "国际商务 · GPA 3.5 / 4.0",
         honor: "全额奖学金"
       }
     ],

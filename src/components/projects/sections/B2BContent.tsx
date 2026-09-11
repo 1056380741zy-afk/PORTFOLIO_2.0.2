@@ -327,7 +327,7 @@ const ActivationPreviewBoard: React.FC<ActivationPreviewBoardProps> = ({ isCn = 
           <h3>{featured.title}</h3>
           {renderCaseDetails(featured)}
           <ArchiveCtaLink to="/projects/preview/exhibition" className="activation-featured-link">
-            {isCn ? '前往 Card 01：国际展会营销与运营' : 'View Card 01: International Exhibition Marketing & Operations'}
+            {isCn ? '前往项目 01：国际展会营销与运营' : 'View Project 01: International Exhibition Marketing & Operations'}
           </ArchiveCtaLink>
         </div>
       </article>
@@ -374,7 +374,7 @@ const ActivationPreviewBoard: React.FC<ActivationPreviewBoardProps> = ({ isCn = 
                 {renderCaseDetails(item, true)}
                 {isIndustrial && (
                   <Link to="/projects/preview/exhibition" className="activation-related-link">
-                    <span>{isCn ? '前往 Card 01：国际展会营销与运营' : 'View Card 01: International Exhibition Marketing & Operations'}</span>
+                    <span>{isCn ? '前往项目 01：国际展会营销与运营' : 'View Project 01: International Exhibition Marketing & Operations'}</span>
                     <ArrowRight size={14} strokeWidth={1.7} />
                   </Link>
                 )}
